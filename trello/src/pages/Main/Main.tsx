@@ -1,6 +1,7 @@
 import React from "react";
 import { StartCard, CommonTemplate, CardBox, CommonTitle } from "../../components";
 import "../../assets/scss/index.scss";
+// import Time from "./Time";
 
 function Main() {
     return (

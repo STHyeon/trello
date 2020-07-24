@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // 더미 데이터
 const initial = Array.from({ length: 10 }, (v, k) => k).map((k) => {
-    const custom: Quote = {
+    const custom: any = {
         id: `id-${k}`,
         content: `Quote ${k}`,
     };
@@ -30,7 +30,7 @@ const BoardStyle = styled.div`
 `;
 
 // 결과 재정렬을 돕는 함수
-const reorder = (list, startIndex, endIndex) => {
+const reorder = (list: any, startIndex: any, endIndex: any) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -38,7 +38,7 @@ const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
-function Quote({ quote, index }) {
+function Quote({ quote, index }: any) {
     return (
         <Draggable draggableId={quote.id} index={index}>
             {(provided) => (
@@ -50,14 +50,14 @@ function Quote({ quote, index }) {
     );
 }
 
-const QuoteList = React.memo(function QuoteList({ quotes }) {
+const QuoteList = React.memo(function QuoteList({ quotes }: any) {
     return quotes.map((quote: any, index: number) => <Quote quote={quote} index={index} key={quote.id} />);
 });
 
 function Board() {
     const [state, setState] = useState({ quotes: initial });
 
-    function onDragEnd(result) {
+    function onDragEnd(result: any) {
         // 리스트 밖으로 드랍한 경우
         if (!result.destination) {
             return;
