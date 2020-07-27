@@ -1,10 +1,9 @@
-import { makeExecutableSchema } from "graphql-tools";
-import { resolvers } from "./resolvers.js";
+const { gql } = require("apollo-server");
 
 // 느낌표(!) = null값이 아닌 값을 반환할 것을 기대함
 // null 발생 시 오류
 
-const typeDefs = `
+export const typeDefs = gql`
     type Comments {
         _id: ID
         contents: String
@@ -29,14 +28,11 @@ const typeDefs = `
     }
 
     type Mutation {
-        createBoard (title: String): Board
-        createComments (id: String, contents: String): Comments
+        createBoard(title: String): String
+        createComments(id: String, contents: String): Comments
+    }
+
+    type Subscription {
+        newBoard: Board
     }
 `;
-
-const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
-});
-
-export default schema;

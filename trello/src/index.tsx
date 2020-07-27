@@ -5,17 +5,37 @@ import { Redirect, Switch, Route, BrowserRouter as Router } from "react-router-d
 
 import { Main, Board } from "./pages";
 
+// apollo
+import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloClient } from "apollo-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { WebSocketLink } from "apollo-link-ws";
+
+const wsLink = new WebSocketLink({
+    // apollo-server는 /graphql 이 기본으로 들어간다.
+    uri: `ws://localhost:4000/graphql`,
+    options: {
+        reconnect: true,
+    },
+});
+
+const client = new ApolloClient({
+    link: wsLink,
+    cache: new InMemoryCache(),
+});
+
 ReactDOM.render(
-    <React.StrictMode>
-        <Router>
-            <Switch>
-                <Route path="/" exact component={Main} />
-                <Route path="/board" component={Board} />
-                <Redirect path="*" to="/" />
-            </Switch>
-        </Router>
-        ,
-    </React.StrictMode>,
+    <ApolloProvider client={client}>
+        <React.StrictMode>
+            <Router>
+                <Switch>
+                    <Route path="/" exact component={Main} />
+                    <Route path="/board" component={Board} />
+                    <Redirect path="*" to="/" />
+                </Switch>
+            </Router>
+        </React.StrictMode>
+    </ApolloProvider>,
     document.getElementById("root"),
 );
 

@@ -1,17 +1,19 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { CardHeader, CardButtonBody } from "../../molecules";
+import { CardButtonBody, CardInputBody, CardFooter } from "../../molecules";
 import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface StartCardProps extends CommonProps {
     MainCard?: boolean;
+    key?: number;
+    InputMode?: boolean;
 }
 
 const StartCardStyle = styled.div<StartCardProps>`
     ${(props) =>
         props.MainCard &&
         css`
-            width: 25%;
+            width: 24.145%;
             height: 6.375rem;
 
             .individ_card button {
@@ -28,9 +30,18 @@ const StartCardStyle = styled.div<StartCardProps>`
 
 function StartCard({ children, ...props }: StartCardProps) {
     return (
-        <StartCardStyle {...props} className="individ_card">
-            <CardButtonBody>{children}</CardButtonBody>
-        </StartCardStyle>
+        <>
+            {props.InputMode ? (
+                <StartCardStyle {...props} className="individ_card" key={props.key}>
+                    <CardButtonBody>{children}</CardButtonBody>
+                </StartCardStyle>
+            ) : (
+                <StartCardStyle {...props} className="individ_card" key={props.key}>
+                    <CardInputBody>프로젝트명</CardInputBody>
+                    <CardFooter />
+                </StartCardStyle>
+            )}
+        </>
     );
 }
 

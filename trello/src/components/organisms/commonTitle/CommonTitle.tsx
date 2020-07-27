@@ -4,7 +4,7 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 import styled, { css } from "styled-components";
 
 interface CommonTitleProps extends CommonProps {
-    start?: boolean;
+    start?: any;
 }
 
 const CommonTitleStyle = styled.div<CommonTitleProps>`

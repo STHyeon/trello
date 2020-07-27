@@ -8,11 +8,14 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 // props: any;
 // }
 
+const CardFooterStyle = styled.div``;
+
 function CardFooter({ children, ...props }: CommonProps) {
     return (
-        <div>
-            <Button>생성</Button>
-        </div>
+        <CardFooterStyle>
+            <Button green>생성</Button>
+            <Button red>취소</Button>
+        </CardFooterStyle>
     );
 }
 export default CardFooter;

@@ -1,5 +1,8 @@
+import { PubSub } from "apollo-server";
+
 import Board from "../models/board";
-import Comment from "../models/comments";
+
+const BOARD_ADDED = "BOARD_ADDED";
 
 export const resolvers = {
     Query: {
@@ -7,10 +10,19 @@ export const resolvers = {
             return await Board.find();
         },
     },
+
     Mutation: {
-        createBoard: async (_, { title }) => {
-            console.log(title);
-            return await Board.create({ title });
+        createBoard: async (_, { title }, { pubsub }) => {
+            const boardBox = {
+                title,
+            };
+
+            await Board.create(boardBox, (err, blog) => {
+                if (err) return err;
+                pubsub.publish(BOARD_ADDED, { newBoard: boardBox });
+            });
+
+            return "SUCCESS";
         },
 
         createComments: async (_, { id, contents }) => {
@@ -21,6 +33,12 @@ export const resolvers = {
             });
 
             return await a;
+        },
+    },
+
+    Subscription: {
+        newBoard: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator([BOARD_ADDED]),
         },
     },
 };

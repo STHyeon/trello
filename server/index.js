@@ -1,12 +1,9 @@
-import express from "express";
-import mongoose from "mongoose";
-import graphqlHTTP from "express-graphql";
-import bodyParser from "body-parser";
-import cors from "cors";
-import schema from "./graphql/schema";
+import { ApolloServer, PubSub } from "apollo-server";
 
-const app = express();
-const port = process.env.PORT || 2000;
+import { resolvers } from "./graphql/resolvers";
+import { typeDefs } from "./graphql/typeDefs";
+
+import mongoose from "mongoose";
 
 const mongo_url = "mongodb://localhost/trello";
 //usCreateIndex, useNewUrlParser 는 오류 방지용
@@ -18,17 +15,21 @@ mongoose
     .then()
     .catch((e) => console.log(e));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
-app.use(
-    "/graphql",
-    graphqlHTTP({
-        schema: schema,
-        graphiql: true,
-    }),
-);
+const pubsub = new PubSub();
 
-app.listen(port, () => {
-    console.log("localhost:2000");
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: { pubsub },
+});
+
+// 경로 지정할 때
+// https://www.apollographql.com/docs/apollo-server/migration-two-dot/#simplified-usage
+// const port = process.env.PORT || 2000;
+// server.listen(port, () => {
+//     console.log("on");
+// });
+
+server.listen().then(({ url }) => {
+    console.log(`Listening at ${url}`);
 });

@@ -4,6 +4,8 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface ButtonProps extends CommonProps {
     icon?: boolean;
+    red?: boolean;
+    green?: boolean;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -25,6 +27,28 @@ const StyledButton = styled.button<ButtonProps>`
             span {
                 display: flex;
                 color: white;
+            }
+        `}
+
+    ${(props) =>
+        props.red &&
+        css`
+            color: white;
+            background: #e60000;
+
+            &:hover {
+                background: #b40000;
+            }
+        `}
+
+    ${(props) =>
+        props.green &&
+        css`
+            color: white;
+            background: #00a600;
+
+            &:hover {
+                background: #007d00;
             }
         `}
 `;
