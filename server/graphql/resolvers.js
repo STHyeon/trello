@@ -1,13 +1,16 @@
-import { PubSub } from "apollo-server";
-
 import Board from "../models/board";
 
 const BOARD_ADDED = "BOARD_ADDED";
 
 export const resolvers = {
     Query: {
-        async allBoard() {
+        allBoard: async () => {
             return await Board.find();
+        },
+
+        getBoard: async (_, { _id }) => {
+            const result = await Board.find({ $and: [{ _id: _id }] });
+            return result;
         },
     },
 

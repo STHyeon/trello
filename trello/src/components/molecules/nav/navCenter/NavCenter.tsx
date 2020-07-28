@@ -1,18 +1,13 @@
 import React from "react";
-import { Span, Button } from "../../../atoms";
-import { Dashboard as DashboardIcon } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import NavBox from "../navBox/NavBox";
+import { Home as HomeIcon } from "@material-ui/icons";
 
 function NavCenter() {
     return (
         <div>
-            <Link to="/">
-                <Button icon>
-                    <Span>
-                        <DashboardIcon />
-                    </Span>
-                </Button>
-            </Link>
+            <NavBox link="/">
+                <HomeIcon />
+            </NavBox>
         </div>
     );
 }

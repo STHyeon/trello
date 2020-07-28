@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import styled, { css } from "styled-components";
-import { CommonTemplate, TextCard } from "../../components";
+import styled from "styled-components";
+import { CommonTemplate } from "../../templates";
+import { TextCard } from "../../organisms";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // 더미 데이터

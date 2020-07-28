@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { CardHeader, CardTextBody, CardFooter } from "../../molecules";
 
 const ModalStyle = styled.div`

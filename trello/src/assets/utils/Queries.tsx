@@ -18,7 +18,14 @@ export const BOARD_SUBSCRIPTION = gql`
 
 export const CREATE_BOARD = gql`
     mutation CreateBoard($title: String!) {
-        createBoard(title: $title) {
+        createBoard(title: $title)
+    }
+`;
+
+export const GET_DETAIL_BOARD = gql`
+    query GetBoard($_id: ID!) {
+        getBoard(_id: $_id) {
+            _id
             title
         }
     }

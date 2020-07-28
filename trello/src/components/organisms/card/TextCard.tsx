@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { CardHeader, CardTextBody } from "../../molecules";
+import { CardTextBody } from "../../molecules";
 import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface TextCardProps extends CommonProps {

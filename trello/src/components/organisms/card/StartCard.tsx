@@ -6,39 +6,42 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 interface StartCardProps extends CommonProps {
     MainCard?: boolean;
     key?: number;
-    InputMode?: boolean;
+    ModeBoard?: boolean;
+    Click?(): void;
+    Change?(value: string): void;
+    handleSubmit?(): any;
 }
 
 const StartCardStyle = styled.div<StartCardProps>`
     ${(props) =>
         props.MainCard &&
         css`
-            width: 24.145%;
+            position: relative;
+            width: 24%;
             height: 6.375rem;
+            margin: 0 5px 10px;
+            background: #f2f2f2;
+        `}
 
-            .individ_card button {
-                display: flex;
-                width: 100%;
-                height: 100%;
-                border-radius: 10px;
-                background: #f2f2f2;
-                justify-content: center;
-                align-items: center;
-            }
+    ${(props) =>
+        props.ModeBoard &&
+        css`
+            background: #ffffff;
         `}
 `;
 
 function StartCard({ children, ...props }: StartCardProps) {
+    const { key, Click, Change, handleSubmit } = props;
     return (
         <>
-            {props.InputMode ? (
-                <StartCardStyle {...props} className="individ_card" key={props.key}>
-                    <CardButtonBody>{children}</CardButtonBody>
+            {props.ModeBoard ? (
+                <StartCardStyle {...props} key={key}>
+                    <CardInputBody Change={Change}>프로젝트명</CardInputBody>
+                    <CardFooter handleSubmit={handleSubmit} />
                 </StartCardStyle>
             ) : (
-                <StartCardStyle {...props} className="individ_card" key={props.key}>
-                    <CardInputBody>프로젝트명</CardInputBody>
-                    <CardFooter />
+                <StartCardStyle {...props} key={key} onClick={Click}>
+                    <CardButtonBody individ_card>{children}</CardButtonBody>
                 </StartCardStyle>
             )}
         </>

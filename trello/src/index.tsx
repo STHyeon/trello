@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { Redirect, Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
-import { Main, Board } from "./pages";
+import { Main, Board } from "./components";
 
 // apollo
 import { ApolloProvider } from "@apollo/react-hooks";

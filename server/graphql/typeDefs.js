@@ -25,6 +25,7 @@ export const typeDefs = gql`
 
     type Query {
         allBoard: [Board]
+        getBoard(_id: ID!): [Board]
     }
 
     type Mutation {
