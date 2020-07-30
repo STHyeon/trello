@@ -4,6 +4,8 @@ import { CommonTemplate, CardBox } from "../../templates";
 import "../../../assets/scss/index.scss";
 import { GET_BOARDS, BOARD_SUBSCRIPTION, CREATE_BOARD } from "../../../assets/utils/Queries";
 import { useQuery, useMutation } from "@apollo/react-hooks";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 function Main() {
     let unsubscribe = null; //publish 했을때 변화
@@ -11,10 +13,6 @@ function Main() {
     const [ModeBoard, SetModeBoard] = useState(false);
     const [BoardName, SetBoardName] = useState("");
     const [createBoard, { loading: SubmitLoading, error: SubmitError }] = useMutation(CREATE_BOARD);
-
-    useEffect(() => {
-        console.log(BoardName);
-    }, [BoardName]);
 
     const ChangeMode = (): void => {
         SetModeBoard(true);
@@ -54,19 +52,31 @@ function Main() {
         SetBoardName("");
     };
 
+    const MainStyle = styled.div`
+        position: relative;
+        width: 24%;
+        height: 6.375rem;
+        margin: 0 5px 10px;
+        line-height: 6.375rem;
+        background: #f2f2f2;
+    `;
+
     return (
         <CommonTemplate>
             <CommonTitle start="true">프로젝트 목록</CommonTitle>
             <CardBox>
                 {data.allBoard.map((dataBoard: any, code: number) => (
-                    <StartCard MainCard key={code}>
-                        {dataBoard.title}
-                    </StartCard>
+                    <MainStyle key={code}>
+                        <Link to={`/board/${dataBoard._id}`}>
+                            <StartCard>{dataBoard.title}</StartCard>
+                        </Link>
+                    </MainStyle>
                 ))}
-
-                <StartCard MainCard ModeBoard={ModeBoard} Click={ChangeMode} Change={GetBoard} handleSubmit={handleSubmit}>
-                    Create New Board
-                </StartCard>
+                <MainStyle>
+                    <StartCard ModeBoard={ModeBoard} Click={ChangeMode} Change={GetBoard} handleSubmit={handleSubmit}>
+                        Create New Board
+                    </StartCard>
+                </MainStyle>
             </CardBox>
         </CommonTemplate>
     );

@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 export const GET_BOARDS = gql`
     query {
         allBoard {
+            _id
             title
         }
     }
@@ -27,6 +28,10 @@ export const GET_DETAIL_BOARD = gql`
         getBoard(_id: $_id) {
             _id
             title
+            list {
+                _id
+                Today
+            }
         }
     }
 `;

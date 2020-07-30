@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { Redirect, Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
-import { Main, Board } from "./components";
+import { Main, Board, Test1, Test2, Test3, Test4 } from "./components";
 
 // apollo
 import { ApolloProvider } from "@apollo/react-hooks";
@@ -30,7 +30,11 @@ ReactDOM.render(
             <Router>
                 <Switch>
                     <Route path="/" exact component={Main} />
-                    <Route path="/board" component={Board} />
+                    <Route path="/board/:id" component={Board} />
+                    <Route path="/test1" component={Test1} />
+                    <Route path="/test2" component={Test2} />
+                    <Route path="/test3" component={Test3} />
+                    <Route path="/test4" component={Test4} />
                     <Redirect path="*" to="/" />
                 </Switch>
             </Router>

@@ -10,6 +10,9 @@ import CardFooter from "./card/CardFooter";
 
 import Title from "./Title/Title";
 
+import DragItem from "./draggable/DragItem";
+
 export { NavLeft, NavRight, NavCenter };
 export { CardHeader, CardTextBody, CardButtonBody, CardInputBody, CardFooter };
 export { Title };
+export { DragItem };

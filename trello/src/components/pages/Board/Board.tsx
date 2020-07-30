@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { CommonTemplate } from "../../templates";
-import { TextCard } from "../../organisms";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DropZone } from "../../organisms";
+import { DragDropContext } from "react-beautiful-dnd";
+import { GET_DETAIL_BOARD, BOARD_SUBSCRIPTION } from "../../../assets/utils/Queries";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
-// 더미 데이터
-const initial = Array.from({ length: 10 }, (v, k) => k).map((k) => {
-    const custom: any = {
-        id: `id-${k}`,
-        content: `Quote ${k}`,
-    };
-
-    return custom;
-});
+import initialData from "../Test/initial-data";
 
 const BoardStyle = styled.div`
     display: flex;
@@ -29,73 +23,90 @@ const BoardStyle = styled.div`
     }
 `;
 
-// 결과 재정렬을 돕는 함수
-const reorder = (list: any, startIndex: any, endIndex: any) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
+function BoardPage(props: any) {
+    const board_id = props.match.params.id;
 
-    return result;
-};
+    const { loading: BoardLoading, error: BoardError, data, subscribeToMore } = useQuery(GET_DETAIL_BOARD, {
+        variables: { _id: board_id },
+    });
 
-function Quote({ quote, index }: any) {
-    return (
-        <Draggable draggableId={quote.id} index={index}>
-            {(provided) => (
-                <TextCard BoardCard={true} dragData={provided}>
-                    {quote.content}
-                </TextCard>
-            )}
-        </Draggable>
-    );
-}
+    const [listData, setListData] = useState(initialData);
 
-const QuoteList = React.memo(function QuoteList({ quotes }: any) {
-    return quotes.map((quote: any, index: number) => <Quote quote={quote} index={index} key={quote.id} />);
-});
+    if (BoardLoading) return <p>Loading...</p>;
+    if (BoardError) return <p>Error!</p>;
 
-function Board() {
-    const [state, setState] = useState({ quotes: initial });
+    const onDragEnd = (result: any) => {
+        const { destination, source, draggableId } = result;
 
-    function onDragEnd(result: any) {
-        // 리스트 밖으로 드랍한 경우
-        if (!result.destination) {
+        if (!destination) {
             return;
         }
 
-        if (result.destination.index === result.source.index) {
+        if (destination.droppableId === source.droppableId && destination.index === source.index) {
             return;
         }
 
-        const quotes = reorder(state.quotes, result.source.index, result.destination.index);
+        const start: any = listData.find((startId) => startId.id === source.droppableId);
+        const finish: any = listData.find((finishId) => finishId.id === destination.droppableId);
 
-        setState({ quotes });
-    }
+        if (start === finish) {
+            const newTaskIds = Array.from(start.taskIds);
+            const changeObject: any = newTaskIds.find((o: any) => o.id === draggableId);
+
+            newTaskIds.splice(source.index, 1);
+            newTaskIds.splice(destination.index, 0, changeObject);
+
+            const newColumn = {
+                ...start,
+                taskIds: newTaskIds,
+            };
+
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Deep_Clone
+            // Object.assign({}, obj, newColumn)
+            // Object 덮어쓰기 deep merge
+
+            const newState = listData.map((item: any) => (item.id === source.droppableId ? Object.assign(item, newColumn) : item));
+
+            setListData(newState);
+            return;
+        }
+
+        // 다른 목록 이동시
+        const startTaskIds = Array.from(start.taskIds);
+        const changeObject = startTaskIds.find((o: any) => o.id === draggableId);
+
+        startTaskIds.splice(source.index, 1);
+
+        const newStart = {
+            ...start,
+            taskIds: startTaskIds,
+        };
+
+        const finishTaskIds = Array.from(finish.taskIds);
+
+        finishTaskIds.splice(destination.index, 0, changeObject);
+
+        const newFinish = {
+            ...finish,
+            taskIds: finishTaskIds,
+        };
+
+        listData.map((item: any) => (item.id === source.droppableId ? Object.assign(item, newStart) : item));
+        const newState2 = listData.map((item: any) => (item.id === destination.droppableId ? Object.assign(item, newFinish) : item));
+        setListData(newState2);
+    };
 
     return (
         <CommonTemplate>
             <DragDropContext onDragEnd={onDragEnd}>
                 <BoardStyle>
-                    <Droppable droppableId="list">
-                        {(provided) => (
-                            <div className="BoardList" ref={provided.innerRef} {...provided.droppableProps}>
-                                <QuoteList quotes={state.quotes} />
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                    <Droppable droppableId="list">
-                        {(provided) => (
-                            <div className="BoardList" ref={provided.innerRef} {...provided.droppableProps}>
-                                <QuoteList quotes={state.quotes} />
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
+                    {listData.map((columnId) => {
+                        return <DropZone key={columnId.id} column={columnId} board />;
+                    })}
                 </BoardStyle>
             </DragDropContext>
         </CommonTemplate>
     );
 }
 
-export default Board;
+export default BoardPage;

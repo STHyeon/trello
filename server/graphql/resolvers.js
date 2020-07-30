@@ -29,13 +29,12 @@ export const resolvers = {
         },
 
         createComments: async (_, { id, contents }) => {
-            console.log(contents);
-            var z = { so: contents };
-            var a = Board.updateOne({ _id: id }, { $push: { comments: z } }, function (err, post) {
-                if (err) return console.log("에로");
+            var InCon = { Today: contents };
+            await Board.updateOne({ _id: id }, { $push: { list: InCon } }, function (err, post) {
+                if (err) return console.log("에러");
             });
 
-            return await a;
+            return "SUCCESS";
         },
     },
 

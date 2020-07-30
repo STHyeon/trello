@@ -9,9 +9,15 @@ export const typeDefs = gql`
         contents: String
     }
 
+    type Lists {
+        _id: ID
+        Today: String
+    }
+
     type Board {
         _id: ID
         title: String
+        list: [Lists]
     }
 
     input BoardInput {
@@ -30,7 +36,7 @@ export const typeDefs = gql`
 
     type Mutation {
         createBoard(title: String): String
-        createComments(id: String, contents: String): Comments
+        createComments(id: String, contents: String): String
     }
 
     type Subscription {

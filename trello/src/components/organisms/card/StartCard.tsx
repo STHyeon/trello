@@ -4,7 +4,6 @@ import { CardButtonBody, CardInputBody, CardFooter } from "../../molecules";
 import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface StartCardProps extends CommonProps {
-    MainCard?: boolean;
     key?: number;
     ModeBoard?: boolean;
     Click?(): void;
@@ -13,15 +12,8 @@ interface StartCardProps extends CommonProps {
 }
 
 const StartCardStyle = styled.div<StartCardProps>`
-    ${(props) =>
-        props.MainCard &&
-        css`
-            position: relative;
-            width: 24%;
-            height: 6.375rem;
-            margin: 0 5px 10px;
-            background: #f2f2f2;
-        `}
+    width: 100%;
+    height: 100%;
 
     ${(props) =>
         props.ModeBoard &&

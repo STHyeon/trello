@@ -4,12 +4,11 @@ const Schema = mongoose.Schema;
 
 const BoardSchema = new Schema({
     title: String,
-    comments: [
+    list: [
         {
-            so: String,
+            Today: String,
         },
     ],
-    // TODO: [CommentSchema],
 });
 
 export default mongoose.model("Board", BoardSchema);
