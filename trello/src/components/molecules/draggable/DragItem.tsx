@@ -21,7 +21,7 @@ const getItemStyle = (isDragging: any, draggableStyle: any) => ({
 
 export default function DragItem({ item, index }: DragItemProps) {
     return (
-        <Draggable key={item.id} draggableId={item.id} index={index}>
+        <Draggable key={item._id} draggableId={item._id} index={index}>
             {(provided: any, snapshot: any) => (
                 <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                     {item.content}

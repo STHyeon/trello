@@ -65,13 +65,18 @@ function Main() {
         <CommonTemplate>
             <CommonTitle start="true">프로젝트 목록</CommonTitle>
             <CardBox>
-                {data.allBoard.map((dataBoard: any, code: number) => (
-                    <MainStyle key={code}>
-                        <Link to={`/board/${dataBoard._id}`}>
-                            <StartCard>{dataBoard.title}</StartCard>
-                        </Link>
-                    </MainStyle>
-                ))}
+                {data.allBoard.map(
+                    (dataBoard: any, code: number) => (
+                        console.log(dataBoard),
+                        (
+                            <MainStyle key={code}>
+                                <Link to={`/board/${dataBoard._id}`}>
+                                    <StartCard>{dataBoard.title}</StartCard>
+                                </Link>
+                            </MainStyle>
+                        )
+                    ),
+                )}
                 <MainStyle>
                     <StartCard ModeBoard={ModeBoard} Click={ChangeMode} Change={GetBoard} handleSubmit={handleSubmit}>
                         Create New Board

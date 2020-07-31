@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { CommonTemplate } from "../../templates";
 import { DropZone } from "../../organisms";
@@ -30,10 +30,19 @@ function BoardPage(props: any) {
         variables: { _id: board_id },
     });
 
-    const [listData, setListData] = useState(initialData);
+    const [listData2, setListData2]: any = useState();
+
+    useEffect(() => {
+        if (data) {
+            data.getBoard.map((obj: any) => {
+                setListData2(obj);
+            });
+        }
+    }, [data]);
 
     if (BoardLoading) return <p>Loading...</p>;
-    if (BoardError) return <p>Error!</p>;
+
+    // if (BoardError) return console.log(BoardError);
 
     const onDragEnd = (result: any) => {
         const { destination, source, draggableId } = result;
@@ -46,12 +55,12 @@ function BoardPage(props: any) {
             return;
         }
 
-        const start: any = listData.find((startId) => startId.id === source.droppableId);
-        const finish: any = listData.find((finishId) => finishId.id === destination.droppableId);
+        const start: any = listData2.list.find((startId: any) => startId._id === source.droppableId);
+        const finish: any = listData2.list.find((finishId: any) => finishId._id === destination.droppableId);
 
         if (start === finish) {
             const newTaskIds = Array.from(start.taskIds);
-            const changeObject: any = newTaskIds.find((o: any) => o.id === draggableId);
+            const changeObject: any = newTaskIds.find((o: any) => o._id === draggableId);
 
             newTaskIds.splice(source.index, 1);
             newTaskIds.splice(destination.index, 0, changeObject);
@@ -65,15 +74,15 @@ function BoardPage(props: any) {
             // Object.assign({}, obj, newColumn)
             // Object 덮어쓰기 deep merge
 
-            const newState = listData.map((item: any) => (item.id === source.droppableId ? Object.assign(item, newColumn) : item));
+            const newState = listData2.list.map((item: any) => (item._id === source.droppableId ? Object.assign(item, newColumn) : item));
 
-            setListData(newState);
+            setListData2({ list: newState });
             return;
         }
 
         // 다른 목록 이동시
         const startTaskIds = Array.from(start.taskIds);
-        const changeObject = startTaskIds.find((o: any) => o.id === draggableId);
+        const changeObject = startTaskIds.find((o: any) => o._id === draggableId);
 
         startTaskIds.splice(source.index, 1);
 
@@ -91,18 +100,21 @@ function BoardPage(props: any) {
             taskIds: finishTaskIds,
         };
 
-        listData.map((item: any) => (item.id === source.droppableId ? Object.assign(item, newStart) : item));
-        const newState2 = listData.map((item: any) => (item.id === destination.droppableId ? Object.assign(item, newFinish) : item));
-        setListData(newState2);
+        listData2.list.map((item: any) => (item._id === source.droppableId ? Object.assign(item, newStart) : item));
+        const newState2 = listData2.list.map((item: any) => (item._id === destination.droppableId ? Object.assign(item, newFinish) : item));
+        setListData2({ list: newState2 });
     };
 
     return (
         <CommonTemplate>
             <DragDropContext onDragEnd={onDragEnd}>
                 <BoardStyle>
-                    {listData.map((columnId) => {
-                        return <DropZone key={columnId.id} column={columnId} board />;
-                    })}
+                    {listData2
+                        ? listData2.list.map((columnId: any) => {
+                              return <DropZone key={columnId._id} column={columnId} board />;
+                          })
+                        : console.log("없음")}
+                    <DropZone board>생성</DropZone>
                 </BoardStyle>
             </DragDropContext>
         </CommonTemplate>

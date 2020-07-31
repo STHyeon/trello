@@ -9,10 +9,12 @@ import CardInputBody from "./card/CardInputBody";
 import CardFooter from "./card/CardFooter";
 
 import Title from "./Title/Title";
+import Text from "./Text/Text";
+import CreateBtn from "./CreateBtn/CreateBtn";
 
 import DragItem from "./draggable/DragItem";
 
 export { NavLeft, NavRight, NavCenter };
 export { CardHeader, CardTextBody, CardButtonBody, CardInputBody, CardFooter };
-export { Title };
+export { Title, Text, CreateBtn };
 export { DragItem };
