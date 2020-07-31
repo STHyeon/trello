@@ -6,27 +6,19 @@ const { gql } = require("apollo-server");
 export const typeDefs = gql`
     type Comments {
         _id: ID
-        contents: String
+        content: String
     }
 
     type Lists {
         _id: ID
-        Today: String
+        listTitle: String
+        taskIds: [Comments]
     }
 
     type Board {
         _id: ID
         title: String
         list: [Lists]
-    }
-
-    input BoardInput {
-        title: String
-    }
-
-    input CommentsInput {
-        _id: ID
-        contents: String
     }
 
     type Query {
@@ -36,7 +28,8 @@ export const typeDefs = gql`
 
     type Mutation {
         createBoard(title: String): String
-        createComments(id: String, contents: String): String
+        createLists(id: String, listTitle: String): String
+        createComments(id: String, content: String): String
     }
 
     type Subscription {

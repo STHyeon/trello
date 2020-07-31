@@ -28,10 +28,21 @@ export const resolvers = {
             return "SUCCESS";
         },
 
-        createComments: async (_, { id, contents }) => {
-            var InCon = { Today: contents };
-            await Board.updateOne({ _id: id }, { $push: { list: InCon } }, function (err, post) {
-                if (err) return console.log("에러");
+        createLists: async (_, { id, listTitle }) => {
+            var subTitle = { listTitle: listTitle };
+            await Board.updateOne({ _id: id }, { $push: { list: subTitle } }, function (err, post) {
+                if (err) return console.log("리스트 제목 생성 에러");
+            });
+
+            return "SUCCESS";
+        },
+
+        createComments: async (_, { id, content }) => {
+            // https://stackoverflow.com/questions/23577123/updating-a-nested-array-with-mongodb
+            // 참고 사이트
+            var subComment = { content: content };
+            await Board.updateOne({ "list._id": id }, { $push: { "list.$.taskIds": subComment } }, function (err, post) {
+                if (err) return console.log(err);
             });
 
             return "SUCCESS";

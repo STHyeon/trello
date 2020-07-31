@@ -9,6 +9,9 @@ const Container = styled.div`
     display: flex;
 `;
 
+// 참고사이트
+// https://codesandbox.io/s/9z7qwmmr7r?file=/src/index.js
+
 class Test4 extends React.Component {
     state = initialData;
 

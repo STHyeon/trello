@@ -1,52 +1,23 @@
-// const initialData = {
-//     columns: {
-//         "column-1": {
-//             id: "column-1",
-//             title: "To do",
-//             taskIds: [
-//                 { id: "task-1", content: "Take out the garbage" },
-//                 { id: "task-2", content: "Watch my favorite show" },
-//                 { id: "task-3", content: "Charge my phone" },
-//                 { id: "task-4", content: "Cook dinner" },
-//             ],
-//         },
-//         "column-2": {
-//             id: "column-2",
-//             title: "In progress",
-//             taskIds: [{ id: "task-11", content: "컬럼2" }],
-//         },
-//         "column-3": {
-//             id: "column-3",
-//             title: "Done",
-//             taskIds: [{ id: "task-111", content: "컬럼3" }],
-//         },
-//     },
-
-//     columnOrder: ["column-1", "column-2", "column-3"],
-// };
-
-// export default initialData;
-
 const initialData = [
     {
-        id: "column-1",
+        id: "5f1fd9bc2224ba6f64a57da9",
         title: "To do",
         taskIds: [
-            { id: "task-1", content: "Take out the garbage" },
-            { id: "task-2", content: "Watch my favorite show" },
-            { id: "task-3", content: "Charge my phone" },
-            { id: "task-4", content: "Cook dinner" },
+            { id: "a5f1fd9bc2224ba6f64a57da91", content: "Take out the garbage" },
+            { id: "a5f1fd9bc2224ba6f64a57da9s2", content: "Watch my favorite show" },
+            { id: "aa5f1fd9bc2224ba6f64a57da93", content: "Charge my phone" },
+            { id: "1a5f1fd9bc2224ba6f64a57da94", content: "Cook dinner" },
         ],
     },
     {
-        id: "column-2",
+        id: "a5f1fd9bc2224ba6f64a57da9",
         title: "In progress",
-        taskIds: [{ id: "task-11", content: "컬럼2" }],
+        taskIds: [{ id: "5f1fd9bc2224sba6f64a57da9", content: "컬럼2" }],
     },
     {
-        id: "column-3",
+        id: "5f1fd9bdc2224ba6f64a57da9",
         title: "Done",
-        taskIds: [{ id: "task-111", content: "컬럼3" }],
+        taskIds: [{ id: "5f1fd9bc2224ba6f64a57da9", content: "컬럼3" }],
     },
 ];
 

@@ -4,9 +4,16 @@ const Schema = mongoose.Schema;
 
 const BoardSchema = new Schema({
     title: String,
+    published_date: { type: Date, default: Date.now },
     list: [
         {
-            Today: String,
+            listTitle: String,
+            taskIds: [
+                {
+                    content: String,
+                    published_date: { type: Date, default: Date.now },
+                },
+            ],
         },
     ],
 });
