@@ -41,7 +41,23 @@ export const resolvers = {
             // https://stackoverflow.com/questions/23577123/updating-a-nested-array-with-mongodb
             // 참고 사이트
             var subComment = { content: content };
-            await Board.updateOne({ "list._id": id }, { $push: { "list.$.taskIds": subComment } }, function (err, post) {
+            await Board.update({ _id: "5f23c1c5e9ba595ef9bb4e88", "list._id": "56310c3c0c5cbb6031cafaea" }, { $push: { "list.$.taskIds": { content: "eeew" } } });
+            // await Board.updateOne({ "list._id": id }, { $push: { "list.$.taskIds": subComment } }, function (err, post) {
+            // if (err) return console.log(err);
+            // });
+
+            return "SUCCESS";
+        },
+
+        dropBoard: async (_, { id }) => {
+            const dropID = { _id: id };
+            await Board.deleteOne(dropID);
+            return "SUCCESS";
+        },
+
+        dropList: async (_, { Boardid, Listid }) => {
+            var dropID = { _id: Listid };
+            await Board.updateOne({ _id: Boardid }, { $pull: { list: dropID } }, function (err, post) {
                 if (err) return console.log(err);
             });
 

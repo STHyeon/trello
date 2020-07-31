@@ -5,6 +5,14 @@ export const GET_BOARDS = gql`
         allBoard {
             _id
             title
+            list {
+                _id
+                listTitle
+                taskIds {
+                    _id
+                    content
+                }
+            }
         }
     }
 `;
@@ -26,11 +34,13 @@ export const CREATE_BOARD = gql`
 export const GET_DETAIL_BOARD = gql`
     query GetBoard($_id: ID!) {
         getBoard(_id: $_id) {
-            _id
-            title
             list {
                 _id
-                Today
+                listTitle
+                taskIds {
+                    _id
+                    content
+                }
             }
         }
     }

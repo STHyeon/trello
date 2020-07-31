@@ -30,6 +30,8 @@ export const typeDefs = gql`
         createBoard(title: String): String
         createLists(id: String, listTitle: String): String
         createComments(id: String, content: String): String
+        dropBoard(id: String): String
+        dropList(Boardid: String, Listid: String): String
     }
 
     type Subscription {
