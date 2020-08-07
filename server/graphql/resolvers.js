@@ -1,6 +1,8 @@
 import Board from "../models/board";
 
 const BOARD_ADDED = "BOARD_ADDED";
+const LIST_ADDED = "LIST_ADDED";
+const COMMENT_ADDED = "COMMENT_ADDED";
 
 export const resolvers = {
     Query: {
@@ -20,33 +22,33 @@ export const resolvers = {
                 title,
             };
 
-            await Board.create(boardBox, (err, blog) => {
-                if (err) return err;
-                pubsub.publish(BOARD_ADDED, { newBoard: boardBox });
+            const result = await Board.create(boardBox);
+            pubsub.publish(BOARD_ADDED, {
+                newBoard: result,
             });
 
-            return "SUCCESS";
+            return result;
         },
 
-        createLists: async (_, { id, listTitle }) => {
-            var subTitle = { listTitle: listTitle };
-            await Board.updateOne({ _id: id }, { $push: { list: subTitle } }, function (err, post) {
-                if (err) return console.log("리스트 제목 생성 에러");
+        createLists: async (_, { id, listTitle }, { pubsub }) => {
+            const subTitle = { listTitle: listTitle };
+            const result = await Board.findByIdAndUpdate({ _id: id }, { $push: { list: subTitle } }, { new: true });
+            pubsub.publish(LIST_ADDED, {
+                newLists: result,
             });
-
-            return "SUCCESS";
+            return result;
         },
 
-        createComments: async (_, { id, content }) => {
+        createComments: async (_, { id1, id2, content }, { pubsub }) => {
             // https://stackoverflow.com/questions/23577123/updating-a-nested-array-with-mongodb
-            // 참고 사이트
-            var subComment = { content: content };
-            await Board.update({ _id: "5f23c1c5e9ba595ef9bb4e88", "list._id": "56310c3c0c5cbb6031cafaea" }, { $push: { "list.$.taskIds": { content: "eeew" } } });
-            // await Board.updateOne({ "list._id": id }, { $push: { "list.$.taskIds": subComment } }, function (err, post) {
-            // if (err) return console.log(err);
-            // });
+            // nested array 참고 사이트
+            const subComment = { content: content };
+            const result = await Board.findOneAndUpdate({ _id: id1, "list._id": id2 }, { $push: { "list.$.taskIds": subComment } }, { new: true });
+            pubsub.publish(COMMENT_ADDED, {
+                newComments: result,
+            });
 
-            return "SUCCESS";
+            return result;
         },
 
         dropBoard: async (_, { id }) => {
@@ -67,7 +69,13 @@ export const resolvers = {
 
     Subscription: {
         newBoard: {
-            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator([BOARD_ADDED]),
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(BOARD_ADDED),
+        },
+        newLists: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(LIST_ADDED),
+        },
+        nweComments: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(COMMENT_ADDED),
         },
     },
 };

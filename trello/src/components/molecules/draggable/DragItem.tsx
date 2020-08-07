@@ -4,7 +4,7 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface DragItemProps extends CommonProps {
     item?: any;
-    index?: any;
+    index?: number;
 }
 
 const getItemStyle = (isDragging: any, draggableStyle: any) => ({

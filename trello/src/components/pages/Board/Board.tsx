@@ -3,12 +3,10 @@ import styled from "styled-components";
 import { CommonTemplate } from "../../templates";
 import { DropZone } from "../../organisms";
 import { DragDropContext } from "react-beautiful-dnd";
-import { GET_DETAIL_BOARD, BOARD_SUBSCRIPTION } from "../../../assets/utils/Queries";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT } from "../../../assets/utils/Queries";
+import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 
-import initialData from "../Test/initial-data";
-
-const BoardStyle = styled.div`
+const StyledBoard = styled.div`
     display: flex;
 
     .BoardList {
@@ -26,11 +24,25 @@ const BoardStyle = styled.div`
 function BoardPage(props: any) {
     const board_id = props.match.params.id;
 
-    const { loading: BoardLoading, error: BoardError, data, subscribeToMore } = useQuery(GET_DETAIL_BOARD, {
+    const { loading: BoardLoading, error: BoardError, data } = useQuery(GET_DETAIL_BOARD, {
         variables: { _id: board_id },
     });
+    const { error: LiveError, data: LiveData } = useSubscription(LIST_SUBSCRIPTION);
+    const [createLists, { loading: ListLoading, error: ListError }] = useMutation(CREATE_LIST);
+    const [CreateComment, { loading: CommentLoading, error: CommentError }] = useMutation(CREATE_COMMENT);
 
+    const [ModeBoard, SetModeBoard] = useState(false);
+    const [ModeComment, SetModeComment] = useState(false);
     const [listData2, setListData2]: any = useState();
+    const [ListName, SetListName] = useState("");
+    const [Comments, SetComments] = useState("");
+    const [ListID, SetListID] = useState("");
+
+    useEffect(() => {
+        if (LiveData) {
+            setListData2(LiveData.newLists);
+        }
+    }, [LiveData]);
 
     useEffect(() => {
         if (data) {
@@ -41,8 +53,48 @@ function BoardPage(props: any) {
     }, [data]);
 
     if (BoardLoading) return <p>Loading...</p>;
+    if (BoardError) return <p>리스트 오류</p>;
 
-    // if (BoardError) return console.log(BoardError);
+    if (ListLoading) return <p>Loading...</p>;
+    if (ListError) return <p>전송 오류</p>;
+
+    if (CommentLoading) return <p>Loading...</p>;
+    if (CommentError) return <p>댓글 오류</p>;
+
+    if (LiveError) return <p>실시간 오류</p>;
+
+    const ChangeMode = (): void => {
+        SetModeBoard(!ModeBoard);
+    };
+
+    const GetList = (value: string): void => {
+        SetListName(value);
+    };
+
+    const handleListSubmit = (): void => {
+        if (ListName.length > 0) {
+            createLists({ variables: { id: board_id, listTitle: ListName } });
+        }
+
+        SetListName("");
+    };
+
+    const ChangeComment = (): void => {
+        SetModeComment(!ModeComment);
+    };
+
+    const GetComment = (value: string): void => {
+        SetComments(value);
+        // SetListID(_id);
+    };
+
+    const handleCommentSubmit = (): void => {
+        if (Comments.length > 0) {
+            CreateComment({ variables: { id1: board_id, id2: ListID, content: Comments } });
+        }
+
+        SetComments("");
+    };
 
     const onDragEnd = (result: any) => {
         const { destination, source, draggableId } = result;
@@ -108,14 +160,16 @@ function BoardPage(props: any) {
     return (
         <CommonTemplate>
             <DragDropContext onDragEnd={onDragEnd}>
-                <BoardStyle>
+                <StyledBoard>
                     {listData2
                         ? listData2.list.map((columnId: any) => {
-                              return <DropZone key={columnId._id} column={columnId} board />;
+                              return <DropZone key={columnId._id} column={columnId} board ModeBoard={ModeComment} ChangeMode={ChangeComment} getValue={GetComment} handleSubmit={handleCommentSubmit} />;
                           })
                         : console.log("없음")}
-                    <DropZone board>생성</DropZone>
-                </BoardStyle>
+                    <DropZone board ModeBoard={ModeBoard} ChangeMode={ChangeMode} getValue={GetList} handleSubmit={handleListSubmit}>
+                        생성
+                    </DropZone>
+                </StyledBoard>
             </DragDropContext>
         </CommonTemplate>
     );

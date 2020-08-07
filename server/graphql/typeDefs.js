@@ -27,14 +27,16 @@ export const typeDefs = gql`
     }
 
     type Mutation {
-        createBoard(title: String): String
-        createLists(id: String, listTitle: String): String
-        createComments(id: String, content: String): String
+        createBoard(title: String): Board
+        createLists(id: String, listTitle: String): Lists
+        createComments(id1: String, id2: String, content: String): Comments
         dropBoard(id: String): String
         dropList(Boardid: String, Listid: String): String
     }
 
     type Subscription {
         newBoard: Board
+        newLists: Board
+        nweComments: Board
     }
 `;

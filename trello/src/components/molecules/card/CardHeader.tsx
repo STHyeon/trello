@@ -7,7 +7,7 @@ interface CardHeaderProps extends CommonProps {
     border?: boolean;
 }
 
-const CardHeaderStyle = styled.div<CardHeaderProps>`
+const StyledCardHeader = styled.div<CardHeaderProps>`
     margin: 0 0 10px;
 
     ${(props) =>
@@ -20,9 +20,9 @@ const CardHeaderStyle = styled.div<CardHeaderProps>`
 
 function CardHeader({ children, ...props }: CardHeaderProps) {
     return (
-        <CardHeaderStyle border>
+        <StyledCardHeader {...props}>
             <Span>{children}</Span>
-        </CardHeaderStyle>
+        </StyledCardHeader>
     );
 }
 

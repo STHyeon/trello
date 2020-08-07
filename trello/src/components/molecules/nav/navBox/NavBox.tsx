@@ -4,7 +4,6 @@ import { CommonProps } from "../../../../assets/utils/CommonType";
 import { Link } from "react-router-dom";
 
 interface NavBoxProps extends CommonProps {
-    Change?(value: string): void;
     link: string;
 }
 

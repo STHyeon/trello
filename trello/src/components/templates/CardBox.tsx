@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { CommonProps } from "../../assets/utils/CommonType";
 
-const CardBoxStyle = styled.div`
+const StyledCardBox = styled.div`
     display: flex;
     flex-wrap: wrap;
 
@@ -16,15 +16,7 @@ const CardBoxStyle = styled.div`
 `;
 
 function CardBox({ children, ...props }: CommonProps) {
-    return (
-        <CardBoxStyle {...props}>
-            {/* <div>a</div>
-            <div>a</div>
-            <div>a</div>
-            <div>a</div> */}
-            {children}
-        </CardBoxStyle>
-    );
+    return <StyledCardBox {...props}>{children}</StyledCardBox>;
 }
 
 export default CardBox;

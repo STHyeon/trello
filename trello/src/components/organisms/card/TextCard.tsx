@@ -4,11 +4,11 @@ import { CardTextBody } from "../../molecules";
 import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface TextCardProps extends CommonProps {
-    BoardCard?: any;
+    BoardCard?: boolean;
     dragData?: any;
 }
 
-const TextCardStyle = styled.div<TextCardProps>`
+const StyledTextCard = styled.div<TextCardProps>`
     ${(props) =>
         props.BoardCard &&
         css`
@@ -26,13 +26,13 @@ function TextCard({ children, ...props }: TextCardProps) {
     return (
         <>
             {dragData ? (
-                <TextCardStyle className="individ_card" ref={props.dragData.innerRef} {...props.dragData.draggableProps} {...props.dragData.dragHandleProps} {...props}>
+                <StyledTextCard className="individ_card" ref={props.dragData.innerRef} {...props.dragData.draggableProps} {...props.dragData.dragHandleProps} {...props}>
                     <CardTextBody>{children}</CardTextBody>
-                </TextCardStyle>
+                </StyledTextCard>
             ) : (
-                <TextCardStyle className="individ_card" {...props}>
+                <StyledTextCard className="individ_card" {...props}>
                     <CardTextBody>{children}</CardTextBody>
-                </TextCardStyle>
+                </StyledTextCard>
             )}
         </>
     );

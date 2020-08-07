@@ -5,9 +5,11 @@ import styled, { css } from "styled-components";
 
 interface CreateBtnProps extends CommonProps {
     listbtn?: boolean;
+    ChangeMode?(): void;
+    createHeader?: boolean;
 }
 
-const CreateBtnStyle = styled.div<CreateBtnProps>`
+const StyledCreateBtn = styled.div<CreateBtnProps>`
     ${(props) =>
         props.listbtn &&
         css`
@@ -24,13 +26,28 @@ const CreateBtnStyle = styled.div<CreateBtnProps>`
                 font-size: 20px;
             }
         `}
+
+    ${(props) =>
+        props.createHeader &&
+        css`
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            opacity: 0;
+            transition: all 0.5s;
+
+            button {
+                padding: 0;
+            }
+        `}
 `;
 
 function CreateBtn({ children, ...props }: CreateBtnProps) {
+    const { ChangeMode } = props;
     return (
-        <CreateBtnStyle {...props}>
-            <Button>{children}</Button>
-        </CreateBtnStyle>
+        <StyledCreateBtn {...props}>
+            <Button btnEvent={ChangeMode}>{children}</Button>
+        </StyledCreateBtn>
     );
 }
 

@@ -4,10 +4,10 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 import styled, { css } from "styled-components";
 
 interface CommonTitleProps extends CommonProps {
-    start?: any;
+    start?: string;
 }
 
-const CommonTitleStyle = styled.div<CommonTitleProps>`
+const StyledCommonTitle = styled.div<CommonTitleProps>`
     ${(props) =>
         props.start &&
         css`
@@ -24,9 +24,9 @@ const CommonTitleStyle = styled.div<CommonTitleProps>`
 
 function CommonTitle({ children, ...props }: CommonTitleProps) {
     return (
-        <CommonTitleStyle {...props}>
+        <StyledCommonTitle {...props}>
             <Title>{children}</Title>
-        </CommonTitleStyle>
+        </StyledCommonTitle>
     );
 }
 

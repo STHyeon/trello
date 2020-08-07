@@ -2,7 +2,7 @@ import React from "react";
 import { NavLeft, NavRight, NavCenter } from "../../molecules";
 import styled from "styled-components";
 
-const StyleNavBar = styled.div`
+const StyledNavBar = styled.div`
     display: flex;
     width: 100%;
     padding: 4px;
@@ -28,11 +28,11 @@ const StyleNavBar = styled.div`
 
 function NavBar() {
     return (
-        <StyleNavBar>
+        <StyledNavBar>
             <NavLeft />
             <NavCenter />
             <NavRight />
-        </StyleNavBar>
+        </StyledNavBar>
     );
 }
 

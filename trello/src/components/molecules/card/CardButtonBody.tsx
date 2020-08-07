@@ -7,7 +7,7 @@ interface CardButtonBodyProps extends CommonProps {
     individ_card?: boolean;
 }
 
-const CardButtonBodyStyle = styled.div<CardButtonBodyProps>`
+const StyledCardButtonBody = styled.div<CardButtonBodyProps>`
     ${(props) =>
         props.individ_card &&
         css`
@@ -42,9 +42,9 @@ const CardButtonBodyStyle = styled.div<CardButtonBodyProps>`
 
 function CardButtonBody({ children, ...props }: CardButtonBodyProps) {
     return (
-        <CardButtonBodyStyle {...props}>
+        <StyledCardButtonBody {...props}>
             <Button>{children}</Button>
-        </CardButtonBodyStyle>
+        </StyledCardButtonBody>
     );
 }
 export default CardButtonBody;

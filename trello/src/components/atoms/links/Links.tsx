@@ -4,10 +4,10 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface LinksProps extends CommonProps {}
 
-const LinksStyle = styled.a<LinksProps>``;
+const StyledLink = styled.a<LinksProps>``;
 
 function Links({ children, ...props }: LinksProps) {
-    return <LinksStyle {...props}>{children}</LinksStyle>;
+    return <StyledLink {...props}>{children}</StyledLink>;
 }
 
 export default Links;

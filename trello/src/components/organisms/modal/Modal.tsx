@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { CardHeader, CardTextBody, CardFooter } from "../../molecules";
 
-const ModalStyle = styled.div`
+const StyledModal = styled.div`
     position: fixed;
     top: 0;
     left: 0;
@@ -15,11 +15,11 @@ const ModalStyle = styled.div`
 
 function Modal() {
     return (
-        <ModalStyle>
+        <StyledModal>
             <CardHeader>제목</CardHeader>
             <CardTextBody />
             <CardFooter />
-        </ModalStyle>
+        </StyledModal>
     );
 }
 

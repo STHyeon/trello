@@ -5,7 +5,7 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 interface ButtonProps extends CommonProps {
     icon?: boolean;
     modern?: boolean;
-    handleSubmit?(): any;
+    btnEvent?(): void;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -30,10 +30,10 @@ const StyledButton = styled.button<ButtonProps>`
 `;
 
 function Button({ children, ...props }: ButtonProps) {
-    const { handleSubmit } = props;
+    const { btnEvent } = props;
 
     return (
-        <StyledButton {...props} onClick={handleSubmit}>
+        <StyledButton {...props} onClick={btnEvent}>
             {children}
         </StyledButton>
     );

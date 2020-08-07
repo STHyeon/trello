@@ -5,29 +5,29 @@ import styled from "styled-components";
 interface InputProps extends CommonProps {
     id?: string;
     hei?: string;
-    Change?: any;
+    getValue?(value: string, id?: string): void | undefined;
 }
 
-const InputStyle = styled.input<InputProps>`
+const StyledInput = styled.input<InputProps>`
     height: ${(props) => props.hei || "44px"};
 `;
 
 function Input({ ...props }: InputProps) {
     const [InputData, SetInputData] = useState("");
-    const { Change } = props;
+    // const { getValue } = props;
 
     useEffect(() => {
-        Change(InputData);
+        // getValue(InputData);
     }, [InputData]);
 
     return (
-        <InputStyle
+        <StyledInput
             {...props}
             id={props.id}
             onChange={({ target: { value } }) => {
                 SetInputData(value);
             }}
-        ></InputStyle>
+        ></StyledInput>
     );
 }
 

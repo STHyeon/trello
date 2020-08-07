@@ -5,15 +5,15 @@ import styled from "styled-components";
 
 interface CardTextBodyProps extends CommonProps {}
 
-const CardTextBodyStyle = styled.div`
+const StyledCardTextBody = styled.div`
     height: 100%;
 `;
 
 function CardTextBody({ children, ...props }: CardTextBodyProps) {
     return (
-        <CardTextBodyStyle>
+        <StyledCardTextBody {...props}>
             <Span>aa</Span>
-        </CardTextBodyStyle>
+        </StyledCardTextBody>
     );
 }
 export default CardTextBody;

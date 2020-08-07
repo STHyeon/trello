@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { CommonProps } from "../../assets/utils/CommonType";
 import { breakpoints } from "../../assets/utils/BreakPoints";
 
-const ComplateStyle = styled.div`
+const StyledComplate = styled.div`
     padding: 78px 0 0;
 
     @media ${breakpoints.laptop} {
@@ -16,9 +16,9 @@ function CommonTemplate({ children }: CommonProps) {
     return (
         <div className="wrap">
             <NavBar />
-            <ComplateStyle>
+            <StyledComplate>
                 <div className="inner">{children}</div>
-            </ComplateStyle>
+            </StyledComplate>
         </div>
     );
 }

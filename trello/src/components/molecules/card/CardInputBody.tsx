@@ -4,33 +4,33 @@ import { Input } from "../../atoms";
 import styled from "styled-components";
 
 interface CardInputBodyProps extends CommonProps {
-    Change?(value: string): void;
+    getValue?(value: string, id?: string): void;
 }
 
-const CardInputBodyStyle = styled.div`
+const StyledCardInputBody = styled.div`
     label {
         display: block;
         width: 100%;
-        margin: 0 0 5px;
+        margin: 0 0 15px;
         padding: 0 0 5px;
         border-bottom: 1px solid #e3e3e3;
     }
 `;
 
 function CardInputBody({ children, ...props }: CardInputBodyProps) {
-    const { Change } = props;
+    const { getValue } = props;
     return (
-        <CardInputBodyStyle>
+        <StyledCardInputBody>
             {/* label 유무 */}
             {children ? (
                 <>
                     <label htmlFor="StartCard">{children}</label>
-                    <Input id="StartCard" hei="33px" Change={Change} />
+                    <Input id="StartCard" hei="33px" getValue={getValue} />
                 </>
             ) : (
-                <Input id="StartCard" />
+                <Input getValue={getValue} />
             )}
-        </CardInputBodyStyle>
+        </StyledCardInputBody>
     );
 }
 export default CardInputBody;

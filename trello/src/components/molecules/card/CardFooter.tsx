@@ -4,23 +4,27 @@ import styled from "styled-components";
 import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface CardFooterProps extends CommonProps {
-    handleSubmit?(): any;
+    handleSubmit?(): void;
+    ChangeMode?(): void | undefined;
 }
 
-const CardFooterStyle = styled.div`
+const StyledCardFooter = styled.div`
     margin: 10px 0 0;
     text-align: right;
 `;
 
 function CardFooter({ children, ...props }: CardFooterProps) {
-    const { handleSubmit } = props;
+    const { handleSubmit, ChangeMode } = props;
+
     return (
-        <CardFooterStyle>
-            <Button modern handleSubmit={handleSubmit}>
+        <StyledCardFooter>
+            <Button modern btnEvent={handleSubmit}>
                 생성
             </Button>
-            <Button modern>취소</Button>
-        </CardFooterStyle>
+            <Button modern btnEvent={ChangeMode}>
+                취소
+            </Button>
+        </StyledCardFooter>
     );
 }
 export default CardFooter;
