@@ -6,13 +6,14 @@ import styled from "styled-components";
 interface CardTextBodyProps extends CommonProps {}
 
 const StyledCardTextBody = styled.div`
-    height: 100%;
+    /* height: 100%; */
+    padding: 16px 0;
 `;
 
 function CardTextBody({ children, ...props }: CardTextBodyProps) {
     return (
         <StyledCardTextBody {...props}>
-            <Span>aa</Span>
+            <Span>{children}</Span>
         </StyledCardTextBody>
     );
 }

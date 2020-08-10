@@ -6,6 +6,8 @@ interface ButtonProps extends CommonProps {
     icon?: boolean;
     modern?: boolean;
     btnEvent?(): void;
+    ChangeComment?: any;
+    columnID?: string;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -30,10 +32,20 @@ const StyledButton = styled.button<ButtonProps>`
 `;
 
 function Button({ children, ...props }: ButtonProps) {
-    const { btnEvent } = props;
+    const { btnEvent, ChangeComment, columnID } = props;
 
     return (
-        <StyledButton {...props} onClick={btnEvent}>
+        <StyledButton
+            {...props}
+            onClick={() => {
+                {
+                    btnEvent && btnEvent();
+                }
+                {
+                    ChangeComment && ChangeComment(columnID);
+                }
+            }}
+        >
             {children}
         </StyledButton>
     );

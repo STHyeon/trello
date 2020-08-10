@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { CommonTemplate } from "../../templates";
 import { DropZone } from "../../organisms";
 import { DragDropContext } from "react-beautiful-dnd";
-import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT } from "../../../assets/utils/Queries";
+import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, COMMENT_SUBSCRIPTION } from "../../../assets/utils/Queries";
 import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 
 const StyledBoard = styled.div`
@@ -28,11 +28,14 @@ function BoardPage(props: any) {
         variables: { _id: board_id },
     });
     const { error: LiveError, data: LiveData } = useSubscription(LIST_SUBSCRIPTION);
+    const { error: liveCommentError } = useSubscription(COMMENT_SUBSCRIPTION);
     const [createLists, { loading: ListLoading, error: ListError }] = useMutation(CREATE_LIST);
     const [CreateComment, { loading: CommentLoading, error: CommentError }] = useMutation(CREATE_COMMENT);
 
     const [ModeBoard, SetModeBoard] = useState(false);
-    const [ModeComment, SetModeComment] = useState(false);
+    // https://stackoverflow.com/questions/54853444/how-to-show-hide-an-item-of-array-map
+    // 리스트 마다 각각의 toggle 설정방법
+    const [ModeComment, SetModeComment] = useState({});
     const [listData2, setListData2]: any = useState();
     const [ListName, SetListName] = useState("");
     const [Comments, SetComments] = useState("");
@@ -63,6 +66,8 @@ function BoardPage(props: any) {
 
     if (LiveError) return <p>실시간 오류</p>;
 
+    if (liveCommentError) return <p>실시간 댓글 오류</p>;
+
     const ChangeMode = (): void => {
         SetModeBoard(!ModeBoard);
     };
@@ -79,13 +84,19 @@ function BoardPage(props: any) {
         SetListName("");
     };
 
-    const ChangeComment = (): void => {
-        SetModeComment(!ModeComment);
+    const ChangeComment = (id: any): void => {
+        SetModeComment((prev: any) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
     };
 
     const GetComment = (value: string): void => {
         SetComments(value);
-        // SetListID(_id);
+    };
+
+    const GetCommentID = (value: string): void => {
+        SetListID(value);
     };
 
     const handleCommentSubmit = (): void => {
@@ -163,9 +174,9 @@ function BoardPage(props: any) {
                 <StyledBoard>
                     {listData2
                         ? listData2.list.map((columnId: any) => {
-                              return <DropZone key={columnId._id} column={columnId} board ModeBoard={ModeComment} ChangeMode={ChangeComment} getValue={GetComment} handleSubmit={handleCommentSubmit} />;
+                              return <DropZone key={columnId._id} column={columnId} board getValue={GetComment} handleSubmit={handleCommentSubmit} GetCommentID={GetCommentID} ChangeComment={ChangeComment} ModeComment={ModeComment} />;
                           })
-                        : console.log("없음")}
+                        : null}
                     <DropZone board ModeBoard={ModeBoard} ChangeMode={ChangeMode} getValue={GetList} handleSubmit={handleListSubmit}>
                         생성
                     </DropZone>

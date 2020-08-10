@@ -19,20 +19,6 @@ const StyledCardButtonBody = styled.div<CardButtonBodyProps>`
             height: 100%;
             border-radius: 5px;
 
-            background: linear-gradient(to left, #f2f2f2 50%, #007cc5 50%);
-            background-size: 200% 0%;
-            background-position: 100% 100%;
-            transition: all ease 0.3s;
-
-            &:hover {
-                background-size: 200% 200%;
-                background-position: 0% 0%;
-
-                button {
-                    color: white;
-                }
-            }
-
             button {
                 width: 100%;
                 height: 100%;

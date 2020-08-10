@@ -1,4 +1,5 @@
-import CommonTemplate from "./CommonTemplate";
+import { CommonTemplate, Context } from "./CommonTemplate";
 import CardBox from "./CardBox";
 
-export { CommonTemplate, CardBox };
+export { CardBox };
+export { CommonTemplate, Context };

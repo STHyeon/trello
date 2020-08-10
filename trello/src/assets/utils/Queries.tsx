@@ -66,7 +66,8 @@ export const LIST_SUBSCRIPTION = gql`
 
 export const COMMENT_SUBSCRIPTION = gql`
     subscription {
-        newLists {
+        newComments {
+            _id
             list {
                 _id
                 listTitle
@@ -101,7 +102,13 @@ export const CREATE_COMMENT = gql`
     mutation CreateComment($id1: String, $id2: String, $content: String!) {
         createComments(id1: $id1, id2: $id2, content: $content) {
             _id
-            content
+            title
         }
+    }
+`;
+
+export const DROP_COMMENT = gql`
+    mutation DropBoard($id: String) {
+        dropBoard(id: $id)
     }
 `;

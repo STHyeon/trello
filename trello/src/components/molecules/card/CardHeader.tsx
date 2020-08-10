@@ -5,6 +5,7 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface CardHeaderProps extends CommonProps {
     border?: boolean;
+    bd_color?: string;
 }
 
 const StyledCardHeader = styled.div<CardHeaderProps>`
@@ -13,14 +14,16 @@ const StyledCardHeader = styled.div<CardHeaderProps>`
     ${(props) =>
         props.border &&
         css`
-            padding: 0 0 10px;
-            border-bottom: 1px solid #6d8aff;
+            padding: 10px 0;
+            border-bottom: 1px solid;
         `}
+        border-color: ${(props) => props.bd_color || "#6d8aff"};
 `;
 
 function CardHeader({ children, ...props }: CardHeaderProps) {
+    const { bd_color } = props;
     return (
-        <StyledCardHeader {...props}>
+        <StyledCardHeader {...props} bd_color={bd_color}>
             <Span>{children}</Span>
         </StyledCardHeader>
     );

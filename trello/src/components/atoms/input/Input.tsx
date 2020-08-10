@@ -5,7 +5,8 @@ import styled from "styled-components";
 interface InputProps extends CommonProps {
     id?: string;
     hei?: string;
-    getValue?(value: string, id?: string): void | undefined;
+    // getValue(value: string, id?: string): any;
+    getValue: any;
 }
 
 const StyledInput = styled.input<InputProps>`
@@ -14,10 +15,10 @@ const StyledInput = styled.input<InputProps>`
 
 function Input({ ...props }: InputProps) {
     const [InputData, SetInputData] = useState("");
-    // const { getValue } = props;
+    const { getValue } = props;
 
     useEffect(() => {
-        // getValue(InputData);
+        getValue(InputData);
     }, [InputData]);
 
     return (

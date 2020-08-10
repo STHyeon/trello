@@ -13,13 +13,17 @@ interface DropZoneProps extends CommonProps {
     getValue?(value: string, id?: any): void;
     handleSubmit?(): void;
     newComment?: boolean;
+    newList?: boolean;
+    GetCommentID?(value: string): void;
+    ChangeComment?(id: string): void;
+    ModeComment?: any;
 }
 
 const getListStyle = (isDraggingOver: any) => ({
     /* background: isDraggingOver ? "lightblue" : "#ebecf0",*/
 });
 
-const StyledDropZon = styled.div<DropZoneProps>`
+const StyledDropZone = styled.div<DropZoneProps>`
     ${(props) =>
         props.board &&
         css`
@@ -62,21 +66,30 @@ const StyledDropZon = styled.div<DropZoneProps>`
             padding: 5px;
             background: #ffffff;
         `}
+
+        ${(props) =>
+            props.newList &&
+            css`
+                margin: 0 0 8px;
+                padding: 5px;
+                background: #ffffff;
+            `}
 `;
 
 export default function DropZone({ column, children, ...props }: DropZoneProps) {
-    const { ChangeMode, ModeBoard, getValue, handleSubmit } = props;
+    const { ChangeMode, ModeBoard, getValue, handleSubmit, GetCommentID, ChangeComment, ModeComment } = props;
+
     return (
-        <StyledDropZon {...props}>
+        <StyledDropZone {...props}>
             {column ? <Title>{column.listTitle}</Title> : <Title>&nbsp;</Title>}
             <div>
                 {children ? (
                     <div className="wrap_card children_card">
                         {ModeBoard ? (
-                            <StyledDropZon>
+                            <StyledDropZone newList>
                                 <CardInputBody getValue={getValue}>목록 제목 생성</CardInputBody>
                                 <CardFooter handleSubmit={handleSubmit} ChangeMode={ChangeMode} />
-                            </StyledDropZon>
+                            </StyledDropZone>
                         ) : (
                             <CreateBtn listbtn ChangeMode={ChangeMode}>
                                 {children}
@@ -84,18 +97,18 @@ export default function DropZone({ column, children, ...props }: DropZoneProps) 
                         )}
                     </div>
                 ) : (
-                    <StyledDropZon>
+                    <StyledDropZone>
                         <Droppable droppableId={column._id} key={column._id}>
                             {(provided: any, snapshot: any) => (
                                 <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} className="wrap_card">
-                                    <CreateBtn createHeader ChangeMode={ChangeMode}>
+                                    <CreateBtn createHeader ChangeComment={ChangeComment} GetCommentID={GetCommentID} columnID={column._id}>
                                         <CreateIcon />
                                     </CreateBtn>
-                                    {ModeBoard ? (
-                                        <StyledDropZon newComment>
+                                    {ModeComment[column._id] ? (
+                                        <StyledDropZone newComment>
                                             <CardInputBody getValue={getValue} />
-                                            <CardFooter handleSubmit={handleSubmit} ChangeMode={ChangeMode} />
-                                        </StyledDropZon>
+                                            <CardFooter handleSubmit={handleSubmit} ChangeComment={ChangeComment} columnID={column._id} />
+                                        </StyledDropZone>
                                     ) : null}
                                     {column.taskIds.map((item: any, index: any) => (
                                         <DragItem item={item} key={index} index={index} />
@@ -104,9 +117,9 @@ export default function DropZone({ column, children, ...props }: DropZoneProps) 
                                 </div>
                             )}
                         </Droppable>
-                    </StyledDropZon>
+                    </StyledDropZone>
                 )}
             </div>
-        </StyledDropZon>
+        </StyledDropZone>
     );
 }

@@ -1,8 +1,11 @@
-import React from "react";
-import NavBar from "../organisms/nav/NavBar";
+import React, { useState, createContext } from "react";
+import { useHistory } from "react-router-dom";
+import { NavBar, Modal } from "../organisms";
 import styled from "styled-components";
 import { CommonProps } from "../../assets/utils/CommonType";
 import { breakpoints } from "../../assets/utils/BreakPoints";
+
+export const Context = createContext<any>({});
 
 const StyledComplate = styled.div`
     padding: 78px 0 0;
@@ -12,15 +15,22 @@ const StyledComplate = styled.div`
     }
 `;
 
-function CommonTemplate({ children }: CommonProps) {
+export function CommonTemplate({ children }: CommonProps) {
+    const history = useHistory();
+    const [modal, setModal] = useState({
+        title: "",
+        txt: "",
+        isOpen: false,
+    });
     return (
-        <div className="wrap">
-            <NavBar />
-            <StyledComplate>
-                <div className="inner">{children}</div>
-            </StyledComplate>
-        </div>
+        <Context.Provider value={{ history, setModal }}>
+            <div className="wrap">
+                <NavBar />
+                <StyledComplate>
+                    <div className="inner">{children}</div>
+                </StyledComplate>
+                {modal.isOpen ? <Modal modalTitle={modal.title}>{modal.txt}</Modal> : null}
+            </div>
+        </Context.Provider>
     );
 }
-
-export default CommonTemplate;

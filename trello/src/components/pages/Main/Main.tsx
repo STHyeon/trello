@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { StartCard, InputCard, CommonTitle } from "../../organisms";
-import { CommonTemplate, CardBox } from "../../templates";
-import "../../../assets/scss/index.scss";
-import { GET_BOARDS, CREATE_BOARD, BOARD_SUBSCRIPTION } from "../../../assets/utils/Queries";
-import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
+import React, { useState, useEffect, useContext } from "react";
+import { Context, CardBox, CommonTemplate } from "../../templates";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+
+import { StartCard, InputCard, CommonTitle } from "../../organisms";
+import "../../../assets/scss/index.scss";
+
+import { GET_BOARDS, CREATE_BOARD, BOARD_SUBSCRIPTION } from "../../../assets/utils/Queries";
+import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 
 const StyledMain = styled.div`
     position: relative;
@@ -22,9 +24,11 @@ function Main() {
 
     const [ModeBoard, SetModeBoard] = useState(false);
     const [BoardName, SetBoardName] = useState("");
+    const { setModal } = useContext(Context);
 
     useEffect(() => {
         if (LiveData) {
+            console.log(LiveData);
             BoardData.allBoard.push(LiveData.newBoard);
         }
     }, [LiveData]);
@@ -43,6 +47,7 @@ function Main() {
         }
 
         SetBoardName("");
+        SetModeBoard(false);
     };
 
     if (BoardLoading) return <p>Loading...</p>;

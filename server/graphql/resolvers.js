@@ -51,9 +51,13 @@ export const resolvers = {
             return result;
         },
 
-        dropBoard: async (_, { id }) => {
-            const dropID = { _id: id };
-            await Board.deleteOne(dropID);
+        dropBoard: async (_, { id }, { pubsub }) => {
+            await Board.findByIdAndRemove({ _id: id }, { new: true });
+            const result = await Board.find();
+            console.log(result);
+            pubsub.publish(BOARD_ADDED, {
+                newBoard: result,
+            });
             return "SUCCESS";
         },
 
@@ -74,7 +78,7 @@ export const resolvers = {
         newLists: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(LIST_ADDED),
         },
-        nweComments: {
+        newComments: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(COMMENT_ADDED),
         },
     },

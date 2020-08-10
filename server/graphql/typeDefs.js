@@ -29,7 +29,7 @@ export const typeDefs = gql`
     type Mutation {
         createBoard(title: String): Board
         createLists(id: String, listTitle: String): Lists
-        createComments(id1: String, id2: String, content: String): Comments
+        createComments(id1: String, id2: String, content: String): Board
         dropBoard(id: String): String
         dropList(Boardid: String, Listid: String): String
     }
@@ -37,6 +37,6 @@ export const typeDefs = gql`
     type Subscription {
         newBoard: Board
         newLists: Board
-        nweComments: Board
+        newComments: Board
     }
 `;
