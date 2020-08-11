@@ -9,6 +9,7 @@ interface NavBoxProps extends CommonProps {
 
 function NavBox({ children, ...props }: NavBoxProps) {
     const { link } = props;
+
     return (
         <Link to={link}>
             <Button {...props}>

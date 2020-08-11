@@ -1,4 +1,3 @@
-import StartCard from "./card/StartCard";
 import TextCard from "./card/TextCard";
 import InputCard from "./card/InputCard";
 
@@ -8,7 +7,7 @@ import NavBar from "./nav/NavBar";
 
 import DropZone from "./droppable/DropZone";
 
-export { StartCard, TextCard, InputCard };
+export { TextCard, InputCard };
 
 export { CommonTitle, Modal, NavBar };
 

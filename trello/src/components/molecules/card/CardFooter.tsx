@@ -4,11 +4,11 @@ import styled from "styled-components";
 import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface CardFooterProps extends CommonProps {
-    handleSubmit?(): void;
-    ChangeMode?(): void | undefined;
-    ChangeComment?: any;
-    columnID?: string;
     create?: boolean;
+    columnDataID?: string;
+
+    changeMode?(): void;
+    createData?(): void;
 }
 
 const StyledCardFooter = styled.div`
@@ -17,24 +17,22 @@ const StyledCardFooter = styled.div`
 `;
 
 function CardFooter({ children, ...props }: CardFooterProps) {
-    const { handleSubmit, ChangeMode, ChangeComment, columnID, create } = props;
+    const { createData, changeMode, columnDataID, create } = props;
 
     return (
         <>
             <StyledCardFooter>
                 {create ? (
                     <>
-                        <Button modern btnEvent={handleSubmit}>
+                        <Button modern btnEvent={createData}>
                             생성
                         </Button>
-                        <Button modern btnEvent={ChangeMode} ChangeComment={ChangeComment} columnID={columnID}>
+                        <Button modern btnEvent={changeMode} columnDataID={columnDataID}>
                             취소
                         </Button>
                     </>
                 ) : (
-                    <Button modern btnEvent={handleSubmit}>
-                        {children}
-                    </Button>
+                    <Button modern>{children}</Button>
                 )}
             </StyledCardFooter>
         </>

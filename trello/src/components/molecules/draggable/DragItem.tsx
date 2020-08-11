@@ -5,8 +5,13 @@ import styled from "styled-components";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 import { Button } from "../../atoms";
 
+type ItemData = {
+    _id?: string;
+    content?: string;
+};
+
 interface DragItemProps extends CommonProps {
-    item?: any;
+    item?: ItemData;
     index?: number;
 }
 
@@ -49,16 +54,18 @@ const getItemStyle = (isDragging: any, draggableStyle: any) => ({
 export default function DragItem({ item, index }: DragItemProps) {
     return (
         <StyledDragItem>
-            <Draggable key={item._id} draggableId={item._id} index={index}>
-                {(provided: any, snapshot: any) => (
-                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                        {item.content}
-                        <Button>
-                            <DeleteIcon />
-                        </Button>
-                    </div>
-                )}
-            </Draggable>
+            {item !== undefined && (
+                <Draggable key={item._id} draggableId={item._id} index={index}>
+                    {(provided: any, snapshot: any) => (
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                            {item.content}
+                            <Button>
+                                <DeleteIcon />
+                            </Button>
+                        </div>
+                    )}
+                </Draggable>
+            )}
         </StyledDragItem>
     );
 }

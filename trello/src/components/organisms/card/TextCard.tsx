@@ -4,13 +4,15 @@ import { CardTextBody } from "../../molecules";
 import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface TextCardProps extends CommonProps {
-    BoardCard?: boolean;
-    dragData?: any;
+    boardCard?: boolean;
+    startCard?: boolean;
+
+    dragData?: any; // any말고는...
 }
 
 const StyledTextCard = styled.div<TextCardProps>`
     ${(props) =>
-        props.BoardCard &&
+        props.boardCard &&
         css`
             width: 100%;
             margin: 0 0 10px;
@@ -19,18 +21,29 @@ const StyledTextCard = styled.div<TextCardProps>`
             background: #ffffff;
             box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
         `}
+
+    ${(props) =>
+        props.startCard &&
+        css`
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        `}
 `;
 
 function TextCard({ children, ...props }: TextCardProps) {
     const { dragData } = props;
+
     return (
         <>
-            {dragData ? (
-                <StyledTextCard className="individ_card" ref={props.dragData.innerRef} {...props.dragData.draggableProps} {...props.dragData.dragHandleProps} {...props}>
+            {dragData !== undefined ? (
+                <StyledTextCard ref={dragData.innerRef} {...props.dragData.draggableProps} {...props.dragData.dragHandleProps} {...props}>
                     <CardTextBody>{children}</CardTextBody>
                 </StyledTextCard>
             ) : (
-                <StyledTextCard className="individ_card" {...props}>
+                <StyledTextCard {...props}>
                     <CardTextBody>{children}</CardTextBody>
                 </StyledTextCard>
             )}

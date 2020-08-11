@@ -4,12 +4,12 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 import styled, { css } from "styled-components";
 
 interface CommonTitleProps extends CommonProps {
-    start?: string;
+    startTitle?: boolean;
 }
 
 const StyledCommonTitle = styled.div<CommonTitleProps>`
     ${(props) =>
-        props.start &&
+        props.startTitle &&
         css`
             margin: 0 0 10px;
             padding: 0 0 5px;

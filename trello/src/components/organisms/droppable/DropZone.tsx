@@ -5,18 +5,32 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 import styled, { css } from "styled-components";
 import { Create as CreateIcon } from "@material-ui/icons";
 
+type CommentColumndata = {
+    _id?: string;
+    content?: string;
+};
+
+interface ListColumnData {
+    _id: string;
+    listTitle?: string;
+    taskIds: Array<CommentColumndata>; // 배열일 때 Array 쓰기
+}
+
 interface DropZoneProps extends CommonProps {
-    column?: any;
     board?: boolean;
-    ModeBoard?: boolean;
-    ChangeMode?(): void;
-    getValue?(value: string, id?: any): void;
-    handleSubmit?(): void;
+    modeList?: boolean;
     newComment?: boolean;
     newList?: boolean;
-    GetCommentID?(value: string): void;
-    ChangeComment?(id: string): void;
-    ModeComment?: any;
+
+    columnData?: ListColumnData;
+
+    getValue?(value: string, id?: any): void;
+    changeListMode?(): void;
+    newCreateList?(): void;
+    newCreateComment?(): void;
+    getCommentID?(value: string): void;
+    modeComment?: any;
+    newCreateComment?(): void;
 }
 
 const getListStyle = (isDraggingOver: any) => ({
@@ -42,7 +56,7 @@ const StyledDropZone = styled.div<DropZoneProps>`
                 background: #ebecf0;
                 justify-content: center;
                 align-self: center;
-                flex-direction: column;
+                flex-direction: columnData;
 
                 &.children_card {
                     padding: 8px;
@@ -76,48 +90,52 @@ const StyledDropZone = styled.div<DropZoneProps>`
             `}
 `;
 
-export default function DropZone({ column, children, ...props }: DropZoneProps) {
-    const { ChangeMode, ModeBoard, getValue, handleSubmit, GetCommentID, ChangeComment, ModeComment } = props;
+export default function DropZone({ children, ...props }: DropZoneProps) {
+    const { changeListMode, modeList, getValue, newCreateList, getCommentID, newCreateComment, modeComment, columnData } = props;
 
     return (
         <StyledDropZone {...props}>
-            {column ? <Title>{column.listTitle}</Title> : <Title>&nbsp;</Title>}
+            {columnData ? <Title>{columnData.listTitle}</Title> : <Title>&nbsp;</Title>}
             <div>
                 {children ? (
                     <div className="wrap_card children_card">
-                        {ModeBoard ? (
+                        {modeList ? (
                             <StyledDropZone newList>
                                 <CardInputBody getValue={getValue}>목록 제목 생성</CardInputBody>
-                                <CardFooter handleSubmit={handleSubmit} ChangeMode={ChangeMode} />
+                                <CardFooter createData={newCreateList} changeMode={changeListMode} />
                             </StyledDropZone>
                         ) : (
-                            <CreateBtn listbtn ChangeMode={ChangeMode}>
+                            <CreateBtn listBtn changeMode={changeListMode}>
                                 {children}
                             </CreateBtn>
                         )}
                     </div>
                 ) : (
-                    <StyledDropZone>
-                        <Droppable droppableId={column._id} key={column._id}>
-                            {(provided: any, snapshot: any) => (
-                                <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} className="wrap_card">
-                                    <CreateBtn createHeader ChangeComment={ChangeComment} GetCommentID={GetCommentID} columnID={column._id}>
-                                        <CreateIcon />
-                                    </CreateBtn>
-                                    {ModeComment[column._id] ? (
-                                        <StyledDropZone newComment>
-                                            <CardInputBody getValue={getValue} />
-                                            <CardFooter handleSubmit={handleSubmit} ChangeComment={ChangeComment} columnID={column._id} />
-                                        </StyledDropZone>
-                                    ) : null}
-                                    {column.taskIds.map((item: any, index: any) => (
-                                        <DragItem item={item} key={index} index={index} />
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    </StyledDropZone>
+                    <>
+                        {columnData ? (
+                            <StyledDropZone>
+                                <Droppable droppableId={columnData._id} key={columnData._id}>
+                                    {(provided: any, snapshot: any) => (
+                                        <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} className="wrap_card">
+                                            <CreateBtn createHeader getOneData={getCommentID} columnDataID={columnData._id}>
+                                                <CreateIcon />
+                                            </CreateBtn>
+                                            {modeComment[columnData._id] ? (
+                                                <StyledDropZone newComment>
+                                                    <CardInputBody getValue={getValue} />
+                                                    <CardFooter createData={newCreateComment} columnDataID={columnData._id} />
+                                                </StyledDropZone>
+                                            ) : null}
+                                            {columnData.taskIds.map((item: any, index: any) => (
+                                                <DragItem item={item} key={index} index={index} />
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
+                                    )}
+                                </Droppable>
+                            </StyledDropZone>
+                        ) : null}
+                    </>
                 )}
             </div>
         </StyledDropZone>

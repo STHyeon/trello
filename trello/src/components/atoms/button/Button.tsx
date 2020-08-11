@@ -5,9 +5,10 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 interface ButtonProps extends CommonProps {
     icon?: boolean;
     modern?: boolean;
+    columnDataID?: string;
+
     btnEvent?(): void;
-    ChangeComment?: any;
-    columnID?: string;
+    getOneData?(id?: string): void;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -22,7 +23,7 @@ const StyledButton = styled.button<ButtonProps>`
         css`
             border: 1px solid #737373;
             color: #252525;
-            transition: background 1s;
+            transition: background 0.5s;
 
             &:hover {
                 color: #ffffff;
@@ -32,7 +33,7 @@ const StyledButton = styled.button<ButtonProps>`
 `;
 
 function Button({ children, ...props }: ButtonProps) {
-    const { btnEvent, ChangeComment, columnID } = props;
+    const { btnEvent, getOneData, columnDataID } = props;
 
     return (
         <StyledButton
@@ -42,7 +43,7 @@ function Button({ children, ...props }: ButtonProps) {
                     btnEvent && btnEvent();
                 }
                 {
-                    ChangeComment && ChangeComment(columnID);
+                    getOneData && getOneData(columnDataID);
                 }
             }}
         >

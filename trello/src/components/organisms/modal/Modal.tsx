@@ -35,7 +35,7 @@ function Modal({ children, ...props }: ModalProps) {
     return (
         <>
             <StyledModal>
-                <CardHeader border bd_color="#1980ff">
+                <CardHeader border bdColor="#1980ff">
                     {modalTitle}
                 </CardHeader>
                 <CardTextBody>{children}</CardTextBody>

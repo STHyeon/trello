@@ -19,6 +19,7 @@ const StyledCardInputBody = styled.div`
 
 function CardInputBody({ children, ...props }: CardInputBodyProps) {
     const { getValue } = props;
+
     return (
         <StyledCardInputBody>
             {/* label 유무 */}

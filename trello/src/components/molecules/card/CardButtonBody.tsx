@@ -4,12 +4,12 @@ import { Button } from "../../atoms";
 import styled, { css } from "styled-components";
 
 interface CardButtonBodyProps extends CommonProps {
-    individ_card?: boolean;
+    individCard?: boolean;
 }
 
 const StyledCardButtonBody = styled.div<CardButtonBodyProps>`
     ${(props) =>
-        props.individ_card &&
+        props.individCard &&
         css`
             display: flex;
             z-index: 2;

@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button } from "../../atoms";
 import { CommonProps } from "../../../assets/utils/CommonType";
 import styled, { css } from "styled-components";
 
 interface CreateBtnProps extends CommonProps {
-    listbtn?: boolean;
-    ChangeMode?: any;
+    listBtn?: boolean;
     createHeader?: boolean;
-    columnID?: string;
-    GetCommentID?: any;
-    ChangeComment?: any;
-    ModeComment?: any;
+    columnDataID?: string;
     deleteIcon?: boolean;
+
+    changeMode?(): void;
+    getOneData?(id?: string): void;
 }
 
 const StyledCreateBtn = styled.div<CreateBtnProps>`
@@ -30,7 +29,7 @@ const StyledCreateBtn = styled.div<CreateBtnProps>`
             }
 
     ${(props) =>
-        props.listbtn &&
+        props.listBtn &&
         css`
             display: flex;
             width: 100%;
@@ -79,20 +78,17 @@ const StyledCreateBtn = styled.div<CreateBtnProps>`
 `;
 
 function CreateBtn({ children, ...props }: CreateBtnProps) {
-    const { ChangeMode, GetCommentID, columnID, ChangeComment } = props;
+    const { changeMode, getOneData, columnDataID } = props;
 
     return (
         <StyledCreateBtn
             {...props}
             onClick={() => {
                 {
-                    GetCommentID && GetCommentID(columnID);
+                    getOneData && getOneData(columnDataID);
                 }
                 {
-                    ChangeMode && ChangeMode();
-                }
-                {
-                    ChangeComment && ChangeComment(columnID);
+                    changeMode && changeMode();
                 }
             }}
         >

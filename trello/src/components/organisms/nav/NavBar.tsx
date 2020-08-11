@@ -4,10 +4,10 @@ import styled from "styled-components";
 
 const StyledNavBar = styled.div`
     display: flex;
+    justify-content: space-between;
     width: 100%;
     padding: 4px;
     background: #026aa7;
-    justify-content: space-between;
 
     a + a {
         margin: 0 0 0 5px;
