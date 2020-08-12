@@ -18,9 +18,7 @@ function Input({ ...props }: InputProps) {
     const [inputData, setInputData] = useState("");
 
     useEffect(() => {
-        {
-            getValue && getValue(inputData);
-        }
+        getValue && getValue(inputData);
     }, [inputData]);
 
     return (

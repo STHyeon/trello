@@ -107,7 +107,7 @@ export const CREATE_COMMENT = gql`
     }
 `;
 
-export const DROP_COMMENT = gql`
+export const DROP_BOARD = gql`
     mutation DropBoard($id: String) {
         dropBoard(id: $id)
     }

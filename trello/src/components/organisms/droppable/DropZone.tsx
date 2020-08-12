@@ -28,9 +28,9 @@ interface DropZoneProps extends CommonProps {
     changeListMode?(): void;
     newCreateList?(): void;
     newCreateComment?(): void;
-    getCommentID?(value: string): void;
-    modeComment?: any;
     newCreateComment?(): void;
+    changeCommentMode?(id?: string): void;
+    modeComment?: any;
 }
 
 const getListStyle = (isDraggingOver: any) => ({
@@ -56,7 +56,7 @@ const StyledDropZone = styled.div<DropZoneProps>`
                 background: #ebecf0;
                 justify-content: center;
                 align-self: center;
-                flex-direction: columnData;
+                flex-direction: column;
 
                 &.children_card {
                     padding: 8px;
@@ -84,6 +84,8 @@ const StyledDropZone = styled.div<DropZoneProps>`
         ${(props) =>
             props.newList &&
             css`
+                width: 100%;
+                height: 100%;
                 margin: 0 0 8px;
                 padding: 5px;
                 background: #ffffff;
@@ -91,7 +93,7 @@ const StyledDropZone = styled.div<DropZoneProps>`
 `;
 
 export default function DropZone({ children, ...props }: DropZoneProps) {
-    const { changeListMode, modeList, getValue, newCreateList, getCommentID, newCreateComment, modeComment, columnData } = props;
+    const { changeListMode, changeCommentMode, getValue, newCreateList, newCreateComment, modeComment, columnData, modeList } = props;
 
     return (
         <StyledDropZone {...props}>
@@ -102,7 +104,7 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                         {modeList ? (
                             <StyledDropZone newList>
                                 <CardInputBody getValue={getValue}>목록 제목 생성</CardInputBody>
-                                <CardFooter createData={newCreateList} changeMode={changeListMode} />
+                                <CardFooter create createData={newCreateList} changeMode={changeListMode} />
                             </StyledDropZone>
                         ) : (
                             <CreateBtn listBtn changeMode={changeListMode}>
@@ -117,13 +119,13 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                                 <Droppable droppableId={columnData._id} key={columnData._id}>
                                     {(provided: any, snapshot: any) => (
                                         <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} className="wrap_card">
-                                            <CreateBtn createHeader getOneData={getCommentID} columnDataID={columnData._id}>
+                                            <CreateBtn createHeader getOneData={changeCommentMode} columnDataID={columnData._id}>
                                                 <CreateIcon />
                                             </CreateBtn>
                                             {modeComment[columnData._id] ? (
                                                 <StyledDropZone newComment>
                                                     <CardInputBody getValue={getValue} />
-                                                    <CardFooter createData={newCreateComment} columnDataID={columnData._id} />
+                                                    <CardFooter create createData={newCreateComment} columnDataID={columnData._id} getOneChangeMode={changeCommentMode} />
                                                 </StyledDropZone>
                                             ) : null}
                                             {columnData.taskIds.map((item: any, index: any) => (

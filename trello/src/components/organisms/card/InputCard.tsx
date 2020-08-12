@@ -24,9 +24,6 @@ const StyledInputCard = styled.div<InputCardProps>`
     ${(props) =>
         props.startCard &&
         css`
-            display: flex;
-            justify-content: center;
-            align-items: center;
             width: 100%;
             height: 100%;
         `}

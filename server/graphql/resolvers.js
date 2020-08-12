@@ -58,6 +58,7 @@ export const resolvers = {
             pubsub.publish(BOARD_ADDED, {
                 newBoard: result,
             });
+
             return "SUCCESS";
         },
 

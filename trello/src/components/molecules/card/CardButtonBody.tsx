@@ -11,10 +11,7 @@ const StyledCardButtonBody = styled.div<CardButtonBodyProps>`
     ${(props) =>
         props.individCard &&
         css`
-            display: flex;
             z-index: 2;
-            justify-content: center;
-            align-items: center;
             width: 100%;
             height: 100%;
             border-radius: 5px;

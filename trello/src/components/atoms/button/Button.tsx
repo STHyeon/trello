@@ -5,6 +5,7 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 interface ButtonProps extends CommonProps {
     icon?: boolean;
     modern?: boolean;
+    showTxt?: boolean;
     columnDataID?: string;
 
     btnEvent?(): void;
@@ -24,11 +25,18 @@ const StyledButton = styled.button<ButtonProps>`
             border: 1px solid #737373;
             color: #252525;
             transition: background 0.5s;
+            color: #000000;
 
             &:hover {
-                color: #ffffff;
+                color: #ffffff !important;
                 background: #646464;
             }
+        `}
+
+    ${(props) =>
+        props.showTxt &&
+        css`
+            color: #000000 !important;
         `}
 `;
 

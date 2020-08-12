@@ -14,20 +14,6 @@ interface CreateBtnProps extends CommonProps {
 }
 
 const StyledCreateBtn = styled.div<CreateBtnProps>`
-     background: linear-gradient(to left, #f2f2f2 50%, #007cc5 50%);
-            background-size: 200% 0%;
-            background-position: 100% 100%;
-            transition: all ease 0.3s;
-
-            &:hover {
-                background-size: 200% 200%;
-                background-position: 0% 0%;
-
-                button {
-                    color: white;
-                }
-            }
-
     ${(props) =>
         props.listBtn &&
         css`
