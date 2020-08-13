@@ -13,6 +13,9 @@ type ItemData = {
 interface DragItemProps extends CommonProps {
     item?: ItemData;
     index?: number;
+    listDataID?: string;
+
+    existedDropComment?(delListIDs?: string, delCommentIDs?: string): void;
 }
 
 const StyledDragItem = styled.div`
@@ -51,7 +54,9 @@ const getItemStyle = (isDragging: any, draggableStyle: any) => ({
     ...draggableStyle,
 });
 
-export default function DragItem({ item, index }: DragItemProps) {
+export default function DragItem({ item, index, ...props }: DragItemProps) {
+    const { existedDropComment, listDataID } = props;
+
     return (
         <StyledDragItem>
             {item !== undefined && (
@@ -59,7 +64,7 @@ export default function DragItem({ item, index }: DragItemProps) {
                     {(provided: any, snapshot: any) => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                             {item.content}
-                            <Button>
+                            <Button getTwoData={existedDropComment} listDataID={listDataID} commentDataID={item._id}>
                                 <DeleteIcon />
                             </Button>
                         </div>

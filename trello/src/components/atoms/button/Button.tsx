@@ -7,9 +7,13 @@ interface ButtonProps extends CommonProps {
     modern?: boolean;
     showTxt?: boolean;
     columnDataID?: string;
+    listDataID?: string;
+    commentDataID?: string;
 
     btnEvent?(): void;
     getOneData?(id?: string): void;
+    getOneData2?(id?: string): void;
+    getTwoData?(delListIDs?: string, delCommentIDs?: string): void;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -41,18 +45,16 @@ const StyledButton = styled.button<ButtonProps>`
 `;
 
 function Button({ children, ...props }: ButtonProps) {
-    const { btnEvent, getOneData, columnDataID } = props;
+    const { btnEvent, getOneData, getOneData2, getTwoData, columnDataID, listDataID, commentDataID } = props;
 
     return (
         <StyledButton
             {...props}
             onClick={() => {
-                {
-                    btnEvent && btnEvent();
-                }
-                {
-                    getOneData && getOneData(columnDataID);
-                }
+                btnEvent && btnEvent();
+                getOneData && getOneData(columnDataID);
+                getOneData2 && getOneData2(columnDataID);
+                getTwoData && getTwoData(listDataID, commentDataID);
             }}
         >
             {children}

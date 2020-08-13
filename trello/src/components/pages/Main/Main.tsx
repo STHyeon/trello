@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
@@ -6,7 +6,7 @@ import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 
 import { TextCard, InputCard, CommonTitle } from "../../organisms";
-import { Context, CardBox, CommonTemplate } from "../../templates";
+import { CardBox, CommonTemplate } from "../../templates";
 import { GET_BOARDS, CREATE_BOARD, BOARD_SUBSCRIPTION, DROP_BOARD } from "../../../assets/utils/Queries";
 import "../../../assets/scss/index.scss";
 
@@ -16,20 +16,19 @@ import "../../../assets/scss/index.scss";
 type commentType = {
     _id: string;
     content: string;
-}
+};
 
 type listType = {
     _id: string;
     listTitle: string;
-    taskIds: Array<commentType>
-}
+    taskIds: Array<commentType>;
+};
 
 type boardType = {
     _id?: string;
     title?: string;
     list?: listType;
 };
-
 
 const StyledDeleteIcon = styled.div`
     position: absolute;
@@ -90,27 +89,27 @@ function Main() {
     const [boardName, setBoardName] = useState("");
     const [delID, setDelID] = useState("");
 
-    
     useEffect(() => {
         if (allListLiveData) {
             if (delID) {
-                // console.log(allListData.allBoard);
-                // var a = allListData.allBoard.map((e: boardType) => {
-                //     return e._id
-                // }).indexOf(delID);
+                const getDeleteID = allListData.allBoard
+                    .map((e: boardType) => {
+                        return e._id;
+                    })
+                    .indexOf(delID);
 
-                // if(a >-1) {
-                //     // allListData.allBoard.push("A")
-                //     allListData.allBoard.slice("2");
+                if (getDeleteID > -1) {
+                    allListData.allBoard.splice(getDeleteID, 1);
+                }
 
-                // }
-                // console.log(allListData.allBoard);
-                // setDelID("");
-            } else {
+                setDelID("");
+            }
+
+            if (allListLiveData.newBoard._id !== null) {
                 allListData.allBoard.push(allListLiveData.newBoard);
             }
         }
-    }, [allListLiveData]);
+    }, [allListLiveData, delID]);
 
     const getBoardName = (value: string): void => {
         setBoardName(value);
@@ -131,9 +130,7 @@ function Main() {
 
     const existedDropBoard = (id?: string): void => {
         dropBoard({ variables: { id: id } });
-        {
-            id && setDelID(id);
-        }
+        id && setDelID(id);
     };
 
     if (allListLoading) return <p>All List Loading...</p>;

@@ -19,7 +19,7 @@ function Input({ ...props }: InputProps) {
 
     useEffect(() => {
         getValue && getValue(inputData);
-    }, [inputData]);
+    }, [inputData, getValue]);
 
     return (
         <StyledInput

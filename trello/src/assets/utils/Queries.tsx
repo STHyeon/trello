@@ -64,22 +64,6 @@ export const LIST_SUBSCRIPTION = gql`
     }
 `;
 
-export const COMMENT_SUBSCRIPTION = gql`
-    subscription {
-        newComments {
-            _id
-            list {
-                _id
-                listTitle
-                taskIds {
-                    _id
-                    content
-                }
-            }
-        }
-    }
-`;
-
 export const CREATE_BOARD = gql`
     mutation CreateBoard($title: String!) {
         createBoard(title: $title) {
@@ -110,5 +94,17 @@ export const CREATE_COMMENT = gql`
 export const DROP_BOARD = gql`
     mutation DropBoard($id: String) {
         dropBoard(id: $id)
+    }
+`;
+
+export const DROP_LIST = gql`
+    mutation DropList($Boardid: String, $Listid: String) {
+        dropList(Boardid: $Boardid, Listid: $Listid)
+    }
+`;
+
+export const DROP_COMMENT = gql`
+    mutation DropComment($Boardid: String, $Listid: String, $Commentid: String) {
+        dropComment(Boardid: $Boardid, Listid: $Listid, Commentid: $Commentid)
     }
 `;

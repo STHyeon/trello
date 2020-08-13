@@ -11,6 +11,7 @@ interface CreateBtnProps extends CommonProps {
 
     changeMode?(): void;
     getOneData?(id?: string): void;
+    getOneData2?(value?: string): void;
 }
 
 const StyledCreateBtn = styled.div<CreateBtnProps>`
@@ -19,29 +20,44 @@ const StyledCreateBtn = styled.div<CreateBtnProps>`
         css`
             display: flex;
             width: 100%;
-            height: 80px;
-            background: #fff;
             justify-content: center;
             align-self: center;
+            transition: background 0.4s;
+
+            &:hover {
+                background: #ffffff;
+            }
 
             button {
                 width: 100%;
                 height: 100%;
-                font-size: 20px;
+                font-size: 16px;
+                color: #aaaaaa;
             }
         `}
 
     ${(props) =>
         props.createHeader &&
         css`
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            opacity: 0;
-            transition: all 0.5s;
+            padding: 5px 0 0;
+            text-align: left;
 
             button {
+                display: flex;
+                align-items: center;
+                width: 100%;
                 padding: 0;
+                font-size: 14px;
+                color: #aaaaaa;
+                transition: color 0.7s;
+
+                svg {
+                    margin: 0 10px 0 0;
+                }
+
+                &:hover {
+                    color: #0019bf;
+                }
             }
         `}
 
@@ -64,18 +80,15 @@ const StyledCreateBtn = styled.div<CreateBtnProps>`
 `;
 
 function CreateBtn({ children, ...props }: CreateBtnProps) {
-    const { changeMode, getOneData, columnDataID } = props;
+    const { changeMode, getOneData, getOneData2, columnDataID } = props;
 
     return (
         <StyledCreateBtn
             {...props}
             onClick={() => {
-                {
-                    getOneData && getOneData(columnDataID);
-                }
-                {
-                    changeMode && changeMode();
-                }
+                getOneData && getOneData(columnDataID);
+                getOneData2 && getOneData2(columnDataID);
+                changeMode && changeMode();
             }}
         >
             <Button>{children}</Button>

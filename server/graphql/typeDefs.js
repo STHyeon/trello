@@ -32,11 +32,11 @@ export const typeDefs = gql`
         createComments(id1: String, id2: String, content: String): Board
         dropBoard(id: String): String
         dropList(Boardid: String, Listid: String): String
+        dropComment(Boardid: String, Listid: String, Commentid: String): String
     }
 
     type Subscription {
         newBoard: Board
         newLists: Board
-        newComments: Board
     }
 `;

@@ -6,7 +6,7 @@ import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 
 import { DropZone } from "../../organisms";
 import { CommonTemplate } from "../../templates";
-import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, COMMENT_SUBSCRIPTION } from "../../../assets/utils/Queries";
+import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, DROP_LIST, DROP_COMMENT } from "../../../assets/utils/Queries";
 
 type commentType = {
     _id?: string;
@@ -59,8 +59,9 @@ function BoardPage(props: BoardProps) {
     const { loading: getListLoading, error: getListError, data: getListData } = useQuery(GET_DETAIL_BOARD, { variables: { _id: boardID } });
     const [createLists, { loading: createListLoading, error: createListError }] = useMutation(CREATE_LIST);
     const [createComments, { loading: createCommentLoading, error: createCommentError }] = useMutation(CREATE_COMMENT);
+    const [dropList, { loading: dropListLoading, error: dropListError }] = useMutation(DROP_LIST);
+    const [dropComment, { loading: dropCommentLoading, error: dropCommentError }] = useMutation(DROP_COMMENT);
     const { error: getListLiveError, data: getListLiveData } = useSubscription(LIST_SUBSCRIPTION);
-    const { error: getCommentLiveError } = useSubscription(COMMENT_SUBSCRIPTION);
 
     useEffect(() => {
         if (getListLiveData) {
@@ -70,9 +71,7 @@ function BoardPage(props: BoardProps) {
 
     useEffect(() => {
         if (getListData) {
-            getListData.getBoard.map((obj: getListType) => {
-                setListData(obj);
-            });
+            getListData.getBoard.map((obj: getListType) => setListData(obj));
         }
     }, [getListData]);
 
@@ -85,9 +84,13 @@ function BoardPage(props: BoardProps) {
     if (createCommentLoading) return <p>Create Comment Loading...</p>;
     if (createCommentError) return <p>Create Comment Error</p>;
 
-    if (getListLiveError) return <p>Get List Live Error</p>;
+    if (dropListLoading) return <p>Drop List Loading...</p>;
+    if (dropListError) return <p>Drop List Error</p>;
 
-    if (getCommentLiveError) return <p>Get Comment Live Error</p>;
+    if (dropCommentLoading) return <p>Drop Comment Loading...</p>;
+    if (dropCommentError) return <p>Drop Comment Error</p>;
+
+    if (getListLiveError) return <p>Get List Live Error</p>;
 
     const changeListMode = (): void => {
         setModeList(!modeList);
@@ -98,7 +101,14 @@ function BoardPage(props: BoardProps) {
             ...prev,
             [id]: !prev[id],
         }));
-        setListID(id);
+    };
+
+    const getListID = (value: string): void => {
+        setListID(value);
+    };
+
+    const existedDropComment = (delListIDs: string, delCommentIDs: string): void => {
+        dropComment({ variables: { Boardid: boardID, Listid: delListIDs, Commentid: delCommentIDs } });
     };
 
     const getListName = (value: string): void => {
@@ -112,10 +122,10 @@ function BoardPage(props: BoardProps) {
     const newCreateList = (): void => {
         if (listName.length > 0) {
             createLists({ variables: { id: boardID, listTitle: listName } });
-        }
 
-        setListName("");
-        setModeList(false);
+            setListName("");
+            setModeList(false);
+        }
     };
 
     const newCreateComment = (): void => {
@@ -187,18 +197,35 @@ function BoardPage(props: BoardProps) {
         setListData({ list: newState2 });
     };
 
+    const existedDropList = (): void => {
+        dropList({ variables: { Boardid: boardID, Listid: listID } });
+    };
+
     return (
         <CommonTemplate>
             <DragDropContext onDragEnd={onDragEnd}>
                 <StyledBoard>
                     {listData
                         ? listData.list.map((columnData: listType) => {
-                              return <DropZone board key={columnData._id} columnData={columnData} getValue={getComment} newCreateComment={newCreateComment} modeComment={modeComment} changeCommentMode={changeCommentMode} />;
+                              return (
+                                  <DropZone
+                                      board
+                                      key={columnData._id}
+                                      columnData={columnData}
+                                      getValue={getComment}
+                                      newCreateComment={newCreateComment}
+                                      modeComment={modeComment}
+                                      changeCommentMode={changeCommentMode}
+                                      getListID={getListID}
+                                      existedDropComment={existedDropComment}
+                                      existedDropList={existedDropList}
+                                  />
+                              );
                           })
                         : null}
 
                     <DropZone board modeList={modeList} changeListMode={changeListMode} getValue={getListName} newCreateList={newCreateList}>
-                        생성
+                        Add List
                     </DropZone>
                 </StyledBoard>
             </DragDropContext>

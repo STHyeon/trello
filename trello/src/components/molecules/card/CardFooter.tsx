@@ -10,6 +10,7 @@ interface CardFooterProps extends CommonProps {
     changeMode?(): void;
     createData?(): void;
     getOneChangeMode?(id?: string): void;
+    getOneData2?(id?: string): void;
 }
 
 const StyledCardFooter = styled.div`
@@ -18,7 +19,7 @@ const StyledCardFooter = styled.div`
 `;
 
 function CardFooter({ children, ...props }: CardFooterProps) {
-    const { createData, changeMode, getOneChangeMode, columnDataID, create } = props;
+    const { createData, changeMode, getOneChangeMode, getOneData2, columnDataID, create } = props;
 
     return (
         <>
@@ -28,7 +29,7 @@ function CardFooter({ children, ...props }: CardFooterProps) {
                         <Button modern showTxt btnEvent={createData}>
                             생성
                         </Button>
-                        <Button modern showTxt btnEvent={changeMode} columnDataID={columnDataID} getOneData={getOneChangeMode}>
+                        <Button modern showTxt btnEvent={changeMode} columnDataID={columnDataID} getOneData={getOneChangeMode} getOneData2={getOneData2}>
                             취소
                         </Button>
                     </>
