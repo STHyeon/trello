@@ -6,7 +6,7 @@ import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 
 import { DropZone } from "../../organisms";
 import { CommonTemplate } from "../../templates";
-import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, DROP_LIST, DROP_COMMENT } from "../../../assets/utils/Queries";
+import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, DROP_LIST, DROP_COMMENT, CHANGE_POSITION } from "../../../assets/utils/Queries";
 
 type commentType = {
     _id?: string;
@@ -61,6 +61,7 @@ function BoardPage(props: BoardProps) {
     const [createComments, { loading: createCommentLoading, error: createCommentError }] = useMutation(CREATE_COMMENT);
     const [dropList, { loading: dropListLoading, error: dropListError }] = useMutation(DROP_LIST);
     const [dropComment, { loading: dropCommentLoading, error: dropCommentError }] = useMutation(DROP_COMMENT);
+    const [changePosition, { loading: changePositionLoading, error: changePositionError }] = useMutation(CHANGE_POSITION);
     const { error: getListLiveError, data: getListLiveData } = useSubscription(LIST_SUBSCRIPTION);
 
     useEffect(() => {
@@ -90,6 +91,9 @@ function BoardPage(props: BoardProps) {
     if (dropCommentLoading) return <p>Drop Comment Loading...</p>;
     if (dropCommentError) return <p>Drop Comment Error</p>;
 
+    if (changePositionLoading) return <p>Change Position Loading...</p>;
+    if (changePositionError) return <p>Change Position Error</p>;
+
     if (getListLiveError) return <p>Get List Live Error</p>;
 
     const changeListMode = (): void => {
@@ -108,7 +112,7 @@ function BoardPage(props: BoardProps) {
     };
 
     const existedDropComment = (delListIDs: string, delCommentIDs: string): void => {
-        dropComment({ variables: { Boardid: boardID, Listid: delListIDs, Commentid: delCommentIDs } });
+        dropComment({ variables: { boardID: boardID, listID: delListIDs, commentID: delCommentIDs } });
     };
 
     const getListName = (value: string): void => {
@@ -130,10 +134,14 @@ function BoardPage(props: BoardProps) {
 
     const newCreateComment = (): void => {
         if (comments.length > 0) {
-            createComments({ variables: { id1: boardID, id2: listID, content: comments } });
+            createComments({ variables: { boardID: boardID, listID: listID, content: comments } });
         }
 
         setComments("");
+    };
+
+    const newChangeCommentPosition = (): void => {
+        changePosition({ variables: { commentID: boardID, ListAll: listData } });
     };
 
     const onDragEnd = (result: any) => {
@@ -169,6 +177,7 @@ function BoardPage(props: BoardProps) {
             const newState = listData.list.map((item: listType) => (item._id === source.droppableId ? Object.assign(item, newColumn) : item));
 
             setListData({ list: newState });
+            newChangeCommentPosition();
             return;
         }
 
@@ -195,10 +204,11 @@ function BoardPage(props: BoardProps) {
         listData.list.map((item: listType) => (item._id === source.droppableId ? Object.assign(item, newStart) : item));
         const newState2 = listData.list.map((item: listType) => (item._id === destination.droppableId ? Object.assign(item, newFinish) : item));
         setListData({ list: newState2 });
+        newChangeCommentPosition();
     };
 
     const existedDropList = (): void => {
-        dropList({ variables: { Boardid: boardID, Listid: listID } });
+        dropList({ variables: { boardID: boardID, listID: listID } });
     };
 
     return (

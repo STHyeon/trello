@@ -129,7 +129,7 @@ function Main() {
     };
 
     const existedDropBoard = (id?: string): void => {
-        dropBoard({ variables: { id: id } });
+        dropBoard({ variables: { boardID: id } });
         id && setDelID(id);
     };
 

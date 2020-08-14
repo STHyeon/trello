@@ -21,7 +21,9 @@ const wsLink = new WebSocketLink({
 
 const client = new ApolloClient({
     link: wsLink,
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+        addTypename: false,
+    }),
 });
 
 ReactDOM.render(

@@ -1,7 +1,7 @@
 import Board from "../models/board";
 
-const BOARD_ADDED = "BOARD_ADDED";
-const LIST_ADDED = "LIST_ADDED";
+const BOARD_UPDATE = "BOARD_UPDATE";
+const LIST_UPDATE = "LIST_UPDATE";
 
 export const resolvers = {
     Query: {
@@ -11,18 +11,17 @@ export const resolvers = {
 
         getBoard: async (_, { _id }) => {
             const result = await Board.find({ $and: [{ _id: _id }] });
+
             return result;
         },
     },
 
     Mutation: {
         createBoard: async (_, { title }, { pubsub }) => {
-            const boardBox = {
-                title,
-            };
-
+            const boardBox = { title };
             const result = await Board.create(boardBox);
-            pubsub.publish(BOARD_ADDED, {
+
+            pubsub.publish(BOARD_UPDATE, {
                 newBoard: result,
             });
 
@@ -30,55 +29,64 @@ export const resolvers = {
         },
 
         createLists: async (_, { id, listTitle }, { pubsub }) => {
-            const subTitle = { listTitle: listTitle };
-            const result = await Board.findByIdAndUpdate({ _id: id }, { $push: { list: subTitle } }, { new: true });
-            pubsub.publish(LIST_ADDED, {
+            const subListTitle = { listTitle: listTitle };
+            const result = await Board.findByIdAndUpdate({ _id: id }, { $push: { list: subListTitle } }, { new: true });
+
+            pubsub.publish(LIST_UPDATE, {
                 newLists: result,
             });
+
             return result;
         },
 
-        createComments: async (_, { id1, id2, content }, { pubsub }) => {
+        createComments: async (_, { boardID, listID, content }, { pubsub }) => {
             // https://stackoverflow.com/questions/23577123/updating-a-nested-array-with-mongodb
             // nested array 참고 사이트
             const subComment = { content: content };
-            const result = await Board.findOneAndUpdate({ _id: id1, "list._id": id2 }, { $push: { "list.$.taskIds": subComment } }, { new: true });
-            // console.log(result);
-            pubsub.publish(LIST_ADDED, {
+            const result = await Board.findOneAndUpdate({ _id: boardID, "list._id": listID }, { $push: { "list.$.taskIds": subComment } }, { new: true });
+
+            pubsub.publish(LIST_UPDATE, {
                 newLists: result,
             });
 
             return result;
         },
 
-        dropBoard: async (_, { id }, { pubsub }) => {
-            await Board.findByIdAndRemove({ _id: id }, { new: true });
+        dropBoard: async (_, { boardID }, { pubsub }) => {
+            await Board.findByIdAndRemove({ _id: boardID }, { new: true });
             const result = await Board.find();
-            pubsub.publish(BOARD_ADDED, {
+
+            pubsub.publish(BOARD_UPDATE, {
                 newBoard: result,
             });
 
             return "SUCCESS";
         },
 
-        dropList: async (_, { Boardid, Listid }, { pubsub }) => {
-            var dropID = { _id: Listid };
-            const result = await Board.findOneAndUpdate({ _id: Boardid }, { $pull: { list: dropID } }, { new: true });
+        dropList: async (_, { boardID, listID }, { pubsub }) => {
+            var dropID = { _id: listID };
+            const result = await Board.findOneAndUpdate({ _id: boardID }, { $pull: { list: dropID } }, { new: true });
 
-            pubsub.publish(LIST_ADDED, {
+            pubsub.publish(LIST_UPDATE, {
                 newLists: result,
             });
 
             return "SUCCESS";
         },
 
-        dropComment: async (_, { Boardid, Listid, Commentid }, { pubsub }) => {
-            var dropID = { _id: Commentid };
-            const result = await Board.findOneAndUpdate({ _id: Boardid, "list._id": Listid }, { $pull: { "list.$.taskIds": dropID } }, { new: true });
+        dropComment: async (_, { boardID, listID, commentID }, { pubsub }) => {
+            var dropID = { _id: commentID };
+            const result = await Board.findOneAndUpdate({ _id: boardID, "list._id": listID }, { $pull: { "list.$.taskIds": dropID } }, { new: true });
 
-            pubsub.publish(LIST_ADDED, {
+            pubsub.publish(LIST_UPDATE, {
                 newLists: result,
             });
+
+            return "SUCCESS";
+        },
+
+        changePosition: async (_, { boardID, ListAll }) => {
+            await Board.findByIdAndUpdate({ _id: boardID }, ListAll, { new: true });
 
             return "SUCCESS";
         },
@@ -86,10 +94,10 @@ export const resolvers = {
 
     Subscription: {
         newBoard: {
-            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(BOARD_ADDED),
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(BOARD_UPDATE),
         },
         newLists: {
-            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(LIST_ADDED),
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(LIST_UPDATE),
         },
     },
 };

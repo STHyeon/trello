@@ -66,45 +66,42 @@ export const LIST_SUBSCRIPTION = gql`
 
 export const CREATE_BOARD = gql`
     mutation CreateBoard($title: String!) {
-        createBoard(title: $title) {
-            _id
-            title
-        }
+        createBoard(title: $title)
     }
 `;
 
 export const CREATE_LIST = gql`
     mutation CreateLists($id: String, $listTitle: String!) {
-        createLists(id: $id, listTitle: $listTitle) {
-            _id
-            listTitle
-        }
+        createLists(id: $id, listTitle: $listTitle)
     }
 `;
 
 export const CREATE_COMMENT = gql`
-    mutation CreateComment($id1: String, $id2: String, $content: String!) {
-        createComments(id1: $id1, id2: $id2, content: $content) {
-            _id
-            title
-        }
+    mutation CreateComment($boardID: String, $listID: String, $content: String!) {
+        createComments(boardID: $boardID, listID: $listID, content: $content)
     }
 `;
 
 export const DROP_BOARD = gql`
-    mutation DropBoard($id: String) {
-        dropBoard(id: $id)
+    mutation DropBoard($boardID: String) {
+        dropBoard(boardID: $boardID)
     }
 `;
 
 export const DROP_LIST = gql`
-    mutation DropList($Boardid: String, $Listid: String) {
-        dropList(Boardid: $Boardid, Listid: $Listid)
+    mutation DropList($boardID: String, $listID: String) {
+        dropList(boardID: $boardID, listID: $listID)
     }
 `;
 
 export const DROP_COMMENT = gql`
-    mutation DropComment($Boardid: String, $Listid: String, $Commentid: String) {
-        dropComment(Boardid: $Boardid, Listid: $Listid, Commentid: $Commentid)
+    mutation DropComment($boardID: String, $listID: String, $commentID: String) {
+        dropComment(boardID: $boardID, listID: $listID, commentID: $commentID)
+    }
+`;
+
+export const CHANGE_POSITION = gql`
+    mutation ChangePosition($boardID: String, $ListAll: inputListAll) {
+        changePosition(boardID: $boardID, ListAll: $ListAll)
     }
 `;

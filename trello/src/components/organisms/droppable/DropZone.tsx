@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Droppable } from "react-beautiful-dnd";
-import { DragItem, Title, CreateBtn, CardInputBody, CardFooter } from "../../molecules";
+import { DragItem, Title, CreateBtn, CardInputBody, CardTextareaBody, CardFooter } from "../../molecules";
 import { CommonProps } from "../../../assets/utils/CommonType";
 import styled, { css } from "styled-components";
 import { Create as CreateIcon, MoreHoriz as MoreHorizIcon } from "@material-ui/icons";
@@ -38,7 +38,7 @@ interface DropZoneProps extends CommonProps {
 }
 
 const getListStyle = (isDraggingOver: any) => ({
-    /* background: isDraggingOver ? "lightblue" : "#ebecf0",*/
+    background: isDraggingOver ? "#e4ccff" : "#ebecf0",
 });
 
 const StyledDropZoneheader = styled.div<DropZoneProps>`
@@ -170,7 +170,7 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                                         <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} className="wrap_card">
                                             {modeComment[columnData._id] ? (
                                                 <StyledDropZone newComment>
-                                                    <CardInputBody getValue={getValue} />
+                                                    <CardTextareaBody getValue={getValue} />
                                                     <CardFooter create createData={newCreateComment} columnDataID={columnData._id} getOneChangeMode={changeCommentMode} getOneData2={getListID} />
                                                 </StyledDropZone>
                                             ) : null}

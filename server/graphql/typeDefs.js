@@ -4,39 +4,55 @@ const { gql } = require("apollo-server");
 // null 발생 시 오류
 
 export const typeDefs = gql`
-    type Comments {
+    type comments {
         _id: ID
         content: String
     }
 
-    type Lists {
+    type lists {
         _id: ID
         listTitle: String
-        taskIds: [Comments]
+        taskIds: [comments]
     }
 
-    type Board {
+    type board {
         _id: ID
         title: String
-        list: [Lists]
+        list: [lists]
+    }
+
+    input inputComments {
+        _id: ID
+        content: String
+    }
+
+    input inputList {
+        _id: ID
+        listTitle: String
+        taskIds: [inputComments]
+    }
+
+    input inputListAll {
+        list: [inputList]
     }
 
     type Query {
-        allBoard: [Board]
-        getBoard(_id: ID!): [Board]
+        allBoard: [board]
+        getBoard(_id: ID!): [board]
     }
 
     type Mutation {
-        createBoard(title: String): Board
-        createLists(id: String, listTitle: String): Lists
-        createComments(id1: String, id2: String, content: String): Board
-        dropBoard(id: String): String
-        dropList(Boardid: String, Listid: String): String
-        dropComment(Boardid: String, Listid: String, Commentid: String): String
+        createBoard(title: String): board
+        createLists(id: String, listTitle: String): lists
+        createComments(boardID: String, listID: String, content: String): board
+        dropBoard(boardID: String): String
+        dropList(boardID: String, listID: String): String
+        dropComment(boardID: String, listID: String, commentID: String): String
+        changePosition(boardID: String, ListAll: inputListAll): String
     }
 
     type Subscription {
-        newBoard: Board
-        newLists: Board
+        newBoard: board
+        newLists: board
     }
 `;

@@ -19,27 +19,34 @@ interface DragItemProps extends CommonProps {
 }
 
 const StyledDragItem = styled.div`
-    div {
-        position: relative;
-        margin: 0 0 8px;
-        padding: 16px 2px;
+    position: relative;
 
-        &:hover {
-            button {
-                opacity: 1;
-            }
+    &:hover {
+        pre {
+            background: rgb(226, 226, 226);
         }
 
         button {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            padding: 0;
             opacity: 1;
+        }
+    }
 
-            svg {
-                font-size: 20px;
-            }
+    pre {
+        margin: 0 0 8px;
+        padding: 16px 20px 16px 16px;
+        font-size: 0.8125rem;
+        text-align: left;
+    }
+
+    button {
+        position: absolute;
+        top: 5px;
+        right: 0;
+        padding: 0;
+        opacity: 0;
+
+        svg {
+            font-size: 20px;
         }
     }
 `;
@@ -48,7 +55,8 @@ const getItemStyle = (isDragging: any, draggableStyle: any) => ({
     userSelect: "none",
 
     // change background colour if dragging
-    background: isDragging ? "lightgreen" : "#ffffff",
+    background: isDragging ? "rgb(133, 107, 167)" : "#ffffff",
+    color: isDragging ? "#ffffff" : "#172b4d",
 
     // styles we need to apply on draggables
     ...draggableStyle,
@@ -62,12 +70,14 @@ export default function DragItem({ item, index, ...props }: DragItemProps) {
             {item !== undefined && (
                 <Draggable key={item._id} draggableId={item._id} index={index}>
                     {(provided: any, snapshot: any) => (
-                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                            {item.content}
+                        <>
+                            <pre ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                                {item.content}
+                            </pre>
                             <Button getTwoData={existedDropComment} listDataID={listDataID} commentDataID={item._id}>
                                 <DeleteIcon />
                             </Button>
-                        </div>
+                        </>
                     )}
                 </Draggable>
             )}
