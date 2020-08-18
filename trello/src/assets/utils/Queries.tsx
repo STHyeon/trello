@@ -66,19 +66,28 @@ export const LIST_SUBSCRIPTION = gql`
 
 export const CREATE_BOARD = gql`
     mutation CreateBoard($title: String!) {
-        createBoard(title: $title)
+        createBoard(title: $title) {
+            _id
+            title
+        }
     }
 `;
 
 export const CREATE_LIST = gql`
     mutation CreateLists($id: String, $listTitle: String!) {
-        createLists(id: $id, listTitle: $listTitle)
+        createLists(id: $id, listTitle: $listTitle) {
+            _id
+            listTitle
+        }
     }
 `;
 
 export const CREATE_COMMENT = gql`
     mutation CreateComment($boardID: String, $listID: String, $content: String!) {
-        createComments(boardID: $boardID, listID: $listID, content: $content)
+        createComments(boardID: $boardID, listID: $listID, content: $content) {
+            _id
+            title
+        }
     }
 `;
 

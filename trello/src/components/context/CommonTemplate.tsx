@@ -1,7 +1,9 @@
 import React, { useState, createContext } from "react";
 import { useHistory } from "react-router-dom";
-import { NavBar, Modal } from "../organisms";
+
 import styled from "styled-components";
+
+import { NavBar, Modal } from "../organisms";
 import { CommonProps } from "../../assets/utils/CommonType";
 import { breakpoints } from "../../assets/utils/BreakPoints";
 
@@ -22,6 +24,7 @@ export function CommonTemplate({ children }: CommonProps) {
         txt: "",
         isOpen: false,
     });
+
     return (
         <Context.Provider value={{ history, setModal }}>
             <div className="wrap">

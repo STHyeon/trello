@@ -6,7 +6,8 @@ import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 
 import { TextCard, InputCard, CommonTitle } from "../../organisms";
-import { CardBox, CommonTemplate } from "../../templates";
+import { CardBox } from "../../templates";
+import { CommonTemplate, CommonLoading, CommonError } from "../../context";
 import { GET_BOARDS, CREATE_BOARD, BOARD_SUBSCRIPTION, DROP_BOARD } from "../../../assets/utils/Queries";
 import "../../../assets/scss/index.scss";
 
@@ -133,16 +134,16 @@ function Main() {
         id && setDelID(id);
     };
 
-    if (allListLoading) return <p>All List Loading...</p>;
-    if (allListError) return <p>All List Error!</p>;
+    if (allListLoading) return <CommonLoading>All List</CommonLoading>;
+    if (allListError) return <CommonError>All List</CommonError>;
 
-    if (createListLoading) return <p>Create List Loading...</p>;
-    if (createListError) return <p>Create List Error!</p>;
+    if (createListLoading) return <CommonLoading>Create List</CommonLoading>;
+    if (createListError) return <CommonError>Create List</CommonError>;
 
-    if (dropBoardLoading) return <p>Drop Board Loading...</p>;
-    if (dropBoardError) return <p>Drop Board Error!</p>;
+    if (dropBoardLoading) return <CommonLoading>Drop Board</CommonLoading>;
+    if (dropBoardError) return <CommonError>Drop Board</CommonError>;
 
-    if (allListLiveError) return <p>All List Live Error!</p>;
+    if (allListLiveError) return <CommonError>Get Board Live</CommonError>;
 
     return (
         <CommonTemplate>

@@ -5,7 +5,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 
 import { DropZone } from "../../organisms";
-import { CommonTemplate } from "../../templates";
+import { CommonTemplate, CommonLoading, CommonError } from "../../context";
 import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, DROP_LIST, DROP_COMMENT, CHANGE_POSITION } from "../../../assets/utils/Queries";
 
 type commentType = {
@@ -76,25 +76,25 @@ function BoardPage(props: BoardProps) {
         }
     }, [getListData]);
 
-    if (getListLoading) return <p>Get List Loading...</p>;
-    if (getListError) return <p>Get List Error</p>;
+    if (getListLoading) return <CommonLoading>Get List</CommonLoading>;
+    if (getListError) return <CommonError>Get List</CommonError>;
 
-    if (createListLoading) return <p>Create List Loading...</p>;
-    if (createListError) return <p>Create List Error</p>;
+    if (createListLoading) return <CommonLoading>Create List</CommonLoading>;
+    if (createListError) return <CommonError>Create List</CommonError>;
 
-    if (createCommentLoading) return <p>Create Comment Loading...</p>;
-    if (createCommentError) return <p>Create Comment Error</p>;
+    if (createCommentLoading) return <CommonLoading>Create Comment</CommonLoading>;
+    if (createCommentError) return <CommonError>Create Comment</CommonError>;
 
-    if (dropListLoading) return <p>Drop List Loading...</p>;
-    if (dropListError) return <p>Drop List Error</p>;
+    if (dropListLoading) return <CommonLoading>Drop List</CommonLoading>;
+    if (dropListError) return <CommonError>Drop List</CommonError>;
 
-    if (dropCommentLoading) return <p>Drop Comment Loading...</p>;
-    if (dropCommentError) return <p>Drop Comment Error</p>;
+    if (dropCommentLoading) return <CommonLoading>Drop Comment</CommonLoading>;
+    if (dropCommentError) return <CommonError>Drop Comment</CommonError>;
 
-    if (changePositionLoading) return <p>Change Position Loading...</p>;
-    if (changePositionError) return <p>Change Position Error</p>;
+    if (changePositionLoading) return <CommonLoading>Change Position</CommonLoading>;
+    if (changePositionError) return <CommonError>Change Position</CommonError>;
 
-    if (getListLiveError) return <p>Get List Live Error</p>;
+    if (getListLiveError) return <CommonError>Get List Live</CommonError>;
 
     const changeListMode = (): void => {
         setModeList(!modeList);
@@ -141,7 +141,7 @@ function BoardPage(props: BoardProps) {
     };
 
     const newChangeCommentPosition = (): void => {
-        changePosition({ variables: { commentID: boardID, ListAll: listData } });
+        changePosition({ variables: { boardID: boardID, ListAll: listData } });
     };
 
     const onDragEnd = (result: any) => {
