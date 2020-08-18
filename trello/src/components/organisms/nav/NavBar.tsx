@@ -1,6 +1,14 @@
 import React from "react";
-import { NavLeft, NavRight, NavCenter } from "../../molecules";
 import styled from "styled-components";
+
+import { NavLeft, NavRight, NavCenter } from "../../molecules";
+import { CommonProps } from "../../../assets/utils/CommonType";
+
+interface NavBarProps extends CommonProps {
+    cookies?: any;
+
+    logoutSubmit?(): void;
+}
 
 const StyledNavBar = styled.div`
     display: flex;
@@ -26,12 +34,13 @@ const StyledNavBar = styled.div`
     }
 `;
 
-function NavBar() {
+function NavBar({ ...props }: NavBarProps) {
+    const { cookies, logoutSubmit } = props;
     return (
         <StyledNavBar>
             <NavLeft />
             <NavCenter />
-            <NavRight />
+            <NavRight cookies={cookies} logoutSubmit={logoutSubmit} />
         </StyledNavBar>
     );
 }

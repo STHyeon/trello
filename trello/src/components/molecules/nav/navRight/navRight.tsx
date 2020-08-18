@@ -1,16 +1,30 @@
 import React from "react";
-import NavBox from "../navBox/NavBox";
 import { Add as AddIcon, Info as InfoIcon, Notifications as NotificationsIcon } from "@material-ui/icons";
 
-function NavRight() {
+import NavBox from "../navBox/NavBox";
+import { CommonProps } from "../../../../assets/utils/CommonType";
+
+interface NavRightProps extends CommonProps {
+    cookies?: any;
+
+    logoutSubmit?(): void;
+}
+
+function NavRight({ ...props }: NavRightProps) {
+    const { cookies, logoutSubmit } = props;
+    console.log(cookies);
     return (
         <div>
-            <NavBox link="/">
-                <AddIcon />
-            </NavBox>
-            <NavBox link="/">
-                <InfoIcon />
-            </NavBox>
+            {cookies.user ? (
+                <NavBox link="/" logoutSubmit={logoutSubmit}>
+                    <InfoIcon />
+                </NavBox>
+            ) : (
+                <NavBox link="/auth">
+                    <AddIcon />
+                </NavBox>
+            )}
+
             <NavBox link="/">
                 <NotificationsIcon />
             </NavBox>

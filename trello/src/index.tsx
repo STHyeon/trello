@@ -3,13 +3,15 @@ import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { Redirect, Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
-import { Main, BoardPage, Test1, Test2, Test3, Test4 } from "./components";
+import { MainPage, BoardPage, Test1, Test2, Test3, Test4, AuthPage } from "./components";
 
 // apollo
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { WebSocketLink } from "apollo-link-ws";
+
+import { CookiesProvider } from "react-cookie";
 
 const wsLink = new WebSocketLink({
     // apollo-server는 /graphql 이 기본으로 들어간다.
@@ -28,19 +30,22 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <React.StrictMode>
-            <Router>
-                <Switch>
-                    <Route path="/" exact component={Main} />
-                    <Route path="/board/:id" component={BoardPage} />
-                    <Route path="/test1" component={Test1} />
-                    <Route path="/test2" component={Test2} />
-                    <Route path="/test3" component={Test3} />
-                    <Route path="/test4" component={Test4} />
-                    <Redirect path="*" to="/" />
-                </Switch>
-            </Router>
-        </React.StrictMode>
+        <CookiesProvider>
+            <React.StrictMode>
+                <Router>
+                    <Switch>
+                        <Route path="/" exact component={MainPage} />
+                        <Route path="/board/:id" component={BoardPage} />
+                        <Route path="/auth" component={AuthPage} />
+                        <Route path="/test1" component={Test1} />
+                        <Route path="/test2" component={Test2} />
+                        <Route path="/test3" component={Test3} />
+                        <Route path="/test4" component={Test4} />
+                        <Redirect path="*" to="/" />
+                    </Switch>
+                </Router>
+            </React.StrictMode>
+        </CookiesProvider>
     </ApolloProvider>,
     document.getElementById("root"),
 );

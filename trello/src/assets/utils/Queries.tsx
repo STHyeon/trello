@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 
+// 글쓰기 관련
 export const GET_BOARDS = gql`
     query {
         allBoard {
@@ -112,5 +113,28 @@ export const DROP_COMMENT = gql`
 export const CHANGE_POSITION = gql`
     mutation ChangePosition($boardID: String, $ListAll: inputListAll) {
         changePosition(boardID: $boardID, ListAll: $ListAll)
+    }
+`;
+
+// 회원 관련
+// export const CREATE_USER = gql`
+//     mutation CreateUser($userID: String!, $userPW) {
+//         createBoard(title: $title) {
+//             _id
+//             title
+//         }
+//     }
+// `;
+
+export const LOGIN_USER = gql`
+    mutation LoginUser($userID: String!, $userPW: String!) {
+        login(userID: $userID, userPW: $userPW) {
+            token
+            user {
+                _id
+                userID
+                userName
+            }
+        }
     }
 `;

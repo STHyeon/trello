@@ -10,6 +10,7 @@ interface CreateBtnProps extends CommonProps {
     deleteIcon?: boolean;
 
     changeMode?(): void;
+    justButton?(): void;
     getOneData?(id?: string): void;
     getOneData2?(value?: string): void;
 }
@@ -80,7 +81,7 @@ const StyledCreateBtn = styled.div<CreateBtnProps>`
 `;
 
 function CreateBtn({ children, ...props }: CreateBtnProps) {
-    const { changeMode, getOneData, getOneData2, columnDataID } = props;
+    const { changeMode, getOneData, getOneData2, justButton, columnDataID } = props;
 
     return (
         <StyledCreateBtn
@@ -89,6 +90,7 @@ function CreateBtn({ children, ...props }: CreateBtnProps) {
                 getOneData && getOneData(columnDataID);
                 getOneData2 && getOneData2(columnDataID);
                 changeMode && changeMode();
+                justButton && justButton();
             }}
         >
             <Button>{children}</Button>

@@ -80,7 +80,7 @@ const StyledMain = styled.div`
     }
 `;
 
-function Main() {
+function MainPage() {
     const { loading: allListLoading, error: allListError, data: allListData } = useQuery(GET_BOARDS);
     const [createBoard, { loading: createListLoading, error: createListError }] = useMutation(CREATE_BOARD);
     const [dropBoard, { loading: dropBoardLoading, error: dropBoardError }] = useMutation(DROP_BOARD);
@@ -169,4 +169,4 @@ function Main() {
     );
 }
 
-export default Main;
+export default MainPage;

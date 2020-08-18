@@ -1,10 +1,17 @@
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+
+import { APP_SECRET, getUserID } from "../utils/jwt";
+
 import Board from "../models/board";
+import User from "../models/user";
 
 const BOARD_UPDATE = "BOARD_UPDATE";
 const LIST_UPDATE = "LIST_UPDATE";
 
 export const resolvers = {
     Query: {
+        // 글쓰기 관련
         allBoard: async () => {
             return await Board.find();
         },
@@ -14,9 +21,15 @@ export const resolvers = {
 
             return result;
         },
+
+        // 회원 관련
+        allUser: async () => {
+            return await User.find();
+        },
     },
 
     Mutation: {
+        // 글쓰기 관련
         createBoard: async (_, { title }, { pubsub }) => {
             const boardBox = { title };
             const result = await Board.create(boardBox);
@@ -89,6 +102,40 @@ export const resolvers = {
             await Board.findByIdAndUpdate({ _id: boardID }, ListAll, { new: true });
 
             return "SUCCESS";
+        },
+
+        // 회원관련
+        signup: async (_, { userID, userName, userPW }) => {
+            const password = await bcrypt.hash(userPW, 10);
+            const userFind = await User.find({ userID: userID });
+
+            if (userFind.length > 0) {
+                throw new Error("이미 존재하는 아이디입니다.");
+            }
+
+            const user = await User.create({ userID, userName, userPW: password });
+            const token = jwt.sign({ userID: userID }, APP_SECRET); //jwt.sign({토근의 내용}, 비밀키)
+
+            return { token, user };
+        },
+
+        login: async (_, { userID, userPW }) => {
+            const user = await User.find({ $and: [{ userID: userID }] });
+
+            if (user.length == 0) {
+                throw new Error("유저를 찾을 수 없습니다.");
+            }
+
+            const userData = user[0];
+            const valid = await bcrypt.compare(userPW, userData.userPW);
+
+            if (!valid) {
+                throw new Error("비밀번호가 일치하지 않습니다.");
+            }
+
+            const token = jwt.sign({ userID: userID }, APP_SECRET);
+
+            return { token, user: userData };
         },
     },
 

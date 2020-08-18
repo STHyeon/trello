@@ -1,13 +1,23 @@
 import React from "react";
 import { CommonProps } from "../../../assets/utils/CommonType";
 import { Input } from "../../atoms";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 interface CardInputBodyProps extends CommonProps {
+    authCard?: boolean;
+
     getValue?(value: string, id?: string): void;
 }
 
-const StyledCardInputBody = styled.div`
+const StyledCardInputBody = styled.div<CardInputBodyProps>`
+    ${(props) =>
+        props.authCard &&
+        css`
+            & + & {
+                margin: 17px 0 0;
+            }
+        `}
+
     label {
         display: block;
         width: 100%;
@@ -21,7 +31,7 @@ function CardInputBody({ children, ...props }: CardInputBodyProps) {
     const { getValue } = props;
 
     return (
-        <StyledCardInputBody>
+        <StyledCardInputBody {...props}>
             {/* label 유무 */}
             {children ? (
                 <>

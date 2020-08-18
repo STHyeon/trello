@@ -2,6 +2,7 @@ import React, { useState, createContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import styled from "styled-components";
+import { useCookies } from "react-cookie";
 
 import { NavBar, Modal } from "../organisms";
 import { CommonProps } from "../../assets/utils/CommonType";
@@ -24,11 +25,16 @@ export function CommonTemplate({ children }: CommonProps) {
         txt: "",
         isOpen: false,
     });
+    const [cookies, , removeCookie] = useCookies(["user"]);
+
+    const logoutSubmit = (): void => {
+        removeCookie("user", { path: "/" });
+    };
 
     return (
         <Context.Provider value={{ history, setModal }}>
             <div className="wrap">
-                <NavBar />
+                <NavBar cookies={cookies} logoutSubmit={logoutSubmit} />
                 <StyledComplate>
                     <div className="inner">{children}</div>
                 </StyledComplate>
