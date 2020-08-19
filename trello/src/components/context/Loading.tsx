@@ -1,6 +1,8 @@
 import React from "react";
-import { CommonProps } from "../../assets/utils/CommonType";
 import styled, { keyframes } from "styled-components";
+
+import { CommonProps } from "../../assets/utils/CommonType";
+import { CommonTemplate } from "./CommonTemplate";
 
 const loader = keyframes`
     90% { transform: rotate(0deg); }
@@ -31,9 +33,10 @@ const text = keyframes`
 
 const StyledContainer = styled.div`
     position: absolute;
-    top: calc(50% - 40px);
-    left: calc(50% - 40px);
+    top: 50%;
+    left: 50%;
     text-align: center;
+    transform: translate(-50%, -50%);
 
     .loading_txt {
         padding: 10px 0 0;
@@ -83,14 +86,16 @@ const StyledLoading = styled.div`
 
 function CommonLoading({ children }: CommonProps) {
     return (
-        <StyledContainer>
-            <StyledLoading>
-                <div className="top"></div>
-                <div className="bottom"></div>
-                <div className="line"></div>
-            </StyledLoading>
-            <div className="loading_txt">{children} Loading...</div>
-        </StyledContainer>
+        <CommonTemplate>
+            <StyledContainer>
+                <StyledLoading>
+                    <div className="top"></div>
+                    <div className="bottom"></div>
+                    <div className="line"></div>
+                </StyledLoading>
+                <div className="loading_txt">{children} Loading...</div>
+            </StyledContainer>
+        </CommonTemplate>
     );
 }
 

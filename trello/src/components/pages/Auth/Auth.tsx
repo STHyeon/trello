@@ -7,15 +7,18 @@ import { useMutation } from "@apollo/react-hooks";
 
 import { CommonTemplate, CommonLoading, CommonError } from "../../context";
 import { AuthCard } from "../../organisms";
-import { LOGIN_USER } from "../../../assets/utils/Queries";
+import { LOGIN_USER, CREATE_USER } from "../../../assets/utils/Queries";
 import { Context } from "../../context";
 
 const StyledAuthPage = styled.div``;
 
 function AuthPage() {
     const [login, { loading: loginLoading, error: loginError, data: loginData }] = useMutation(LOGIN_USER);
+    const [signup, { loading: signupLoading, error: signupError }] = useMutation(CREATE_USER);
     const [userID, setUserID] = useState("");
     const [userPW, setUserPW] = useState("");
+    const [userName, setUserName] = useState("");
+    const [authMode, setAuthMode] = useState(false);
     const [cookies, setCookie] = useCookies(["user"]);
     const { history } = useContext(Context);
 
@@ -26,7 +29,11 @@ function AuthPage() {
     }, [loginData]);
 
     if (loginLoading) return <CommonLoading>Login</CommonLoading>;
-    if (loginError) return <CommonError>Login</CommonError>;
+    if (loginError) return <CommonError>{loginError.message}</CommonError>;
+
+    if (signupLoading) return <CommonLoading>Sign Up</CommonLoading>;
+    if (signupError) return <CommonError>{signupError.message}</CommonError>;
+
     if (cookies.user) {
         return <Redirect to="/" />;
     }
@@ -37,6 +44,14 @@ function AuthPage() {
 
     const getUserPW = (value: string): void => {
         setUserPW(value);
+    };
+
+    const getUserName = (value: string): void => {
+        setUserName(value);
+    };
+
+    const changeAuthMode = (): void => {
+        setAuthMode(true);
     };
 
     const loginSubmit = (): void => {
@@ -51,12 +66,23 @@ function AuthPage() {
         }
     };
 
+    const signupSubmit = (): void => {
+        if (userID.length > 0 && userPW.length > 0 && userName.length) {
+            signup({ variables: { userID: userID, userName: userName, userPW: userPW } })
+                .then(() => history.push("/"))
+                .catch(() => {});
+            setUserID("");
+            setUserPW("");
+            setUserName("");
+        } else {
+            alert("빈칸을 채워주세요.");
+        }
+    };
+
     return (
         <CommonTemplate>
             <StyledAuthPage>
-                <AuthCard getUserID={getUserID} getUserPW={getUserPW} loginSubmit={loginSubmit}>
-                    Login to Trello
-                </AuthCard>
+                <AuthCard authMode={authMode} getUserID={getUserID} getUserPW={getUserPW} getUserName={getUserName} loginSubmit={loginSubmit} signupSubmit={signupSubmit} changeAuthMode={changeAuthMode} />
             </StyledAuthPage>
         </CommonTemplate>
     );

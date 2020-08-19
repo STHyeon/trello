@@ -117,14 +117,18 @@ export const CHANGE_POSITION = gql`
 `;
 
 // 회원 관련
-// export const CREATE_USER = gql`
-//     mutation CreateUser($userID: String!, $userPW) {
-//         createBoard(title: $title) {
-//             _id
-//             title
-//         }
-//     }
-// `;
+export const CREATE_USER = gql`
+    mutation SignUpUser($userID: String!, $userName: String, $userPW: String!) {
+        signup(userID: $userID, userName: $userName, userPW: $userPW) {
+            token
+            user {
+                _id
+                userID
+                userName
+            }
+        }
+    }
+`;
 
 export const LOGIN_USER = gql`
     mutation LoginUser($userID: String!, $userPW: String!) {

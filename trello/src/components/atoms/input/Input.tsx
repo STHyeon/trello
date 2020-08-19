@@ -5,6 +5,7 @@ import styled from "styled-components";
 interface InputProps extends CommonProps {
     id?: string;
     hei?: string;
+    placeholder?: string;
 
     getValue?(value: string, id?: string): void;
 }
@@ -14,7 +15,7 @@ const StyledInput = styled.input<InputProps>`
 `;
 
 function Input({ ...props }: InputProps) {
-    const { getValue } = props;
+    const { placeholder, getValue } = props;
     const [inputData, setInputData] = useState("");
 
     useEffect(() => {
@@ -28,6 +29,7 @@ function Input({ ...props }: InputProps) {
             onChange={({ target: { value } }) => {
                 setInputData(value);
             }}
+            placeholder={placeholder}
         ></StyledInput>
     );
 }

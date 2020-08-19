@@ -4,6 +4,7 @@ import { Input } from "../../atoms";
 import styled, { css } from "styled-components";
 
 interface CardInputBodyProps extends CommonProps {
+    placeholder?: string;
     authCard?: boolean;
 
     getValue?(value: string, id?: string): void;
@@ -28,7 +29,7 @@ const StyledCardInputBody = styled.div<CardInputBodyProps>`
 `;
 
 function CardInputBody({ children, ...props }: CardInputBodyProps) {
-    const { getValue } = props;
+    const { placeholder, getValue } = props;
 
     return (
         <StyledCardInputBody {...props}>
@@ -36,10 +37,10 @@ function CardInputBody({ children, ...props }: CardInputBodyProps) {
             {children ? (
                 <>
                     <label htmlFor="StartCard">{children}</label>
-                    <Input id="StartCard" hei="33px" getValue={getValue} />
+                    <Input id="StartCard" hei="33px" getValue={getValue} placeholder={placeholder} />
                 </>
             ) : (
-                <Input getValue={getValue} />
+                <Input getValue={getValue} placeholder={placeholder} />
             )}
         </StyledCardInputBody>
     );

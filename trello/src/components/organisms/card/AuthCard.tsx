@@ -3,14 +3,18 @@ import React from "react";
 import styled from "styled-components";
 
 import { CommonProps } from "../../../assets/utils/CommonType";
-import { Title, CreateBtn, CardInputBody, NavBox } from "../../molecules";
+import { Title, CreateBtn, CardInputBody } from "../../molecules";
 
 interface AuthProps extends CommonProps {
     authCard?: boolean;
+    authMode?: boolean;
 
+    loginSubmit?(): void;
+    signupSubmit?(): void;
+    changeAuthMode?(): void;
     getUserID?(value: string, id?: string): void;
     getUserPW?(value: string, id?: string): void;
-    loginSubmit?(): void;
+    getUserName?(value: string, id?: string): void;
 }
 
 const StyledAuthCardMap = styled.div`
@@ -18,11 +22,6 @@ const StyledAuthCardMap = styled.div`
     width: 100%;
     margin: 0 auto;
     text-align: center;
-
-    a {
-        font-size: 14px;
-        color: #1460d0;
-    }
 `;
 
 const StyledAuthCard = styled.div`
@@ -54,18 +53,21 @@ const StyledAuthCard = styled.div`
 `;
 
 function AuthCard({ children, ...props }: AuthProps) {
-    const { getUserID, getUserPW, loginSubmit } = props;
+    const { authMode, getUserID, getUserPW, getUserName, loginSubmit, signupSubmit, changeAuthMode } = props;
     return (
         <StyledAuthCardMap>
             <StyledAuthCard>
-                <Title>{children}</Title>
-                <CardInputBody authCard getValue={getUserID} />
-                <CardInputBody authCard getValue={getUserPW} />
-                <CreateBtn justButton={loginSubmit}>로그인</CreateBtn>
+                <Title>{authMode ? " Register to Trello" : "Login to Trello"}</Title>
+                <CardInputBody authCard getValue={getUserID} placeholder="아이디를 입력해주세요." />
+                {authMode ? <CardInputBody authCard getValue={getUserName} placeholder="이름을 입력해주세요." /> : null}
+                <CardInputBody authCard getValue={getUserPW} placeholder="비밀번호를 입력해주세요." />
+                <CreateBtn justButton={authMode ? signupSubmit : loginSubmit}>{authMode ? "회원가입" : "로그인"}</CreateBtn>
             </StyledAuthCard>
-            <NavBox normal link="#">
-                회원가입하러 가기
-            </NavBox>
+            {authMode ? null : (
+                <CreateBtn authBtn changeMode={changeAuthMode}>
+                    회원가입하러 가기
+                </CreateBtn>
+            )}
         </StyledAuthCardMap>
     );
 }

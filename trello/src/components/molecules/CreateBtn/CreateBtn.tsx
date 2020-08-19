@@ -4,10 +4,11 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 import styled, { css } from "styled-components";
 
 interface CreateBtnProps extends CommonProps {
+    columnDataID?: string;
     listBtn?: boolean;
     createHeader?: boolean;
-    columnDataID?: string;
     deleteIcon?: boolean;
+    authBtn?: boolean;
 
     changeMode?(): void;
     justButton?(): void;
@@ -76,6 +77,16 @@ const StyledCreateBtn = styled.div<CreateBtnProps>`
                 opacity: 0;
                 cursor: pointer;
                 transition: visibility 0s, opacity 100ms linear;
+            }
+        `}
+
+    ${(props) =>
+        props.authBtn &&
+        css`
+            button {
+                padding: 0;
+                font-size: 14px;
+                color: #1460d0;
             }
         `}
 `;

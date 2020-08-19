@@ -12,7 +12,7 @@ interface NavRightProps extends CommonProps {
 
 function NavRight({ ...props }: NavRightProps) {
     const { cookies, logoutSubmit } = props;
-    console.log(cookies);
+
     return (
         <div>
             {cookies.user ? (

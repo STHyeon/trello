@@ -1,5 +1,5 @@
 import React from "react";
-import { CommonProps } from "../../assets/utils/CommonType";
+import { CommonTemplate } from "./CommonTemplate";
 import styled from "styled-components";
 
 const StyledError = styled.div`
@@ -11,8 +11,12 @@ const StyledError = styled.div`
     font-size: 30px;
 `;
 
-function CommonError({ children }: CommonProps) {
-    return <StyledError>{children} Error</StyledError>;
+function CommonError({ children }: any) {
+    return (
+        <CommonTemplate>
+            <StyledError>{children ? children.replace("GraphQL error: ", "") : Error}</StyledError>;
+        </CommonTemplate>
+    );
 }
 
 export default CommonError;
