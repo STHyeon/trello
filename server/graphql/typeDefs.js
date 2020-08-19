@@ -42,6 +42,7 @@ export const typeDefs = gql`
     input inputComments {
         _id: ID
         content: String
+        author: String
     }
 
     input inputList {

@@ -99,7 +99,7 @@ function MainPage() {
         } else {
             getUserBoard({ variables: { _id: cookies.user.user._id } });
         }
-    }, [cookies]);
+    }, [cookies, history, getUserBoard]);
 
     useEffect(() => {
         if (allListLiveData) {
@@ -170,7 +170,7 @@ function MainPage() {
                       ))
                     : null}
                 <StyledMain>
-                    <InputCard startCard modeBoard={modeBoard} changeMode={changeMode} getValue={getBoardName} createBoard={newCreateBoard}>
+                    <InputCard type="text" startCard modeBoard={modeBoard} changeMode={changeMode} getValue={getBoardName} createBoard={newCreateBoard}>
                         Create New Board
                     </InputCard>
                 </StyledMain>

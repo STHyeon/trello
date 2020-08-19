@@ -3,6 +3,7 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 import styled from "styled-components";
 
 interface InputProps extends CommonProps {
+    type: string;
     id?: string;
     hei?: string;
     placeholder?: string;
@@ -15,7 +16,7 @@ const StyledInput = styled.input<InputProps>`
 `;
 
 function Input({ ...props }: InputProps) {
-    const { placeholder, getValue } = props;
+    const { placeholder, type, getValue } = props;
     const [inputData, setInputData] = useState("");
 
     useEffect(() => {
@@ -29,6 +30,7 @@ function Input({ ...props }: InputProps) {
             onChange={({ target: { value } }) => {
                 setInputData(value);
             }}
+            type={type}
             placeholder={placeholder}
         ></StyledInput>
     );

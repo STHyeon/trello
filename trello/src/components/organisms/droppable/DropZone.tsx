@@ -17,6 +17,7 @@ interface ListColumnData {
 }
 
 interface DropZoneProps extends CommonProps {
+    type?: string;
     board?: boolean;
     modeList?: boolean;
     newComment?: boolean;
@@ -152,7 +153,7 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                     <div className="wrap_card children_card">
                         {modeList ? (
                             <StyledDropZone newList>
-                                <CardInputBody getValue={getValue} />
+                                <CardInputBody type="text" getValue={getValue} />
                                 <CardFooter create createData={newCreateList} changeMode={changeListMode} />
                             </StyledDropZone>
                         ) : (

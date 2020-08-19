@@ -25,7 +25,7 @@ function AuthPage() {
         if (loginData) {
             setCookie("user", loginData.login, { path: "/" });
         }
-    }, [loginData]);
+    }, [loginData, setCookie]);
 
     if (loginLoading) return <CommonLoading>Login</CommonLoading>;
     if (loginError) return <CommonError>{loginError.message}</CommonError>;

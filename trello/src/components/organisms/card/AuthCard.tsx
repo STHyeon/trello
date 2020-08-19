@@ -58,9 +58,9 @@ function AuthCard({ children, ...props }: AuthProps) {
         <StyledAuthCardMap>
             <StyledAuthCard>
                 <Title>{authMode ? " Register to Trello" : "Login to Trello"}</Title>
-                <CardInputBody authCard getValue={getUserID} placeholder="아이디를 입력해주세요." />
-                {authMode ? <CardInputBody authCard getValue={getUserName} placeholder="이름을 입력해주세요." /> : null}
-                <CardInputBody authCard getValue={getUserPW} placeholder="비밀번호를 입력해주세요." />
+                <CardInputBody authCard getValue={getUserID} placeholder="아이디를 입력해주세요." type="text" />
+                {authMode ? <CardInputBody authCard getValue={getUserName} placeholder="이름을 입력해주세요." type="text" /> : null}
+                <CardInputBody authCard getValue={getUserPW} placeholder="비밀번호를 입력해주세요." type="password" />
                 <CreateBtn justButton={authMode ? signupSubmit : loginSubmit}>{authMode ? "회원가입" : "로그인"}</CreateBtn>
             </StyledAuthCard>
             {authMode ? null : (

@@ -37,7 +37,6 @@ export const resolvers = {
     Mutation: {
         // 글쓰기 관련
         createBoard: async (_, { title, author }, { pubsub }) => {
-            console.log(author);
             const boardBox = { title: title, author: author };
             const result = await Board.create(boardBox);
 

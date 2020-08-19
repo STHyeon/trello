@@ -5,8 +5,8 @@ import { typeDefs } from "./graphql/typeDefs";
 
 import mongoose from "mongoose";
 
-const mongo_url = "mongodb://localhost/trello"; // local
-// const mongo_url = "mongodb+srv://admin:1234@cluster0.d1rsj.mongodb.net/trello?retryWrites=true&w=majority"; // mongodb cloud
+// const mongo_url = "mongodb://localhost/trello"; // local
+const mongo_url = "mongodb+srv://admin:1234@cluster0.d1rsj.mongodb.net/trello?retryWrites=true&w=majority"; // mongodb cloud
 
 //usCreateIndex, useNewUrlParser 는 오류 방지용
 mongoose.set("useCreateIndex", true);

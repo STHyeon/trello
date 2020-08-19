@@ -4,6 +4,7 @@ import { CardButtonBody, CardInputBody, CardFooter } from "../../molecules";
 import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface InputCardProps extends CommonProps {
+    type: string;
     modeBoard?: boolean;
     startCard?: boolean;
     key?: number;
@@ -30,13 +31,15 @@ const StyledInputCard = styled.div<InputCardProps>`
 `;
 
 function InputCard({ children, ...props }: InputCardProps) {
-    const { changeMode, getValue, createBoard, modeBoard } = props;
+    const { changeMode, getValue, createBoard, modeBoard, type } = props;
 
     return (
         <>
             {modeBoard ? (
                 <StyledInputCard {...props}>
-                    <CardInputBody getValue={getValue}>프로젝트명</CardInputBody>
+                    <CardInputBody type={type} getValue={getValue}>
+                        프로젝트명
+                    </CardInputBody>
                     <CardFooter create createData={createBoard} changeMode={changeMode} />
                 </StyledInputCard>
             ) : (
