@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
+import { useCookies } from "react-cookie";
 
 import { DropZone } from "../../organisms";
 import { CommonTemplate, CommonLoading, CommonError } from "../../context";
@@ -55,6 +56,7 @@ function BoardPage(props: BoardProps) {
     const [listName, setListName] = useState("");
     const [comments, setComments] = useState("");
     const [listID, setListID] = useState("");
+    const [cookies] = useCookies(["user"]);
 
     const { loading: getListLoading, error: getListError, data: getListData } = useQuery(GET_DETAIL_BOARD, { variables: { _id: boardID } });
     const [createLists, { loading: createListLoading, error: createListError }] = useMutation(CREATE_LIST);
@@ -125,7 +127,7 @@ function BoardPage(props: BoardProps) {
 
     const newCreateList = (): void => {
         if (listName.length > 0) {
-            createLists({ variables: { id: boardID, listTitle: listName } });
+            createLists({ variables: { id: boardID, listTitle: listName, author: cookies.user.user._id } });
 
             setListName("");
             setModeList(false);
@@ -134,7 +136,7 @@ function BoardPage(props: BoardProps) {
 
     const newCreateComment = (): void => {
         if (comments.length > 0) {
-            createComments({ variables: { boardID: boardID, listID: listID, content: comments } });
+            createComments({ variables: { boardID: boardID, listID: listID, content: comments, author: cookies.user.user._id } });
         }
 
         setComments("");

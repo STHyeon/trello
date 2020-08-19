@@ -22,6 +22,12 @@ export const resolvers = {
             return result;
         },
 
+        getUserBoard: async (_, { _id }) => {
+            const result = await Board.find({ $and: [{ author: _id }] });
+
+            return result;
+        },
+
         // 회원 관련
         allUser: async () => {
             return await User.find();
@@ -30,8 +36,9 @@ export const resolvers = {
 
     Mutation: {
         // 글쓰기 관련
-        createBoard: async (_, { title }, { pubsub }) => {
-            const boardBox = { title };
+        createBoard: async (_, { title, author }, { pubsub }) => {
+            console.log(author);
+            const boardBox = { title: title, author: author };
             const result = await Board.create(boardBox);
 
             pubsub.publish(BOARD_UPDATE, {
@@ -41,8 +48,8 @@ export const resolvers = {
             return result;
         },
 
-        createLists: async (_, { id, listTitle }, { pubsub }) => {
-            const subListTitle = { listTitle: listTitle };
+        createLists: async (_, { id, listTitle, author }, { pubsub }) => {
+            const subListTitle = { listTitle: listTitle, author: author };
             const result = await Board.findByIdAndUpdate({ _id: id }, { $push: { list: subListTitle } }, { new: true });
 
             pubsub.publish(LIST_UPDATE, {
@@ -52,10 +59,10 @@ export const resolvers = {
             return result;
         },
 
-        createComments: async (_, { boardID, listID, content }, { pubsub }) => {
+        createComments: async (_, { boardID, listID, content, author }, { pubsub }) => {
             // https://stackoverflow.com/questions/23577123/updating-a-nested-array-with-mongodb
             // nested array 참고 사이트
-            const subComment = { content: content };
+            const subComment = { content: content, author: author };
             const result = await Board.findOneAndUpdate({ _id: boardID, "list._id": listID }, { $push: { "list.$.taskIds": subComment } }, { new: true });
 
             pubsub.publish(LIST_UPDATE, {

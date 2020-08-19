@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 
 import styled from "styled-components";
 import { useCookies } from "react-cookie";
@@ -8,7 +8,6 @@ import { useMutation } from "@apollo/react-hooks";
 import { CommonTemplate, CommonLoading, CommonError } from "../../context";
 import { AuthCard } from "../../organisms";
 import { LOGIN_USER, CREATE_USER } from "../../../assets/utils/Queries";
-import { Context } from "../../context";
 
 const StyledAuthPage = styled.div``;
 
@@ -20,7 +19,7 @@ function AuthPage() {
     const [userName, setUserName] = useState("");
     const [authMode, setAuthMode] = useState(false);
     const [cookies, setCookie] = useCookies(["user"]);
-    const { history } = useContext(Context);
+    const history = useHistory();
 
     useEffect(() => {
         if (loginData) {

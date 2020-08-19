@@ -1,45 +1,182 @@
 // import React, { useState, useEffect } from "react";
-// import Loading from "./Loading";
+// import { Link, useHistory } from "react-router-dom";
 
 // import styled from "styled-components";
-// import { DragDropContext } from "react-beautiful-dnd";
-// import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
+// import { useQuery, useLazyQuery, useMutation, useSubscription } from "@apollo/react-hooks";
+// import { Delete as DeleteIcon } from "@material-ui/icons";
+// import { useCookies } from "react-cookie";
 
-// import { DropZone } from "../../organisms";
-// import { CommonTemplate } from "../../context";
-// import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT } from "../../../assets/utils/Queries";
+// import { TextCard, InputCard, CommonTitle } from "../../organisms";
+// import { CardBox } from "../../templates";
+// import { CommonTemplate, CommonLoading, CommonError } from "../../context";
+// import { GET_BOARDS, CREATE_BOARD, BOARD_SUBSCRIPTION, DROP_BOARD, GET_USER_BOARD } from "../../../assets/utils/Queries";
+// import "../../../assets/scss/index.scss";
 
-// const StyledError = styled.div`
+// // https://stackoverflow.com/questions/41385059/possible-to-extend-types-in-typescript
+// // type in type 쓰는 법
+
+// type commentType = {
+//     _id: string;
+//     content: string;
+// };
+
+// type listType = {
+//     _id: string;
+//     listTitle: string;
+//     taskIds: Array<commentType>;
+// };
+
+// type boardType = {
+//     _id?: string;
+//     title?: string;
+//     list?: listType;
+// };
+
+// const StyledDeleteIcon = styled.div`
 //     position: absolute;
-//     top: 50%;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-//     font-weight: bold;
-//     font-size: 30px;
+//     top: 0;
+//     right: 0;
+//     cursor: pointer;
+
+//     svg {
+//         color: #ffffff;
+//         opacity: 0;
+//         visibility: hidden;
+//     }
 // `;
 
-// function Test1(props: any) {
-//     const boardID = props.match.params.id;
-//     const [modeList, setModeList] = useState(false);
-//     // https://stackoverflow.com/questions/54853444/how-to-show-hide-an-item-of-array-map
-//     // 리스트 마다 각각의 toggle 설정방법
-//     const [modeComment, setModeComment] = useState({});
-//     const [listData, setListData] = useState(); // 타입 정의 필요
-//     const [listName, setListName] = useState("");
-//     const [comments, setComments] = useState("");
-//     const [listID, setListID] = useState("");
+// const StyledMain = styled.div`
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     position: relative;
+//     width: 24%;
+//     height: 142px;
+//     margin: 0 5px 10px;
+//     padding: 8px;
+//     background: linear-gradient(to left, #ffffff 50%, #03a9f4 50%);
+//     background-size: 200% 0%;
+//     background-position: 100% 100%;
+//     transition: all ease 200ms;
+//     box-shadow: 1px 1px 2px 0px rgba(128, 128, 128, 1);
 
-//     const [createLists, { loading: createListLoading, error: createListError }] = useMutation(CREATE_LIST);
-//     const [createComments, { loading: createCommentLoading, error: createCommentError }] = useMutation(CREATE_COMMENT);
-//     const { loading: getListLiveLoading, error: getListLiveError, data: getListLiveData } = useSubscription(LIST_SUBSCRIPTION);
+//     a {
+//         width: 100%;
+//         height: 100%;
+//     }
+
+//     &:hover {
+//         background-size: 200% 200%;
+//         background-position: 0% 0%;
+
+//         button,
+//         span {
+//             color: #ffffff;
+//         }
+
+//         svg {
+//             opacity: 1;
+//             visibility: visible;
+//         }
+//     }
+// `;
+
+// function Test1() {
+//     const [modeBoard, setModeBoard] = useState(false);
+//     const [boardName, setBoardName] = useState("");
+//     const [delID, setDelID] = useState("");
+//     const [cookies] = useCookies(["user"]);
+//     const history = useHistory();
+
+//     const [getUserBoard, { loading: allListLoading, error: allListError, data: allListData }] = useLazyQuery(GET_USER_BOARD);
+//     const [createBoard, { loading: createListLoading, error: createListError }] = useMutation(CREATE_BOARD);
+//     const [dropBoard, { loading: dropBoardLoading, error: dropBoardError }] = useMutation(DROP_BOARD);
+//     const { error: allListLiveError, data: allListLiveData } = useSubscription(BOARD_SUBSCRIPTION);
 
 //     useEffect(() => {
-//         if (getListLiveData) {
-//             setListData(getListLiveData.newLists);
+//         if (!cookies.user) {
+//             history.push("/auth");
+//         } else {
+//             getUserBoard({ variables: { _id: cookies.user.user._id } });
 //         }
-//     }, [getListLiveData]);
+//     }, [cookies]);
 
-//     return <StyledError>Error</StyledError>;
+//     useEffect(() => {
+//         if (allListLiveData) {
+//             if (delID) {
+//                 const getDeleteID = allListData.getUserBoard
+//                     .map((e: boardType) => {
+//                         return e._id;
+//                     })
+//                     .indexOf(delID);
+//                 if (getDeleteID > -1) {
+//                     allListData.getUserBoard.splice(getDeleteID, 1);
+//                 }
+//                 setDelID("");
+//             }
+//             if (allListLiveData.newBoard._id !== null) {
+//                 allListData.getUserBoard.push(allListLiveData.newBoard);
+//             }
+//         }
+//     }, [allListLiveData, delID]);
+
+//     const getBoardName = (value: string): void => {
+//         setBoardName(value);
+//     };
+
+//     const newCreateBoard = (): void => {
+//         if (boardName.length > 0) {
+//             createBoard({ variables: { title: boardName, author: cookies.user.user._id } });
+//         }
+
+//         setBoardName("");
+//         setModeBoard(false);
+//     };
+
+//     const changeMode = (): void => {
+//         setModeBoard(!modeBoard);
+//     };
+
+//     const existedDropBoard = (id?: string): void => {
+//         dropBoard({ variables: { boardID: id } });
+//         id && setDelID(id);
+//     };
+
+//     if (allListLoading) return <CommonLoading>All List</CommonLoading>;
+//     if (allListError) return <CommonError>All List</CommonError>;
+
+//     if (createListLoading) return <CommonLoading>Create List</CommonLoading>;
+//     if (createListError) return <CommonError>Create List</CommonError>;
+
+//     if (dropBoardLoading) return <CommonLoading>Drop Board</CommonLoading>;
+//     if (dropBoardError) return <CommonError>Drop Board</CommonError>;
+
+//     if (allListLiveError) return <CommonError>Get Board Live</CommonError>;
+
+//     return (
+//         <CommonTemplate>
+//             <CommonTitle startTitle>프로젝트 목록</CommonTitle>
+//             <CardBox>
+//                 {allListData
+//                     ? allListData.getUserBoard.map((dataBoard: any, code: any) => (
+//                           <StyledMain key={code}>
+//                               <StyledDeleteIcon onClick={() => existedDropBoard(dataBoard._id)}>
+//                                   <DeleteIcon />
+//                               </StyledDeleteIcon>
+//                               <Link to={`/board/${dataBoard._id}`}>
+//                                   <TextCard startCard>{dataBoard.title}</TextCard>
+//                               </Link>
+//                           </StyledMain>
+//                       ))
+//                     : null}
+//                 <StyledMain>
+//                     <InputCard startCard modeBoard={modeBoard} changeMode={changeMode} getValue={getBoardName} createBoard={newCreateBoard}>
+//                         Create New Board
+//                     </InputCard>
+//                 </StyledMain>
+//             </CardBox>
+//         </CommonTemplate>
+//     );
 // }
 
 import React from "react";

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import styled from "styled-components";
-import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 import { Delete as DeleteIcon } from "@material-ui/icons";
+import { useCookies } from "react-cookie";
 
 import { TextCard, InputCard, CommonTitle } from "../../organisms";
 import { CardBox } from "../../templates";
 import { CommonTemplate, CommonLoading, CommonError } from "../../context";
-import { GET_BOARDS, CREATE_BOARD, BOARD_SUBSCRIPTION, DROP_BOARD } from "../../../assets/utils/Queries";
+import { CREATE_BOARD, BOARD_SUBSCRIPTION, DROP_BOARD, GET_USER_BOARD } from "../../../assets/utils/Queries";
 import "../../../assets/scss/index.scss";
 
 // https://stackoverflow.com/questions/41385059/possible-to-extend-types-in-typescript
@@ -81,33 +82,40 @@ const StyledMain = styled.div`
 `;
 
 function MainPage() {
-    const { loading: allListLoading, error: allListError, data: allListData } = useQuery(GET_BOARDS);
+    const [modeBoard, setModeBoard] = useState(false);
+    const [boardName, setBoardName] = useState("");
+    const [delID, setDelID] = useState("");
+    const [cookies] = useCookies(["user"]);
+    const history = useHistory();
+
+    const [getUserBoard, { loading: allListLoading, error: allListError, data: allListData }] = useLazyQuery(GET_USER_BOARD);
     const [createBoard, { loading: createListLoading, error: createListError }] = useMutation(CREATE_BOARD);
     const [dropBoard, { loading: dropBoardLoading, error: dropBoardError }] = useMutation(DROP_BOARD);
     const { error: allListLiveError, data: allListLiveData } = useSubscription(BOARD_SUBSCRIPTION);
 
-    const [modeBoard, setModeBoard] = useState(false);
-    const [boardName, setBoardName] = useState("");
-    const [delID, setDelID] = useState("");
+    useEffect(() => {
+        if (!cookies.user) {
+            history.push("/auth");
+        } else {
+            getUserBoard({ variables: { _id: cookies.user.user._id } });
+        }
+    }, [cookies]);
 
     useEffect(() => {
         if (allListLiveData) {
             if (delID) {
-                const getDeleteID = allListData.allBoard
+                const getDeleteID = allListData.getUserBoard
                     .map((e: boardType) => {
                         return e._id;
                     })
                     .indexOf(delID);
-
                 if (getDeleteID > -1) {
-                    allListData.allBoard.splice(getDeleteID, 1);
+                    allListData.getUserBoard.splice(getDeleteID, 1);
                 }
-
                 setDelID("");
             }
-
             if (allListLiveData.newBoard._id !== null) {
-                allListData.allBoard.push(allListLiveData.newBoard);
+                allListData.getUserBoard.push(allListLiveData.newBoard);
             }
         }
     }, [allListLiveData, delID]);
@@ -118,7 +126,7 @@ function MainPage() {
 
     const newCreateBoard = (): void => {
         if (boardName.length > 0) {
-            createBoard({ variables: { title: boardName } });
+            createBoard({ variables: { title: boardName, author: cookies.user.user._id } });
         }
 
         setBoardName("");
@@ -149,16 +157,18 @@ function MainPage() {
         <CommonTemplate>
             <CommonTitle startTitle>프로젝트 목록</CommonTitle>
             <CardBox>
-                {allListData.allBoard.map((dataBoard: boardType, code: number) => (
-                    <StyledMain key={code}>
-                        <StyledDeleteIcon onClick={() => existedDropBoard(dataBoard._id)}>
-                            <DeleteIcon />
-                        </StyledDeleteIcon>
-                        <Link to={`/board/${dataBoard._id}`}>
-                            <TextCard startCard>{dataBoard.title}</TextCard>
-                        </Link>
-                    </StyledMain>
-                ))}
+                {allListData
+                    ? allListData.getUserBoard.map((dataBoard: any, code: any) => (
+                          <StyledMain key={code}>
+                              <StyledDeleteIcon onClick={() => existedDropBoard(dataBoard._id)}>
+                                  <DeleteIcon />
+                              </StyledDeleteIcon>
+                              <Link to={`/board/${dataBoard._id}`}>
+                                  <TextCard startCard>{dataBoard.title}</TextCard>
+                              </Link>
+                          </StyledMain>
+                      ))
+                    : null}
                 <StyledMain>
                     <InputCard startCard modeBoard={modeBoard} changeMode={changeMode} getValue={getBoardName} createBoard={newCreateBoard}>
                         Create New Board

@@ -8,17 +8,20 @@ export const typeDefs = gql`
     type comments {
         _id: ID
         content: String
+        author: String
     }
 
     type lists {
         _id: ID
         listTitle: String
+        author: String
         taskIds: [comments]
     }
 
     type board {
         _id: ID
         title: String
+        author: String
         list: [lists]
     }
 
@@ -44,6 +47,7 @@ export const typeDefs = gql`
     input inputList {
         _id: ID
         listTitle: String
+        author: String
         taskIds: [inputComments]
     }
 
@@ -56,6 +60,7 @@ export const typeDefs = gql`
         # 글쓰기 관련
         allBoard: [board]
         getBoard(_id: ID!): [board]
+        getUserBoard(_id: ID!): [board]
 
         # 회원 관련
         allUser: [user]
@@ -64,9 +69,9 @@ export const typeDefs = gql`
     # 뮤테이션 정의
     type Mutation {
         # 글쓰기 관련
-        createBoard(title: String): board
-        createLists(id: String, listTitle: String): lists
-        createComments(boardID: String, listID: String, content: String): board
+        createBoard(title: String, author: String): board
+        createLists(id: String, listTitle: String, author: String): lists
+        createComments(boardID: String, listID: String, content: String, author: String): board
         dropBoard(boardID: String): String
         dropList(boardID: String, listID: String): String
         dropComment(boardID: String, listID: String, commentID: String): String

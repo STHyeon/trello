@@ -6,11 +6,14 @@ export const GET_BOARDS = gql`
         allBoard {
             _id
             title
+            author
             list {
                 _id
                 listTitle
+                author
                 taskIds {
                     _id
+                    author
                     content
                 }
             }
@@ -23,9 +26,31 @@ export const GET_DETAIL_BOARD = gql`
         getBoard(_id: $_id) {
             list {
                 _id
+                author
                 listTitle
                 taskIds {
                     _id
+                    author
+                    content
+                }
+            }
+        }
+    }
+`;
+
+export const GET_USER_BOARD = gql`
+    query GetUserBoard($_id: ID!) {
+        getUserBoard(_id: $_id) {
+            _id
+            title
+            author
+            list {
+                _id
+                listTitle
+                author
+                taskIds {
+                    _id
+                    author
                     content
                 }
             }
@@ -38,12 +63,15 @@ export const BOARD_SUBSCRIPTION = gql`
         newBoard {
             _id
             title
+            author
             list {
                 _id
                 listTitle
+                author
                 taskIds {
                     _id
                     content
+                    author
                 }
             }
         }
@@ -56,9 +84,11 @@ export const LIST_SUBSCRIPTION = gql`
             list {
                 _id
                 listTitle
+                author
                 taskIds {
                     _id
                     content
+                    author
                 }
             }
         }
@@ -66,28 +96,31 @@ export const LIST_SUBSCRIPTION = gql`
 `;
 
 export const CREATE_BOARD = gql`
-    mutation CreateBoard($title: String!) {
-        createBoard(title: $title) {
+    mutation CreateBoard($title: String!, $author: String) {
+        createBoard(title: $title, author: $author) {
             _id
             title
+            author
         }
     }
 `;
 
 export const CREATE_LIST = gql`
-    mutation CreateLists($id: String, $listTitle: String!) {
-        createLists(id: $id, listTitle: $listTitle) {
+    mutation CreateLists($id: String, $listTitle: String!, $author: String) {
+        createLists(id: $id, listTitle: $listTitle, author: $author) {
             _id
             listTitle
+            author
         }
     }
 `;
 
 export const CREATE_COMMENT = gql`
-    mutation CreateComment($boardID: String, $listID: String, $content: String!) {
-        createComments(boardID: $boardID, listID: $listID, content: $content) {
+    mutation CreateComment($boardID: String, $listID: String, $content: String!, $author: String) {
+        createComments(boardID: $boardID, listID: $listID, content: $content, author: $author) {
             _id
             title
+            author
         }
     }
 `;
