@@ -1,5 +1,5 @@
 import React from "react";
-import { Add as AddIcon, Info as InfoIcon, Notifications as NotificationsIcon } from "@material-ui/icons";
+import { VpnKey as VpnKeyIcon, MeetingRoom as MeetingRoomIcon, Notifications as NotificationsIcon } from "@material-ui/icons";
 
 import NavBox from "../navBox/NavBox";
 import { CommonProps } from "../../../../assets/utils/CommonType";
@@ -17,11 +17,11 @@ function NavRight({ ...props }: NavRightProps) {
         <div>
             {cookies.user ? (
                 <NavBox link="/" logoutSubmit={logoutSubmit}>
-                    <InfoIcon />
+                    <MeetingRoomIcon />
                 </NavBox>
             ) : (
                 <NavBox link="/auth">
-                    <AddIcon />
+                    <VpnKeyIcon />
                 </NavBox>
             )}
 
