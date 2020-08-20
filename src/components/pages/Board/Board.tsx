@@ -146,10 +146,10 @@ function BoardPage(props: BoardProps) {
 
     const newCreateComment = (): void => {
         if (comments.length > 0) {
-            createComments({ variables: { boardID: boardID, listID: listID, content: comments, author: cookies.user.user._id } });
+            createComments({ variables: { boardID: boardID, listID: listID, content: comments, author: cookies.user.user._id } })
+                .then(() => setModeComment((prev: any) => ({})))
+                .catch(() => {});
         }
-
-        setComments("");
     };
 
     const newChangeCommentPosition = (): void => {

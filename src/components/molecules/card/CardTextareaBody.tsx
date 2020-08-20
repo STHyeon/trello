@@ -15,6 +15,10 @@ const StyledCardTextareaBody = styled.div`
         padding: 0 0 5px;
         border-bottom: 1px solid #e3e3e3;
     }
+
+    textarea {
+        padding: 5px 8px;
+    }
 `;
 
 function CardTextareaBody({ children, ...props }: CardTextareaBodyProps) {

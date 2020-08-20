@@ -35,7 +35,7 @@ const StyledDragItem = styled.div`
     pre {
         position: relative;
         margin: 0 0 8px;
-        padding: 16px 20px 30px 16px;
+        padding: 16px 8px 30px 8px;
         font-size: 0.8125rem;
         text-align: left;
     }
@@ -54,7 +54,7 @@ const StyledDragItem = styled.div`
 
     span {
         position: absolute;
-        left: 16px;
+        left: 8px;
         bottom: 5px;
         color: #aaaaaa;
     }
