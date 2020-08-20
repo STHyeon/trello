@@ -1,5 +1,5 @@
 import React from "react";
-import { VpnKey as VpnKeyIcon, MeetingRoom as MeetingRoomIcon, Notifications as NotificationsIcon } from "@material-ui/icons";
+import { VpnKey as VpnKeyIcon, MeetingRoom as MeetingRoomIcon } from "@material-ui/icons";
 
 import NavBox from "../navBox/NavBox";
 import { CommonProps } from "../../../../assets/utils/CommonType";
@@ -24,10 +24,6 @@ function NavRight({ ...props }: NavRightProps) {
                     <VpnKeyIcon />
                 </NavBox>
             )}
-
-            <NavBox link="/">
-                <NotificationsIcon />
-            </NavBox>
         </div>
     );
 }
