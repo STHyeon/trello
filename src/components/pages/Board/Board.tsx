@@ -81,19 +81,29 @@ function BoardPage(props: BoardProps) {
     if (getListLoading) return <CommonLoading>Get List</CommonLoading>;
     if (getListError) return <CommonError>Get List</CommonError>;
 
-    if (createListLoading) return <CommonLoading>Create List</CommonLoading>;
+    // if (createListLoading) return <CommonLoading>Create List</CommonLoading>;
+    if (createListLoading) {
+    }
     if (createListError) return <CommonError>Create List</CommonError>;
 
-    if (createCommentLoading) return <CommonLoading>Create Comment</CommonLoading>;
+    // if (createCommentLoading) return <CommonLoading>Create Comment</CommonLoading>;
+    if (createCommentLoading) {
+    }
     if (createCommentError) return <CommonError>Create Comment</CommonError>;
 
-    if (dropListLoading) return <CommonLoading>Drop List</CommonLoading>;
+    // if (dropListLoading) return <CommonLoading>Drop List</CommonLoading>;
+    if (dropListLoading) {
+    }
     if (dropListError) return <CommonError>Drop List</CommonError>;
 
-    if (dropCommentLoading) return <CommonLoading>Drop Comment</CommonLoading>;
+    // if (dropCommentLoading) return <CommonLoading>Drop Comment</CommonLoading>;
+    if (dropCommentLoading) {
+    }
     if (dropCommentError) return <CommonError>Drop Comment</CommonError>;
 
-    if (changePositionLoading) return <CommonLoading>Change Position</CommonLoading>;
+    // if (changePositionLoading) return <CommonLoading>Change Position</CommonLoading>;
+    if (changePositionLoading) {
+    }
     if (changePositionError) return <CommonError>Change Position</CommonError>;
 
     if (getListLiveError) return <CommonError>Get List Live</CommonError>;
