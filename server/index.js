@@ -27,11 +27,11 @@ const server = new ApolloServer({
 
 // 경로 지정할 때
 // https://www.apollographql.com/docs/apollo-server/migration-two-dot/#simplified-usage
-// const port = process.env.PORT || 2000;
+const port = process.env.PORT || 5000;
 // server.listen(port, () => {
-//     console.log("on");
+//     console.log("server on");
 // });
 
-server.listen().then(({ url }) => {
+server.listen(port).then(({ url }) => {
     console.log(`Listening at ${url}`);
 });
