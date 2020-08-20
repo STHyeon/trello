@@ -3,11 +3,12 @@ import { Draggable } from "react-beautiful-dnd";
 import { CommonProps } from "../../../assets/utils/CommonType";
 import styled from "styled-components";
 import { Delete as DeleteIcon } from "@material-ui/icons";
-import { Button } from "../../atoms";
+import { Button, Span } from "../../atoms";
 
 type ItemData = {
     _id?: string;
     content?: string;
+    published_date?: string;
 };
 
 interface DragItemProps extends CommonProps {
@@ -32,8 +33,9 @@ const StyledDragItem = styled.div`
     }
 
     pre {
+        position: relative;
         margin: 0 0 8px;
-        padding: 16px 20px 16px 16px;
+        padding: 16px 20px 30px 16px;
         font-size: 0.8125rem;
         text-align: left;
     }
@@ -48,6 +50,13 @@ const StyledDragItem = styled.div`
         svg {
             font-size: 20px;
         }
+    }
+
+    span {
+        position: absolute;
+        left: 16px;
+        bottom: 5px;
+        color: #aaaaaa;
     }
 `;
 
@@ -73,6 +82,7 @@ export default function DragItem({ item, index, ...props }: DragItemProps) {
                         <>
                             <pre ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                 {item.content}
+                                <Span>{item.published_date}</Span>
                             </pre>
                             <Button getTwoData={existedDropComment} listDataID={listDataID} commentDataID={item._id}>
                                 <DeleteIcon />

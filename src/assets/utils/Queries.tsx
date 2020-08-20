@@ -15,6 +15,7 @@ export const GET_BOARDS = gql`
                     _id
                     author
                     content
+                    published_date
                 }
             }
         }
@@ -32,6 +33,7 @@ export const GET_DETAIL_BOARD = gql`
                     _id
                     author
                     content
+                    published_date
                 }
             }
         }
@@ -52,6 +54,7 @@ export const GET_USER_BOARD = gql`
                     _id
                     author
                     content
+                    published_date
                 }
             }
         }
@@ -72,6 +75,7 @@ export const BOARD_SUBSCRIPTION = gql`
                     _id
                     content
                     author
+                    published_date
                 }
             }
         }
@@ -89,6 +93,7 @@ export const LIST_SUBSCRIPTION = gql`
                     _id
                     content
                     author
+                    published_date
                 }
             }
         }
@@ -101,6 +106,7 @@ export const CREATE_BOARD = gql`
             _id
             title
             author
+            published_date
         }
     }
 `;
@@ -111,6 +117,7 @@ export const CREATE_LIST = gql`
             _id
             listTitle
             author
+            published_date
         }
     }
 `;
@@ -121,6 +128,7 @@ export const CREATE_COMMENT = gql`
             _id
             title
             author
+            published_date
         }
     }
 `;
