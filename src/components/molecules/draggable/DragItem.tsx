@@ -56,6 +56,7 @@ const StyledDragItem = styled.div`
         position: absolute;
         left: 8px;
         bottom: 5px;
+        font-size: 11px;
         color: #aaaaaa;
     }
 `;
