@@ -15,7 +15,7 @@ import { CookiesProvider } from "react-cookie";
 
 const wsLink = new WebSocketLink({
     // apollo-server는 /graphql 이 기본으로 들어간다.
-    uri: `ws://localhost:4000/graphql`,
+    uri: `ws://srello-server.herokuapp.com/graphql`,
     options: {
         reconnect: true,
     },
