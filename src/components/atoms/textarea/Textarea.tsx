@@ -29,6 +29,7 @@ function Textarea({ ...props }: TextareaProps) {
             onChange={({ target: { value } }) => {
                 setTextareaData(value);
             }}
+            autoFocus
         ></StyledTextarea>
     );
 }

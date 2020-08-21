@@ -5,8 +5,11 @@ import styled, { css } from "styled-components";
 
 interface CardInputBodyProps extends CommonProps {
     type: string;
+    value?: string;
     placeholder?: string;
+    defaultValue?: string | undefined;
     authCard?: boolean;
+    modifyList?: boolean;
 
     getValue?(value: string, id?: string): void;
 }
@@ -20,6 +23,19 @@ const StyledCardInputBody = styled.div<CardInputBodyProps>`
             }
         `}
 
+    ${(props) =>
+        props.modifyList &&
+        css`
+            width: 150px;
+            text-align: left;
+
+            input {
+                width: 100%;
+                height: 30px;
+                color: #ffffff;
+            }
+        `}
+
     label {
         display: block;
         width: 100%;
@@ -30,7 +46,7 @@ const StyledCardInputBody = styled.div<CardInputBodyProps>`
 `;
 
 function CardInputBody({ children, ...props }: CardInputBodyProps) {
-    const { placeholder, type, getValue } = props;
+    const { placeholder, type, value, defaultValue, getValue } = props;
 
     return (
         <StyledCardInputBody {...props}>
@@ -38,10 +54,10 @@ function CardInputBody({ children, ...props }: CardInputBodyProps) {
             {children ? (
                 <>
                     <label htmlFor="StartCard">{children}</label>
-                    <Input id="StartCard" hei="33px" type={type} getValue={getValue} placeholder={placeholder} />
+                    <Input id="StartCard" hei="33px" type={type} value={value} defaultValue={defaultValue} getValue={getValue} placeholder={placeholder} />
                 </>
             ) : (
-                <Input type={type} getValue={getValue} placeholder={placeholder} />
+                <Input type={type} value={value} defaultValue={defaultValue} getValue={getValue} placeholder={placeholder} />
             )}
         </StyledCardInputBody>
     );

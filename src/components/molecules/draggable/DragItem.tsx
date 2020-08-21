@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { CommonProps } from "../../../assets/utils/CommonType";
-import styled from "styled-components";
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import styled, { css } from "styled-components";
+import { Delete as DeleteIcon, ExpandMore as ExpandMoreIcon, Edit as EditIcon } from "@material-ui/icons";
 import { Button, Span } from "../../atoms";
 
 type ItemData = {
@@ -15,6 +15,7 @@ interface DragItemProps extends CommonProps {
     item?: ItemData;
     index?: number;
     listDataID?: string;
+    subMenuMode?: boolean;
 
     existedDropComment?(delListIDs?: string, delCommentIDs?: string): void;
 }
@@ -29,6 +30,11 @@ const StyledDragItem = styled.div`
 
         button {
             opacity: 1;
+            visibility: visible;
+        }
+
+        div {
+            border: 1px solid #000000;
         }
     }
 
@@ -46,6 +52,7 @@ const StyledDragItem = styled.div`
         right: 0;
         padding: 0;
         opacity: 0;
+        visibility: hidden;
 
         svg {
             font-size: 20px;
@@ -59,6 +66,37 @@ const StyledDragItem = styled.div`
         font-size: 11px;
         color: #aaaaaa;
     }
+`;
+
+const StyledMenu = styled.div<DragItemProps>`
+    position: absolute;
+    top: 30px;
+    right: 0;
+    border-radius: 5px;
+
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+
+    button {
+        position: static;
+        padding: 4px 8px;
+        border-right: 1px solid #000000;
+        vertical-align: middle;
+
+        &:last-child {
+            margin: 0;
+            border: 0;
+        }
+    }
+
+    ${(props) =>
+        props.subMenuMode
+            ? css`
+                  opacity: 1;
+                  visibility: visible;
+              `
+            : null}
 `;
 
 const getItemStyle = (isDragging: any, draggableStyle: any) => ({
@@ -75,6 +113,13 @@ const getItemStyle = (isDragging: any, draggableStyle: any) => ({
 export default function DragItem({ item, index, ...props }: DragItemProps) {
     const { existedDropComment, listDataID } = props;
 
+    const [subMenuMode, setSubMenuMode] = useState(false);
+
+    const changeSubMenuMode = (): void => {
+        setSubMenuMode(!subMenuMode);
+        console.log(subMenuMode);
+    };
+
     return (
         <StyledDragItem>
             {item !== undefined && (
@@ -85,9 +130,19 @@ export default function DragItem({ item, index, ...props }: DragItemProps) {
                                 {item.content}
                                 <Span>{item.published_date}</Span>
                             </pre>
-                            <Button getTwoData={existedDropComment} listDataID={listDataID} commentDataID={item._id}>
-                                <DeleteIcon />
+                            <Button btnEvent={changeSubMenuMode}>
+                                <ExpandMoreIcon />
                             </Button>
+                            {subMenuMode ? (
+                                <StyledMenu subMenuMode={subMenuMode}>
+                                    <Button getTwoData={existedDropComment} listDataID={listDataID} commentDataID={item._id}>
+                                        <DeleteIcon />
+                                    </Button>
+                                    <Button getTwoData={existedDropComment} listDataID={listDataID} commentDataID={item._id}>
+                                        <EditIcon />
+                                    </Button>
+                                </StyledMenu>
+                            ) : null}
                         </>
                     )}
                 </Draggable>

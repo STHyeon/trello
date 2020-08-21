@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 
 import { DropZone } from "../../organisms";
 import { CommonTemplate, CommonLoading, CommonError } from "../../context";
-import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, DROP_LIST, DROP_COMMENT, CHANGE_POSITION } from "../../../assets/utils/Queries";
+import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, DROP_LIST, DROP_COMMENT, CHANGE_POSITION, MODIFY_LISTNAME } from "../../../assets/utils/Queries";
 
 type commentType = {
     _id?: string;
@@ -57,6 +57,8 @@ function BoardPage(props: BoardProps) {
     const [comments, setComments] = useState("");
     const [listID, setListID] = useState("");
     const [cookies] = useCookies(["user"]);
+    const [moreMenu, setMoreMenu] = useState(false);
+    const [modifyMode, setModifyMode] = useState(false);
 
     const { loading: getListLoading, error: getListError, data: getListData } = useQuery(GET_DETAIL_BOARD, { variables: { _id: boardID } });
     const [createLists, { loading: createListLoading, error: createListError }] = useMutation(CREATE_LIST);
@@ -64,6 +66,7 @@ function BoardPage(props: BoardProps) {
     const [dropList, { loading: dropListLoading, error: dropListError }] = useMutation(DROP_LIST);
     const [dropComment, { loading: dropCommentLoading, error: dropCommentError }] = useMutation(DROP_COMMENT);
     const [changePosition, { loading: changePositionLoading, error: changePositionError }] = useMutation(CHANGE_POSITION);
+    const [modifyList, { loading: modifyListLoading, error: modifyListError }] = useMutation(MODIFY_LISTNAME);
     const { error: getListLiveError, data: getListLiveData } = useSubscription(LIST_SUBSCRIPTION);
 
     useEffect(() => {
@@ -79,34 +82,46 @@ function BoardPage(props: BoardProps) {
     }, [getListData]);
 
     if (getListLoading) return <CommonLoading>Get List</CommonLoading>;
-    if (getListError) return <CommonError>Get List</CommonError>;
+    if (getListError) return <CommonError>{getListError.message}</CommonError>;
 
     // if (createListLoading) return <CommonLoading>Create List</CommonLoading>;
     if (createListLoading) {
     }
-    if (createListError) return <CommonError>Create List</CommonError>;
+    if (createListError) return <CommonError>{createListError.message}</CommonError>;
 
     // if (createCommentLoading) return <CommonLoading>Create Comment</CommonLoading>;
     if (createCommentLoading) {
     }
-    if (createCommentError) return <CommonError>Create Comment</CommonError>;
+    if (createCommentError) return <CommonError>{createCommentError.message}</CommonError>;
 
     // if (dropListLoading) return <CommonLoading>Drop List</CommonLoading>;
     if (dropListLoading) {
     }
-    if (dropListError) return <CommonError>Drop List</CommonError>;
+    if (dropListError) return <CommonError>{dropListError.message}</CommonError>;
 
     // if (dropCommentLoading) return <CommonLoading>Drop Comment</CommonLoading>;
     if (dropCommentLoading) {
     }
-    if (dropCommentError) return <CommonError>Drop Comment</CommonError>;
+    if (dropCommentError) return <CommonError>{dropCommentError.message}</CommonError>;
 
     // if (changePositionLoading) return <CommonLoading>Change Position</CommonLoading>;
     if (changePositionLoading) {
     }
-    if (changePositionError) return <CommonError>Change Position</CommonError>;
+    if (changePositionError) return <CommonError>{changePositionError.message}</CommonError>;
 
-    if (getListLiveError) return <CommonError>Get List Live</CommonError>;
+    if (modifyListLoading) {
+    }
+    if (modifyListError) return <CommonError>{modifyListError.message}</CommonError>;
+
+    if (getListLiveError) return <CommonError>{getListLiveError.message}</CommonError>;
+
+    const changeMoreMenu = (): void => {
+        setMoreMenu(!moreMenu);
+    };
+
+    const changeModifyMode = (): void => {
+        setModifyMode(!modifyMode);
+    };
 
     const changeListMode = (): void => {
         setModeList(!modeList);
@@ -154,6 +169,18 @@ function BoardPage(props: BoardProps) {
 
     const newChangeCommentPosition = (): void => {
         changePosition({ variables: { boardID: boardID, ListAll: listData } });
+    };
+
+    const modifyListName = (): void => {
+        console.log(listName);
+        if (listName.length > 0) {
+            modifyList({ variables: { boardID: boardID, listID: listID, listTitle: listName } })
+                .then(() => {
+                    setListName("");
+                    setModifyMode(false);
+                })
+                .catch(() => {});
+        }
     };
 
     const onDragEnd = (result: any) => {
@@ -234,13 +261,19 @@ function BoardPage(props: BoardProps) {
                                       board
                                       key={columnData._id}
                                       columnData={columnData}
+                                      modeComment={modeComment}
+                                      modifyMode={modifyMode}
+                                      moreMenu={moreMenu}
                                       getValue={getComment}
                                       newCreateComment={newCreateComment}
-                                      modeComment={modeComment}
                                       changeCommentMode={changeCommentMode}
                                       getListID={getListID}
                                       existedDropComment={existedDropComment}
                                       existedDropList={existedDropList}
+                                      modifyListName={modifyListName}
+                                      getListName={getListName}
+                                      changeMoreMenu={changeMoreMenu}
+                                      changeModifyMode={changeModifyMode}
                                   />
                               );
                           })

@@ -1,10 +1,11 @@
 import React from "react";
 import { Button } from "../../atoms";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { CommonProps } from "../../../assets/utils/CommonType";
 
 interface CardFooterProps extends CommonProps {
     create?: boolean;
+    modifyList?: boolean;
     columnDataID?: string;
 
     changeMode?(): void;
@@ -13,9 +14,26 @@ interface CardFooterProps extends CommonProps {
     getOneData2?(id?: string): void;
 }
 
-const StyledCardFooter = styled.div`
+const StyledCardFooter = styled.div<CardFooterProps>`
     margin: 10px 0 0;
     text-align: right;
+
+    ${(props) =>
+        props.modifyList &&
+        css`
+            margin: 0;
+
+            button {
+                padding: 2px 3px !important;
+                font-size: 13px;
+                border-color: #ffffff;
+                color: #ffffff !important;
+
+                &:hover {
+                    background: #03a9f4;
+                }
+            }
+        `}
 `;
 
 function CardFooter({ children, ...props }: CardFooterProps) {
@@ -23,7 +41,7 @@ function CardFooter({ children, ...props }: CardFooterProps) {
 
     return (
         <>
-            <StyledCardFooter>
+            <StyledCardFooter {...props}>
                 {create ? (
                     <>
                         <Button modern showTxt btnEvent={createData}>

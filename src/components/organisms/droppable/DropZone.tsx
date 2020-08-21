@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { DragItem, Title, CreateBtn, CardInputBody, CardTextareaBody, CardFooter } from "../../molecules";
 import { CommonProps } from "../../../assets/utils/CommonType";
@@ -23,6 +23,8 @@ interface DropZoneProps extends CommonProps {
     newComment?: boolean;
     newList?: boolean;
     dropZoneHeader?: boolean;
+    modifyMode?: boolean;
+    moreMenu?: boolean;
 
     columnData?: ListColumnData;
 
@@ -31,8 +33,12 @@ interface DropZoneProps extends CommonProps {
     newCreateComment?(): void;
     newCreateComment?(): void;
     existedDropList?(): void;
+    modifyListName?(): void;
+    changeMoreMenu?(): void;
+    changeModifyMode?(): void;
     getValue?(value: string, id?: any): void;
     getListID?(value?: string): void;
+    getListName?(value?: string): void;
     existedDropComment?(delListIDs?: string, delCommentIDs?: string): void;
     changeCommentMode?(id?: string): void;
     modeComment?: any;
@@ -79,7 +85,16 @@ const StyledDropZone = styled.div<DropZoneProps>`
         border: 1px solid #464b5e;
 
         li {
+            margin: 0 0 5px;
+            padding: 0 0 5px;
+            border-bottom: 1px solid #c6c4c8;
             cursor: pointer;
+
+            &:last-child {
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
         }
     }
 
@@ -129,26 +144,30 @@ const StyledDropZone = styled.div<DropZoneProps>`
 `;
 
 export default function DropZone({ children, ...props }: DropZoneProps) {
-    const { changeListMode, changeCommentMode, getValue, existedDropComment, newCreateList, newCreateComment, getListID, existedDropList, modeComment, columnData, modeList } = props;
-    const [moreMenu, setMoreMenu] = useState(false);
-
-    const changeMoreMenu = (): void => {
-        setMoreMenu(!moreMenu);
-    };
+    const { modeComment, modifyMode, moreMenu, columnData, modeList, changeListMode, changeCommentMode, getValue, existedDropComment, newCreateList, newCreateComment, getListID, existedDropList, modifyListName, getListName, changeMoreMenu, changeModifyMode } = props;
 
     return (
         <StyledDropZone {...props}>
             {columnData ? (
                 <StyledDropZoneheader dropZoneHeader>
-                    <Title>{columnData.listTitle}</Title>
-                    <CreateBtn changeMode={changeMoreMenu} getOneData={getListID} columnDataID={columnData._id}>
-                        <MoreHorizIcon />
-                    </CreateBtn>
+                    {modifyMode ? (
+                        <>
+                            <CardInputBody modifyList type="text" getValue={getListName} defaultValue={columnData.listTitle} />
+                            <CardFooter create modifyList createData={modifyListName} changeMode={changeModifyMode} />
+                        </>
+                    ) : (
+                        <>
+                            <Title>{columnData.listTitle}</Title>
+                            <CreateBtn changeMode={changeMoreMenu} getOneData={getListID} columnDataID={columnData._id}>
+                                <MoreHorizIcon />
+                            </CreateBtn>
+                        </>
+                    )}
                 </StyledDropZoneheader>
             ) : (
                 <StyledDropZoneheader dropZoneHeader>{modeList ? <Title>리스트 생성</Title> : <Title>&nbsp;</Title>}</StyledDropZoneheader>
             )}
-            <div>
+            <>
                 {children ? (
                     <div className="wrap_card children_card">
                         {modeList ? (
@@ -194,13 +213,21 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                                         >
                                             삭제하기
                                         </li>
+                                        <li
+                                            onClick={() => {
+                                                changeModifyMode && changeModifyMode();
+                                                changeMoreMenu && changeMoreMenu();
+                                            }}
+                                        >
+                                            수정하기
+                                        </li>
                                     </ul>
                                 ) : null}
                             </StyledDropZone>
                         ) : null}
                     </>
                 )}
-            </div>
+            </>
         </StyledDropZone>
     );
 }

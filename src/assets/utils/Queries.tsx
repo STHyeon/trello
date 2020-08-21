@@ -157,6 +157,12 @@ export const CHANGE_POSITION = gql`
     }
 `;
 
+export const MODIFY_LISTNAME = gql`
+    mutation ModifyListName($boardID: String, $listID: String, $listTitle: String) {
+        modifyList(boardID: $boardID, listID: $listID, listTitle: $listTitle)
+    }
+`;
+
 // 회원 관련
 export const CREATE_USER = gql`
     mutation SignUpUser($userID: String!, $userName: String, $userPW: String!) {
