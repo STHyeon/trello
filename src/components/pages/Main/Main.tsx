@@ -143,15 +143,19 @@ function MainPage() {
     };
 
     if (allListLoading) return <CommonLoading>All List</CommonLoading>;
-    if (allListError) return <CommonError>All List</CommonError>;
+    if (allListError) return <CommonError>{allListError.message}</CommonError>;
 
-    if (createListLoading) return <CommonLoading>Create List</CommonLoading>;
-    if (createListError) return <CommonError>Create List</CommonError>;
+    // if (createListLoading) return <CommonLoading>Create List</CommonLoading>;
+    if (createListLoading) {
+    }
+    if (createListError) return <CommonError>{createListError.message}</CommonError>;
 
-    if (dropBoardLoading) return <CommonLoading>Drop Board</CommonLoading>;
-    if (dropBoardError) return <CommonError>Drop Board</CommonError>;
+    // if (dropBoardLoading) return <CommonLoading>Drop Board</CommonLoading>;
+    if (dropBoardLoading) {
+    }
+    if (dropBoardError) return <CommonError>{dropBoardError.message}</CommonError>;
 
-    if (allListLiveError) return <CommonError>Get Board Live</CommonError>;
+    if (allListLiveError) return <CommonError>{allListLiveError.message}</CommonError>;
 
     return (
         <CommonTemplate>
