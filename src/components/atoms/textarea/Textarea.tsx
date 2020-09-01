@@ -5,6 +5,7 @@ import styled from "styled-components";
 interface TextareaProps extends CommonProps {
     id?: string;
     hei?: string;
+    defaultValue?: string;
 
     getValue?(value: string, id?: string): void;
 }
@@ -15,7 +16,7 @@ const StyledTextarea = styled.textarea<TextareaProps>`
 `;
 
 function Textarea({ ...props }: TextareaProps) {
-    const { getValue } = props;
+    const { getValue, defaultValue } = props;
     const [textareaData, setTextareaData] = useState("");
 
     useEffect(() => {
@@ -29,6 +30,7 @@ function Textarea({ ...props }: TextareaProps) {
             onChange={({ target: { value } }) => {
                 setTextareaData(value);
             }}
+            defaultValue={defaultValue}
             autoFocus
         ></StyledTextarea>
     );

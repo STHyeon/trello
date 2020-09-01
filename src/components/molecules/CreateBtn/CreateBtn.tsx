@@ -9,6 +9,8 @@ interface CreateBtnProps extends CommonProps {
     createHeader?: boolean;
     deleteIcon?: boolean;
     authBtn?: boolean;
+    menuList?: boolean;
+    addComment?: boolean;
 
     changeMode?(): void;
     justButton?(): void;
@@ -92,14 +94,14 @@ const StyledCreateBtn = styled.div<CreateBtnProps>`
 `;
 
 function CreateBtn({ children, ...props }: CreateBtnProps) {
-    const { changeMode, getOneData, getOneData2, justButton, columnDataID } = props;
+    const { changeMode, getOneData, getOneData2, justButton, columnDataID, menuList, addComment } = props;
 
     return (
         <StyledCreateBtn
             {...props}
             onClick={() => {
-                getOneData && getOneData(columnDataID);
-                getOneData2 && getOneData2(columnDataID);
+                addComment ? getOneData && getOneData(columnDataID + "addComment") : getOneData && getOneData(columnDataID);
+                menuList ? getOneData2 && getOneData2(columnDataID + "list") : getOneData2 && getOneData2(columnDataID);
                 changeMode && changeMode();
                 justButton && justButton();
             }}

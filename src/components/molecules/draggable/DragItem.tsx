@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { CommonProps } from "../../../assets/utils/CommonType";
 import styled, { css } from "styled-components";
 import { Delete as DeleteIcon, ExpandMore as ExpandMoreIcon, Edit as EditIcon } from "@material-ui/icons";
+
+import { CommonProps } from "../../../assets/utils/CommonType";
+import { CardTextareaBody, CardFooter } from "../../molecules";
 import { Button, Span } from "../../atoms";
 
 type ItemData = {
@@ -17,33 +19,42 @@ interface DragItemProps extends CommonProps {
     listDataID?: string;
     subMenuMode?: boolean;
 
+    modeManage?: any;
+
+    getTwoData?(listID?: string, commentID?: string): void;
     existedDropComment?(delListIDs?: string, delCommentIDs?: string): void;
+    changeModeManage?(id?: string): void;
+    getValue?(data?: string): void;
 }
 
 const StyledDragItem = styled.div`
     position: relative;
 
     &:hover {
-        pre {
+        .wrap_pre {
+            border: 1px solid #9a94ff;
             background: rgb(226, 226, 226);
+        }
+
+        .subMenu {
+            border: 1px solid #bdaaaa;
         }
 
         button {
             opacity: 1;
             visibility: visible;
         }
-
-        div {
-            border: 1px solid #000000;
-        }
     }
 
-    pre {
+    .wrap_pre {
         position: relative;
         margin: 0 0 8px;
         padding: 16px 8px 30px 8px;
-        font-size: 0.8125rem;
-        text-align: left;
+
+        pre {
+            font-size: 0.8125rem;
+            text-align: left;
+        }
     }
 
     button {
@@ -55,7 +66,7 @@ const StyledDragItem = styled.div`
         visibility: hidden;
 
         svg {
-            font-size: 20px;
+            font-size: 16px;
         }
     }
 
@@ -73,7 +84,6 @@ const StyledMenu = styled.div<DragItemProps>`
     top: 30px;
     right: 0;
     border-radius: 5px;
-
     background: #ffffff;
     opacity: 0;
     visibility: hidden;
@@ -81,7 +91,7 @@ const StyledMenu = styled.div<DragItemProps>`
     button {
         position: static;
         padding: 4px 8px;
-        border-right: 1px solid #000000;
+        border-right: 1px solid #bdaaaa;
         vertical-align: middle;
 
         &:last-child {
@@ -111,13 +121,12 @@ const getItemStyle = (isDragging: any, draggableStyle: any) => ({
 });
 
 export default function DragItem({ item, index, ...props }: DragItemProps) {
-    const { existedDropComment, listDataID } = props;
+    const { existedDropComment, changeModeManage, getValue, getTwoData, modeManage, listDataID } = props;
 
     const [subMenuMode, setSubMenuMode] = useState(false);
 
     const changeSubMenuMode = (): void => {
         setSubMenuMode(!subMenuMode);
-        console.log(subMenuMode);
     };
 
     return (
@@ -126,23 +135,34 @@ export default function DragItem({ item, index, ...props }: DragItemProps) {
                 <Draggable key={item._id} draggableId={item._id} index={index}>
                     {(provided: any, snapshot: any) => (
                         <>
-                            <pre ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                                {item.content}
-                                <Span>{item.published_date}</Span>
-                            </pre>
-                            <Button btnEvent={changeSubMenuMode}>
-                                <ExpandMoreIcon />
-                            </Button>
-                            {subMenuMode ? (
-                                <StyledMenu subMenuMode={subMenuMode}>
-                                    <Button getTwoData={existedDropComment} listDataID={listDataID} commentDataID={item._id}>
-                                        <DeleteIcon />
+                            {item._id && modeManage[item._id + "modifyCommentMode"] ? (
+                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)} className="wrap_pre">
+                                    <CardTextareaBody defaultValue={item.content} getValue={getValue} />
+                                    <CardFooter create modifyComment commentDataID={item._id} listID={listDataID} getOneChangeMode={changeModeManage} editData={getTwoData} />
+                                </div>
+                            ) : (
+                                <>
+                                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)} className="wrap_pre">
+                                        <pre>
+                                            {item.content}
+                                            <Span>{item.published_date}</Span>
+                                        </pre>
+                                    </div>
+                                    <Button btnEvent={changeSubMenuMode}>
+                                        <ExpandMoreIcon />
                                     </Button>
-                                    <Button getTwoData={existedDropComment} listDataID={listDataID} commentDataID={item._id}>
-                                        <EditIcon />
-                                    </Button>
-                                </StyledMenu>
-                            ) : null}
+                                    {subMenuMode ? (
+                                        <StyledMenu subMenuMode={subMenuMode} className="subMenu">
+                                            <Button commentDataID={item._id} getTwoData={existedDropComment} listDataID={listDataID}>
+                                                <DeleteIcon />
+                                            </Button>
+                                            <Button commentDataID={item._id} modifyCommentMode getOneData={changeModeManage}>
+                                                <EditIcon />
+                                            </Button>
+                                        </StyledMenu>
+                                    ) : null}
+                                </>
+                            )}
                         </>
                     )}
                 </Draggable>

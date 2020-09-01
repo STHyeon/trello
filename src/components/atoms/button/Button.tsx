@@ -6,6 +6,10 @@ interface ButtonProps extends CommonProps {
     icon?: boolean;
     modern?: boolean;
     showTxt?: boolean;
+    menuList?: boolean;
+    addComment?: boolean;
+    modifyCommentMode?: boolean;
+
     columnDataID?: string;
     listDataID?: string;
     commentDataID?: string;
@@ -45,7 +49,7 @@ const StyledButton = styled.button<ButtonProps>`
 `;
 
 function Button({ children, ...props }: ButtonProps) {
-    const { btnEvent, getOneData, getOneData2, getTwoData, columnDataID, listDataID, commentDataID } = props;
+    const { btnEvent, getOneData, getOneData2, getTwoData, addComment, menuList, columnDataID, listDataID, commentDataID, modifyCommentMode } = props;
 
     return (
         <StyledButton
@@ -53,6 +57,9 @@ function Button({ children, ...props }: ButtonProps) {
             onClick={() => {
                 btnEvent && btnEvent();
                 getOneData && getOneData(columnDataID);
+                menuList && getOneData && getOneData(columnDataID + "listName");
+                addComment && getOneData && getOneData(columnDataID + "addComment");
+                modifyCommentMode && getOneData && getOneData(commentDataID + "modifyCommentMode");
                 getOneData2 && getOneData2(columnDataID);
                 getTwoData && getTwoData(listDataID, commentDataID);
             }}

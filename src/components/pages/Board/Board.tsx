@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 
 import { DropZone } from "../../organisms";
 import { CommonTemplate, CommonLoading, CommonError } from "../../context";
-import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, DROP_LIST, DROP_COMMENT, CHANGE_POSITION, MODIFY_LISTNAME } from "../../../assets/utils/Queries";
+import { GET_DETAIL_BOARD, CREATE_LIST, LIST_SUBSCRIPTION, CREATE_COMMENT, DROP_LIST, DROP_COMMENT, CHANGE_POSITION, MODIFY_LISTNAME, MODIFY_COMMENT } from "../../../assets/utils/Queries";
 
 type commentType = {
     _id?: string;
@@ -51,13 +51,12 @@ function BoardPage(props: BoardProps) {
     const [modeList, setModeList] = useState(false);
     // https://stackoverflow.com/questions/54853444/how-to-show-hide-an-item-of-array-map
     // 리스트 마다 각각의 toggle 설정방법
-    const [modeComment, setModeComment] = useState({});
     const [listData, setListData] = useState<getListType | undefined | any>();
     const [listName, setListName] = useState("");
     const [comments, setComments] = useState("");
     const [listID, setListID] = useState("");
     const [cookies] = useCookies(["user"]);
-    const [moreMenu, setMoreMenu] = useState(false);
+    const [modeManage, setModeManage] = useState({});
     const [modifyMode, setModifyMode] = useState(false);
 
     const { loading: getListLoading, error: getListError, data: getListData } = useQuery(GET_DETAIL_BOARD, { variables: { _id: boardID } });
@@ -67,6 +66,7 @@ function BoardPage(props: BoardProps) {
     const [dropComment, { loading: dropCommentLoading, error: dropCommentError }] = useMutation(DROP_COMMENT);
     const [changePosition, { loading: changePositionLoading, error: changePositionError }] = useMutation(CHANGE_POSITION);
     const [modifyList, { loading: modifyListLoading, error: modifyListError }] = useMutation(MODIFY_LISTNAME);
+    const [modifyComment, { loading: modifyCommentLoading, error: modifyCommentError }] = useMutation(MODIFY_COMMENT);
     const { error: getListLiveError, data: getListLiveData } = useSubscription(LIST_SUBSCRIPTION);
 
     useEffect(() => {
@@ -113,22 +113,18 @@ function BoardPage(props: BoardProps) {
     }
     if (modifyListError) return <CommonError>{modifyListError.message}</CommonError>;
 
+    if (modifyCommentLoading) {
+    }
+    if (modifyCommentError) return <CommonError>{modifyCommentError.message}</CommonError>;
+
     if (getListLiveError) return <CommonError>{getListLiveError.message}</CommonError>;
-
-    const changeMoreMenu = (): void => {
-        setMoreMenu(!moreMenu);
-    };
-
-    const changeModifyMode = (): void => {
-        setModifyMode(!modifyMode);
-    };
 
     const changeListMode = (): void => {
         setModeList(!modeList);
     };
 
-    const changeCommentMode = (id: string): void => {
-        setModeComment((prev: any) => ({
+    const changeModeManage = (id: string): void => {
+        setModeManage((prev: any) => ({
             ...prev,
             [id]: !prev[id],
         }));
@@ -162,7 +158,9 @@ function BoardPage(props: BoardProps) {
     const newCreateComment = (): void => {
         if (comments.length > 0) {
             createComments({ variables: { boardID: boardID, listID: listID, content: comments, author: cookies.user.user._id } })
-                .then(() => setModeComment((prev: any) => ({})))
+                .then(() => {
+                    setComments("");
+                })
                 .catch(() => {});
         }
     };
@@ -172,12 +170,22 @@ function BoardPage(props: BoardProps) {
     };
 
     const modifyListName = (): void => {
-        console.log(listName);
         if (listName.length > 0) {
             modifyList({ variables: { boardID: boardID, listID: listID, listTitle: listName } })
                 .then(() => {
                     setListName("");
                     setModifyMode(false);
+                })
+                .catch(() => {});
+        }
+    };
+
+    const modifyCommentContent = (editListID: string, editCommentID: string): void => {
+        if (comments.length > 0) {
+            modifyComment({ variables: { boardID: boardID, listID: editListID, commentID: editCommentID, content: comments } })
+                .then(() => {
+                    changeModeManage(editCommentID + "modifyCommentMode");
+                    setComments("");
                 })
                 .catch(() => {});
         }
@@ -261,19 +269,16 @@ function BoardPage(props: BoardProps) {
                                       board
                                       key={columnData._id}
                                       columnData={columnData}
-                                      modeComment={modeComment}
-                                      modifyMode={modifyMode}
-                                      moreMenu={moreMenu}
+                                      modeManage={modeManage}
                                       getValue={getComment}
                                       newCreateComment={newCreateComment}
-                                      changeCommentMode={changeCommentMode}
                                       getListID={getListID}
                                       existedDropComment={existedDropComment}
                                       existedDropList={existedDropList}
                                       modifyListName={modifyListName}
                                       getListName={getListName}
-                                      changeMoreMenu={changeMoreMenu}
-                                      changeModifyMode={changeModifyMode}
+                                      changeModeManage={changeModeManage}
+                                      modifyCommentContent={modifyCommentContent}
                                   />
                               );
                           })

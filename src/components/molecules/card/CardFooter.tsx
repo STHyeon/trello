@@ -6,12 +6,19 @@ import { CommonProps } from "../../../assets/utils/CommonType";
 interface CardFooterProps extends CommonProps {
     create?: boolean;
     modifyList?: boolean;
+    menuList?: boolean;
+    addComment?: boolean;
+    modifyComment?: boolean;
+
+    listID?: string;
+    commentDataID?: string;
     columnDataID?: string;
 
     changeMode?(): void;
     createData?(): void;
     getOneChangeMode?(id?: string): void;
     getOneData2?(id?: string): void;
+    editData?(listID?: string, commentID?: string): void;
 }
 
 const StyledCardFooter = styled.div<CardFooterProps>`
@@ -34,20 +41,37 @@ const StyledCardFooter = styled.div<CardFooterProps>`
                 }
             }
         `}
+
+    ${(props) =>
+        props.modifyComment &&
+        css`
+            position: absolute;
+            right: 8px;
+            bottom: 4px;
+            margin: 0;
+
+            button {
+                position: static !important;
+                opacity: 1 !important;
+                padding: 4px 6px !important;
+                font-size: 13px;
+                visibility: visible !important;
+            }
+        `}
 `;
 
 function CardFooter({ children, ...props }: CardFooterProps) {
-    const { createData, changeMode, getOneChangeMode, getOneData2, columnDataID, create } = props;
+    const { createData, editData, changeMode, getOneChangeMode, getOneData2, listID, addComment, commentDataID, columnDataID, create, menuList, modifyComment } = props;
 
     return (
         <>
             <StyledCardFooter {...props}>
                 {create ? (
                     <>
-                        <Button modern showTxt btnEvent={createData}>
+                        <Button modern showTxt btnEvent={createData} getTwoData={editData} listDataID={listID} commentDataID={commentDataID}>
                             생성
                         </Button>
-                        <Button modern showTxt btnEvent={changeMode} columnDataID={columnDataID} getOneData={getOneChangeMode} getOneData2={getOneData2}>
+                        <Button modern menuList={menuList} modifyCommentMode={modifyComment} addComment={addComment} showTxt btnEvent={changeMode} columnDataID={columnDataID} commentDataID={commentDataID} getOneData={getOneChangeMode} getOneData2={getOneData2}>
                             취소
                         </Button>
                     </>

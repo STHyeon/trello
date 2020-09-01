@@ -4,6 +4,8 @@ import { Textarea } from "../../atoms";
 import styled from "styled-components";
 
 interface CardTextareaBodyProps extends CommonProps {
+    defaultValue?: string;
+
     getValue?(value: string, id?: string): void;
 }
 
@@ -22,7 +24,7 @@ const StyledCardTextareaBody = styled.div`
 `;
 
 function CardTextareaBody({ children, ...props }: CardTextareaBodyProps) {
-    const { getValue } = props;
+    const { getValue, defaultValue } = props;
 
     return (
         <StyledCardTextareaBody>
@@ -30,10 +32,10 @@ function CardTextareaBody({ children, ...props }: CardTextareaBodyProps) {
             {children ? (
                 <>
                     <label htmlFor="StartCard">{children}</label>
-                    <Textarea id="StartCard" hei="33px" getValue={getValue} />
+                    <Textarea id="StartCard" hei="33px" getValue={getValue} defaultValue={defaultValue} />
                 </>
             ) : (
-                <Textarea getValue={getValue} />
+                <Textarea getValue={getValue} defaultValue={defaultValue} />
             )}
         </StyledCardTextareaBody>
     );

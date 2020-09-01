@@ -24,7 +24,8 @@ interface DropZoneProps extends CommonProps {
     newList?: boolean;
     dropZoneHeader?: boolean;
     modifyMode?: boolean;
-    moreMenu?: boolean;
+
+    modeManage?: any;
 
     columnData?: ListColumnData;
 
@@ -34,14 +35,13 @@ interface DropZoneProps extends CommonProps {
     newCreateComment?(): void;
     existedDropList?(): void;
     modifyListName?(): void;
-    changeMoreMenu?(): void;
     changeModifyMode?(): void;
     getValue?(value: string, id?: any): void;
     getListID?(value?: string): void;
     getListName?(value?: string): void;
     existedDropComment?(delListIDs?: string, delCommentIDs?: string): void;
-    changeCommentMode?(id?: string): void;
-    modeComment?: any;
+    changeModeManage?(id?: string): void;
+    modifyCommentContent?(editListID?: string, editCommentID?: string): void;
 }
 
 const getListStyle = (isDraggingOver: any) => ({
@@ -74,7 +74,7 @@ const StyledDropZoneheader = styled.div<DropZoneProps>`
 
 const StyledDropZone = styled.div<DropZoneProps>`
     position: relative;
-    ul{
+    ul {
         position: absolute;
         top: -10px;
         right: -10px;
@@ -132,33 +132,34 @@ const StyledDropZone = styled.div<DropZoneProps>`
         `}
 
         ${(props) =>
-            props.newList &&
-            css`
-                width: 100%;
-                height: 100%;
-                margin: 0 0 8px;
-                padding: 5px;
-                border-radius: 5px;
-                background: #ffffff;
-            `}
+        props.newList &&
+        css`
+            width: 100%;
+            height: 100%;
+            margin: 0 0 8px;
+            padding: 5px;
+            border-radius: 5px;
+            background: #ffffff;
+        `}
 `;
 
 export default function DropZone({ children, ...props }: DropZoneProps) {
-    const { modeComment, modifyMode, moreMenu, columnData, modeList, changeListMode, changeCommentMode, getValue, existedDropComment, newCreateList, newCreateComment, getListID, existedDropList, modifyListName, getListName, changeMoreMenu, changeModifyMode } = props;
+    const { modeManage, columnData, modeList, modifyCommentContent, changeListMode, getValue, existedDropComment, newCreateList, newCreateComment, getListID, existedDropList, modifyListName, getListName, changeModeManage } = props;
 
     return (
         <StyledDropZone {...props}>
             {columnData ? (
+                // 제목
                 <StyledDropZoneheader dropZoneHeader>
-                    {modifyMode ? (
+                    {modeManage[columnData._id + "listName"] ? (
                         <>
                             <CardInputBody modifyList type="text" getValue={getListName} defaultValue={columnData.listTitle} />
-                            <CardFooter create modifyList createData={modifyListName} changeMode={changeModifyMode} />
+                            <CardFooter create menuList modifyList createData={modifyListName} getOneChangeMode={changeModeManage} columnDataID={columnData._id} />
                         </>
                     ) : (
                         <>
                             <Title>{columnData.listTitle}</Title>
-                            <CreateBtn changeMode={changeMoreMenu} getOneData={getListID} columnDataID={columnData._id}>
+                            <CreateBtn menuList getOneData2={changeModeManage} getOneData={getListID} columnDataID={columnData._id}>
                                 <MoreHorizIcon />
                             </CreateBtn>
                         </>
@@ -169,6 +170,7 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
             )}
             <>
                 {children ? (
+                    // 내용 배포
                     <div className="wrap_card children_card">
                         {modeList ? (
                             <StyledDropZone newList>
@@ -188,23 +190,26 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                                 <Droppable droppableId={columnData._id} key={columnData._id}>
                                     {(provided: any, snapshot: any) => (
                                         <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} className="wrap_card">
-                                            {modeComment[columnData._id] ? (
+                                            {modeManage[columnData._id + "addComment"] ? (
+                                                // 내용추가
                                                 <StyledDropZone newComment>
                                                     <CardTextareaBody getValue={getValue} />
-                                                    <CardFooter create createData={newCreateComment} columnDataID={columnData._id} getOneChangeMode={changeCommentMode} getOneData2={getListID} />
+                                                    <CardFooter create addComment createData={newCreateComment} columnDataID={columnData._id} getOneChangeMode={changeModeManage} getOneData2={getListID} />
                                                 </StyledDropZone>
                                             ) : null}
                                             {columnData.taskIds.map((item: any, index: any) => (
-                                                <DragItem item={item} key={index} index={index} existedDropComment={existedDropComment} listDataID={columnData._id} />
+                                                <DragItem item={item} key={index} index={index} modeManage={modeManage} existedDropComment={existedDropComment} listDataID={columnData._id} changeModeManage={changeModeManage} getValue={getValue} getTwoData={modifyCommentContent} />
                                             ))}
                                             {provided.placeholder}
-                                            <CreateBtn createHeader getOneData={changeCommentMode} getOneData2={getListID} columnDataID={columnData._id}>
+                                            <CreateBtn createHeader addComment getOneData={changeModeManage} getOneData2={getListID} columnDataID={columnData._id}>
                                                 <CreateIcon /> Add Card
                                             </CreateBtn>
                                         </div>
                                     )}
                                 </Droppable>
-                                {moreMenu ? (
+
+                                {modeManage[columnData._id + "list"] ? (
+                                    // 추가 메뉴
                                     <ul>
                                         <li
                                             onClick={() => {
@@ -215,8 +220,9 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                                         </li>
                                         <li
                                             onClick={() => {
-                                                changeModifyMode && changeModifyMode();
-                                                changeMoreMenu && changeMoreMenu();
+                                                // changeModifyMode && changeModifyMode();
+                                                changeModeManage && changeModeManage(columnData._id + "listName");
+                                                changeModeManage && changeModeManage(columnData._id + "list");
                                             }}
                                         >
                                             수정하기
