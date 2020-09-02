@@ -12,7 +12,7 @@ export const Context = createContext<any>({});
 
 const StyledComplate = styled.div`
     height: 100%;
-    padding: 78px 0 0;
+    padding: 70px 0 0;
 
     @media ${breakpoints.laptop} {
         padding: 160px 16px 0;
