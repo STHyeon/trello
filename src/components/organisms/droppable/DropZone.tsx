@@ -73,9 +73,11 @@ const StyledDropZoneheader = styled.div<DropZoneProps>`
 `;
 
 const StyledDropZone = styled.div<DropZoneProps>`
-    position: relative;
-    overflow: scroll;
-    max-height: 91%;
+    .wrap_dropzone {
+        overflow: scroll;
+        position: relative;
+        max-height: 91%;
+    }
 
     &.wrap_board {
         max-height: 100%;
@@ -118,7 +120,7 @@ const StyledDropZone = styled.div<DropZoneProps>`
                 display: flex;
                 position: relative;
                 width: 250px;
-                padding: 10px 8px 8px;
+                padding: 10px 8px 0;
                 background: #ebecf0;
                 justify-content: center;
                 align-self: center;
@@ -177,7 +179,7 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
             )}
             <>
                 {children ? (
-                    // 내용 배포
+                    // 내용 추가 관련 배포
                     <div className="wrap_card children_card">
                         {modeList ? (
                             <StyledDropZone newList>
@@ -193,7 +195,7 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                 ) : (
                     <>
                         {columnData ? (
-                            <StyledDropZone>
+                            <div className="wrap_dropzone">
                                 <Droppable droppableId={columnData._id} key={columnData._id}>
                                     {(provided: any, snapshot: any) => (
                                         <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} className="wrap_card">
@@ -233,7 +235,7 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                                         </li>
                                     </ul>
                                 ) : null}
-                            </StyledDropZone>
+                            </div>
                         ) : null}
                     </>
                 )}
