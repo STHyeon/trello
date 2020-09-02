@@ -43,7 +43,9 @@ const StyledCreateBtn = styled.div<CreateBtnProps>`
     ${(props) =>
         props.createHeader &&
         css`
-            padding: 5px 0 0;
+            width: 100%;
+            padding: 5px 8px;
+            background: rgb(235, 236, 240);
             text-align: left;
 
             button {

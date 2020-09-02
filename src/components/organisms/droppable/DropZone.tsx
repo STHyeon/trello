@@ -45,7 +45,7 @@ interface DropZoneProps extends CommonProps {
 }
 
 const getListStyle = (isDraggingOver: any) => ({
-    background: isDraggingOver ? "#e4ccff" : "#ebecf0",
+    background: isDraggingOver ? "#c1c1c1" : "#ebecf0",
 });
 
 const StyledDropZoneheader = styled.div<DropZoneProps>`
@@ -53,7 +53,7 @@ const StyledDropZoneheader = styled.div<DropZoneProps>`
     padding: 0 8px;
     border-radius: 10px 10px 0 0;
     font-size: 20px;
-    background: #aeb4cf;
+    background: #9a90a8;
 
     ${(props) =>
         props.dropZoneHeader &&
@@ -74,6 +74,13 @@ const StyledDropZoneheader = styled.div<DropZoneProps>`
 
 const StyledDropZone = styled.div<DropZoneProps>`
     position: relative;
+    overflow: scroll;
+    max-height: 91%;
+
+    &.wrap_board {
+        max-height: 100%;
+    }
+
     ul {
         position: absolute;
         top: -10px;
@@ -111,7 +118,7 @@ const StyledDropZone = styled.div<DropZoneProps>`
                 display: flex;
                 position: relative;
                 width: 250px;
-                padding: 10px 8px;
+                padding: 10px 8px 8px;
                 background: #ebecf0;
                 justify-content: center;
                 align-self: center;
@@ -147,7 +154,7 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
     const { modeManage, columnData, modeList, modifyCommentContent, changeListMode, getValue, existedDropComment, newCreateList, newCreateComment, getListID, existedDropList, modifyListName, getListName, changeModeManage } = props;
 
     return (
-        <StyledDropZone {...props}>
+        <StyledDropZone {...props} className="wrap_board">
             {columnData ? (
                 // 제목
                 <StyledDropZoneheader dropZoneHeader>
@@ -201,9 +208,6 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                                                 <DragItem item={item} key={index} index={index} modeManage={modeManage} existedDropComment={existedDropComment} listDataID={columnData._id} changeModeManage={changeModeManage} getValue={getValue} getTwoData={modifyCommentContent} />
                                             ))}
                                             {provided.placeholder}
-                                            <CreateBtn createHeader addComment getOneData={changeModeManage} getOneData2={getListID} columnDataID={columnData._id}>
-                                                <CreateIcon /> Add Card
-                                            </CreateBtn>
                                         </div>
                                     )}
                                 </Droppable>
@@ -233,6 +237,11 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                         ) : null}
                     </>
                 )}
+                {columnData ? (
+                    <CreateBtn createHeader addComment getOneData={changeModeManage} getOneData2={getListID} columnDataID={columnData._id}>
+                        <CreateIcon /> Add Card
+                    </CreateBtn>
+                ) : null}
             </>
         </StyledDropZone>
     );

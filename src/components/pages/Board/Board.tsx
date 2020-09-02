@@ -33,17 +33,7 @@ interface BoardProps {
 
 const StyledBoard = styled.div`
     display: flex;
-
-    .BoardList {
-        width: 272px;
-        padding: 10px;
-        border-radius: 10px;
-        background: #ebecf0;
-
-        & + .BoardList {
-            margin: 0 0 0 10px;
-        }
-    }
+    height: 100%;
 `;
 
 function BoardPage(props: BoardProps) {

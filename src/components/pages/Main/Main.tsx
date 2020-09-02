@@ -50,11 +50,11 @@ const StyledMain = styled.div`
     justify-content: center;
     align-items: center;
     position: relative;
-    width: 24%;
+    width: 300px;
     height: 142px;
     margin: 0 5px 10px;
     padding: 8px;
-    background: linear-gradient(to left, #ffffff 50%, #03a9f4 50%);
+    background: linear-gradient(to left, #ffffff 50%, #525ac2 50%);
     background-size: 200% 0%;
     background-position: 100% 100%;
     transition: all ease 200ms;

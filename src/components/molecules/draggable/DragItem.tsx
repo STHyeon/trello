@@ -32,7 +32,7 @@ const StyledDragItem = styled.div`
 
     &:hover {
         .wrap_pre {
-            border: 1px solid #9a94ff;
+            border: 1px solid #817fa3;
             background: rgb(226, 226, 226);
         }
 

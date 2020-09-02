@@ -13,9 +13,13 @@ interface NavBarProps extends CommonProps {
 const StyledNavBar = styled.div`
     display: flex;
     justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     padding: 4px;
-    background: #026aa7;
+    background: #272552;
 
     a + a {
         margin: 0 0 0 5px;
