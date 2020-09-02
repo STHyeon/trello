@@ -21,3 +21,10 @@
 }
 
 #root, .wrap {height: 100%;}
+
+// 스크롤바
+.wrap {width: 100%; overflow-x: scroll;}
+.wrap::-webkit-scrollbar {height: 15px;}
+.wrap::-webkit-scrollbar-thumb {background-color: #275cb0; }
+.wrap::-webkit-scrollbar-track {background: transparent;}
+.wrap::-webkit-scrollbar-button {width: 0; height: 0;}

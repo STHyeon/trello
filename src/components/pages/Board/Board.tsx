@@ -150,6 +150,7 @@ function BoardPage(props: BoardProps) {
             createComments({ variables: { boardID: boardID, listID: listID, content: comments, author: cookies.user.user._id } })
                 .then(() => {
                     setComments("");
+                    changeModeManage(listID + "addComment");
                 })
                 .catch(() => {});
         }
@@ -164,7 +165,7 @@ function BoardPage(props: BoardProps) {
             modifyList({ variables: { boardID: boardID, listID: listID, listTitle: listName } })
                 .then(() => {
                     setListName("");
-                    setModifyMode(false);
+                    changeModeManage(listID + "listName");
                 })
                 .catch(() => {});
         }

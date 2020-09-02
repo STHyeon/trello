@@ -49,11 +49,39 @@ const getListStyle = (isDraggingOver: any) => ({
 });
 
 const StyledDropZoneheader = styled.div<DropZoneProps>`
+    position: relative;
     height: 40px;
     padding: 0 8px;
     border-radius: 10px 10px 0 0;
     font-size: 20px;
     background: #9a90a8;
+
+    ul {
+        position: absolute;
+        top: 30px;
+        right: -10px;
+        z-index: 2;
+        min-width: 200px;
+        padding: 8px;
+        border: 1px solid #d1d6eb;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        text-align: left;
+
+        li {
+            margin: 0 0 5px;
+            padding: 0 0 5px;
+            border-bottom: 1px solid #c6c4c8;
+            font-size: 16px;
+            cursor: pointer;
+
+            &:last-child {
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
+        }
+    }
 
     ${(props) =>
         props.dropZoneHeader &&
@@ -81,30 +109,6 @@ const StyledDropZone = styled.div<DropZoneProps>`
 
     &.wrap_board {
         max-height: 100%;
-    }
-
-    ul {
-        position: absolute;
-        top: -10px;
-        right: -10px;
-        min-width: 200px;
-        padding: 8px;
-        text-align: left;
-        background: #ffffff;
-        border: 1px solid #464b5e;
-
-        li {
-            margin: 0 0 5px;
-            padding: 0 0 5px;
-            border-bottom: 1px solid #c6c4c8;
-            cursor: pointer;
-
-            &:last-child {
-                margin: 0;
-                padding: 0;
-                border: 0;
-            }
-        }
     }
 
     ${(props) =>
@@ -173,6 +177,27 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                             </CreateBtn>
                         </>
                     )}
+                    {modeManage[columnData._id + "list"] ? (
+                        // 추가 메뉴
+                        <ul>
+                            <li
+                                onClick={() => {
+                                    existedDropList && existedDropList();
+                                }}
+                            >
+                                삭제하기
+                            </li>
+                            <li
+                                onClick={() => {
+                                    // changeModifyMode && changeModifyMode();
+                                    changeModeManage && changeModeManage(columnData._id + "listName");
+                                    changeModeManage && changeModeManage(columnData._id + "list");
+                                }}
+                            >
+                                수정하기
+                            </li>
+                        </ul>
+                    ) : null}
                 </StyledDropZoneheader>
             ) : (
                 <StyledDropZoneheader dropZoneHeader>{modeList ? <Title>리스트 생성</Title> : <Title>&nbsp;</Title>}</StyledDropZoneheader>
@@ -213,28 +238,6 @@ export default function DropZone({ children, ...props }: DropZoneProps) {
                                         </div>
                                     )}
                                 </Droppable>
-
-                                {modeManage[columnData._id + "list"] ? (
-                                    // 추가 메뉴
-                                    <ul>
-                                        <li
-                                            onClick={() => {
-                                                existedDropList && existedDropList();
-                                            }}
-                                        >
-                                            삭제하기
-                                        </li>
-                                        <li
-                                            onClick={() => {
-                                                // changeModifyMode && changeModifyMode();
-                                                changeModeManage && changeModeManage(columnData._id + "listName");
-                                                changeModeManage && changeModeManage(columnData._id + "list");
-                                            }}
-                                        >
-                                            수정하기
-                                        </li>
-                                    </ul>
-                                ) : null}
                             </div>
                         ) : null}
                     </>
