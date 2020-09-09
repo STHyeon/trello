@@ -2,7 +2,7 @@
 const net = require("net");
 const port = process.env.PORT ? process.env.PORT - 100 : 3000; //  Foreman이 원래 프로세스의 Port에 100만큼 offset을 주는 특성 탓이다.
 
-process.env.ELECTRON_START_URL = `https://srello-server.herokuapp.com/graphql:4000`;
+process.env.ELECTRON_START_URL = `http://localhost:${port}`;
 
 const client = new net.Socket();
 

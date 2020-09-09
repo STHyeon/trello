@@ -17,17 +17,18 @@ function createWindow() {
     });
 
     // react를 빌드할 경우 결과물은 build 폴더에 생성되기 때문에 loadURL 부분을 아래와 같이 작성
-    const startUrl =
-        process.env.ELECTRON_START_URL ||
-        url.format({
-            pathname: path.join(__dirname, "/../build/index.html"),
-            protocol: "file:",
-            slashes: true,
-        });
-    win.loadURL(startUrl);
+    // const startUrl =
+    //     process.env.ELECTRON_START_URL ||
+    //     url.format({
+    //         pathname: path.join(__dirname, "/../build/index.html"),
+    //         protocol: "file:",
+    //         slashes: true,
+    //     });
 
-    // Open the DevTools
-    win.webContents.openDevTools();
+    win.loadURL("https://srello.herokuapp.com/");
+
+    // Open the DevTools 개발자 도구 on/off
+    // win.webContents.openDevTools();
 }
 
 // 이 메소드는 Electron의 초기화가 완료되고
