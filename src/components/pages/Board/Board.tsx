@@ -47,7 +47,6 @@ function BoardPage(props: BoardProps) {
     const [listID, setListID] = useState("");
     const [cookies] = useCookies(["user"]);
     const [modeManage, setModeManage] = useState({});
-    const [modifyMode, setModifyMode] = useState(false);
 
     const { loading: getListLoading, error: getListError, data: getListData } = useQuery(GET_DETAIL_BOARD, { variables: { _id: boardID } });
     const [createLists, { loading: createListLoading, error: createListError }] = useMutation(CREATE_LIST);
