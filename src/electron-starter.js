@@ -13,7 +13,8 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true, // node 기반 라이브러리 사용시 필수 true
         },
-        // frame: false, // 메뉴바 제거
+        // frame: false, // 전체 인터페이스 메뉴바 제거
+        icon: path.join(__dirname, "public/icons/png/electron_logo.png"),
     });
 
     // react를 빌드할 경우 결과물은 build 폴더에 생성되기 때문에 loadURL 부분을 아래와 같이 작성
@@ -26,6 +27,9 @@ function createWindow() {
     //     });
 
     win.loadURL("https://srello.herokuapp.com/");
+
+    // 메뉴바 제거(파일, 열기, 정보 등.....)
+    win.setMenu(null);
 
     // Open the DevTools 개발자 도구 on/off
     // win.webContents.openDevTools();
