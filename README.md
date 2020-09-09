@@ -4,8 +4,9 @@ trello 사이트를 따라 만들어 본 페이지입니다.
 Screenshots
 -----------
 <div>
-  <img width="400" src="https://user-images.githubusercontent.com/37692675/90748146-c60bdb80-e30c-11ea-8657-54d19da226d0.png" />
-  <img width="400" src="https://user-images.githubusercontent.com/37692675/90748488-374b8e80-e30d-11ea-9a9f-484a42158aa3.png" />
+  <img width="300" src="https://user-images.githubusercontent.com/37692675/90748146-c60bdb80-e30c-11ea-8657-54d19da226d0.png" />
+  <img width="300" src="https://user-images.githubusercontent.com/37692675/90748488-374b8e80-e30d-11ea-9a9f-484a42158aa3.png" />
+  <img width="300" src="https://user-images.githubusercontent.com/37692675/92566683-94f14c00-f2b7-11ea-9049-c16edc6fbc29.png" />
 </div>
 
 ## 기능
