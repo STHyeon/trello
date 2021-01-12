@@ -33,9 +33,6 @@
   <h3 align="center">Trello Clone</h3>
 
   <p align="center">
-    Trello(일정 관리 사이트)를 React와 TypeScript로 클론 코딩한 사이트입니다.<br />
-    Atomic Design을 이용하여 재사용 가능한 컴포넌트로 만들었습니다.
-    <br />
     <a href="https://github.com/STHyeon/trello"><strong>Explore the docs »</strong></a>
     <br />
     <br />
@@ -78,6 +75,12 @@
   <img src="https://user-images.githubusercontent.com/37692675/90748488-374b8e80-e30d-11ea-9a9f-484a42158aa3.png" width="30%" height="150px" />
   <img src="https://user-images.githubusercontent.com/37692675/92566683-94f14c00-f2b7-11ea-9049-c16edc6fbc29.png" width="30%" height="150px" />
 </div>
+
+<br />
+<p>
+  Srello는 일정 관리 사이트 [Trello](https://trello.com/) 클론 프로젝트입니다.<br />
+  Atomic Design을 적용하여 재사용 가능이 뛰어난 컴포넌트로 만들었습니다.
+</p>
 
 Here's a blank template to get started:
 
