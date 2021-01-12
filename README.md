@@ -30,7 +30,7 @@
     <img src="https://user-images.githubusercontent.com/37692675/104154612-ab0b4680-5428-11eb-9aa5-adb97e64606c.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Trello Clone</h3>
+  <h3 align="center">Srello</h3>
 
   <p align="center">
     <a href="https://github.com/STHyeon/srello"><strong>Explore the docs »</strong></a>
@@ -80,7 +80,7 @@
 <p>
   Srello는 일정 관리 사이트 <a href="https://trello.com/">Trello</a> 클론 프로젝트입니다.<br />
   Atomic Design을 적용하여 재사용 가능이 뛰어난 컴포넌트로 만들었고,<br />
-  <b>Trello</b>의 핵심 기능인 <u>Drag and Drop</u> 기능을 최대한 비슷하게 구현하였습니다.
+  <b>Trello</b>의 핵심 기능인 <ins>Drag and Drop</ins> 기능을 최대한 비슷하게 구현하였습니다.
 </p>
 
 
