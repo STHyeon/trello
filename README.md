@@ -78,11 +78,11 @@
 
 <br />
 <p>
-  Srello는 일정 관리 사이트 [Trello](https://trello.com/) 클론 프로젝트입니다.<br />
-  Atomic Design을 적용하여 재사용 가능이 뛰어난 컴포넌트로 만들었습니다.
+  Srello는 일정 관리 사이트 <a href="https://trello.com/">Trello</a> 클론 프로젝트입니다.<br />
+  Atomic Design을 적용하여 재사용 가능이 뛰어난 컴포넌트로 만들었고,<br />
+  <b>Trello</b>의 핵심 기능인 <u>Drag and Drop</u> 기능을 최대한 비슷하게 구현하였습니다.
 </p>
 
-Here's a blank template to get started:
 
 ### Built With
 
