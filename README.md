@@ -26,14 +26,14 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/STHyeon/trello">
+  <a href="https://github.com/STHyeon/srello">
     <img src="https://user-images.githubusercontent.com/37692675/104154612-ab0b4680-5428-11eb-9aa5-adb97e64606c.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Trello Clone</h3>
 
   <p align="center">
-    <a href="https://github.com/STHyeon/trello"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/STHyeon/srello"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://srello.herokuapp.com">View Demo</a><br />
@@ -111,7 +111,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/STHyeon/trello.git
+   git clone https://github.com/STHyeon/srello.git
    ```
 2. Install NPM packages
    ```sh
@@ -125,11 +125,11 @@ This is an example of how to list things you need to use the software and how to
 
 TaeHyeon Song (Damsom) - [Gmail](mailto:th.damsom@gmail.com)
 
-Project Link: [https://github.com/STHyeon/trello](https://github.com/STHyeon/trello)
+Project Link: [https://github.com/STHyeon/srello](https://github.com/STHyeon/srello)
 
 <!-- Reference -->
 ## Reference
 
 Trello Clone Server Repository
 
-Project Link: [https://github.com/STHyeon/trello-server](https://github.com/STHyeon/trello-server)
+Project Link: [https://github.com/STHyeon/srello-server](https://github.com/STHyeon/srello-server)
