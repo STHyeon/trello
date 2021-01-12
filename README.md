@@ -27,7 +27,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/STHyeon/srello">
-    <img src="https://user-images.githubusercontent.com/37692675/104154612-ab0b4680-5428-11eb-9aa5-adb97e64606c.png" alt="Logo" width="80" height="80">
+    <img src="https://user-images.githubusercontent.com/37692675/104269712-47d9ec80-54da-11eb-8060-ec4423415641.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Srello</h3>
