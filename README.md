@@ -39,7 +39,8 @@
     <a href="https://github.com/STHyeon/trello"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://srello.herokuapp.com">View Demo</a>
+    <a href="https://srello.herokuapp.com">View Demo</a><br />
+    <span>※ 처음에는 서버가 꺼저있어 로딩이 조금 걸립니다.</span>
   </p>
 </p>
 
@@ -72,18 +73,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="https://user-images.githubusercontent.com/37692675/90748146-c60bdb80-e30c-11ea-8657-54d19da226d0.png" width="33%" />
-<img src="https://user-images.githubusercontent.com/37692675/90748488-374b8e80-e30d-11ea-9a9f-484a42158aa3.png" width="33%" />
-<img src="https://user-images.githubusercontent.com/37692675/92566683-94f14c00-f2b7-11ea-9049-c16edc6fbc29.png" width="33%" />
+<img src="https://user-images.githubusercontent.com/37692675/90748146-c60bdb80-e30c-11ea-8657-54d19da226d0.png" width="33%" /> <img src="https://user-images.githubusercontent.com/37692675/90748488-374b8e80-e30d-11ea-9a9f-484a42158aa3.png" width="33%" /> <img src="https://user-images.githubusercontent.com/37692675/92566683-94f14c00-f2b7-11ea-9049-c16edc6fbc29.png" width="33%" />
 
 Here's a blank template to get started:
 
 ### Built With
 
-- Front
+- Front <br />
 ![React Badge](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white) ![TypeScript Badge](https://img.shields.io/badge/TypeScript-3178c6?style=for-the-badge&logo=TypeScript&logoColor=white) ![Storybook Badge](https://img.shields.io/badge/Storybook-FF4785?style=for-the-badge&logo=Storybook&logoColor=white) ![SCSS Badge](https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=Sass&logoColor=white) 
 
-- Server
+- Server <br />
 ![Node Badge](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white) ![Apollo Graphql Badge](https://img.shields.io/badge/Apollo_GraphQL-311C87?style=for-the-badge&logo=Apollo-graphql&logoColor=white) ![MongoDB Badge](https://img.shields.io/badge/MongoDB-47a248?style=for-the-badge&logo=mongodb&logoColor=white) 
 
 
