@@ -73,7 +73,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="https://user-images.githubusercontent.com/37692675/90748146-c60bdb80-e30c-11ea-8657-54d19da226d0.png" width="33%" /> <img src="https://user-images.githubusercontent.com/37692675/90748488-374b8e80-e30d-11ea-9a9f-484a42158aa3.png" width="33%" /> <img src="https://user-images.githubusercontent.com/37692675/92566683-94f14c00-f2b7-11ea-9049-c16edc6fbc29.png" width="33%" />
+<div style="display:flex; flex-wrap: wrap; justify-content: space-between;">
+  <img src="https://user-images.githubusercontent.com/37692675/90748146-c60bdb80-e30c-11ea-8657-54d19da226d0.png" width="30%" />
+  <img src="https://user-images.githubusercontent.com/37692675/90748488-374b8e80-e30d-11ea-9a9f-484a42158aa3.png" width="30%" />
+  <img src="https://user-images.githubusercontent.com/37692675/92566683-94f14c00-f2b7-11ea-9049-c16edc6fbc29.png" width="30%" />
+</div>
 
 Here's a blank template to get started:
 
