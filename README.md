@@ -123,7 +123,7 @@
 <!-- CONTACT -->
 ## Contact
 
-TaeHyeon Song (Damsom) - [Gmail](mailto:th.damsom@gmail.com)
+TaeHyeon Song (Damsom) - [Mail](mailto:toby2009@naver.com)
 
 Project Link: [https://github.com/STHyeon/srello](https://github.com/STHyeon/srello)
 
